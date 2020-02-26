@@ -1,0 +1,34 @@
+From b0a709b326aa1cbeb47d9d8fa0721a07b2fdcd7c Mon Sep 17 00:00:00 2001
+From: George Zacharia <george.zcharia@gmail.com>
+Date: Wed, 5 Feb 2020 01:43:59 +0530
+Subject: [PATCH 4/5] Minor gradle optimizations
+
+Set output file name
+zipAlign output file
+---
+ app/build.gradle | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/app/build.gradle b/app/build.gradle
+index 79898c02..6cc18218 100644
+--- a/app/build.gradle
++++ b/app/build.gradle
+@@ -43,6 +43,7 @@ android {
+                 includeCompileClasspath true
+             }
+         }
++        setProperty("archivesBaseName", "FastHub-v${versionName}")
+     }
+ 
+     buildTypes {
+@@ -51,6 +52,7 @@ android {
+             shrinkResources true
+             signingConfig signingConfigs.signing
+             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
++            zipAlignEnabled true
+         }
+         debug {
+             applicationIdSuffix ".debug"
+-- 
+2.17.0.windows.1
+

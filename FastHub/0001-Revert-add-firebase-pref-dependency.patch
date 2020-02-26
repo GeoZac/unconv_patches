@@ -1,0 +1,78 @@
+From fddcb411f660257c624896b21e0037d0b9e3f56a Mon Sep 17 00:00:00 2001
+From: k0shk0sh <kosh20111@gmail.com>
+Date: Sat, 28 Dec 2019 10:19:21 +0100
+Subject: [PATCH 1/5] Revert "add firebase pref dependency"
+
+Too much compile time overhead, and not much useful data generated for me
+
+This reverts commit 455d2b0ee14d61c9c8a1935a1746f59327a40793.
+---
+ .github/ISSUE_TEMPLATE.md | 22 ++++++++++++++++++++++
+ app/build.gradle          |  2 --
+ build.gradle              |  1 -
+ 3 files changed, 22 insertions(+), 3 deletions(-)
+ create mode 100644 .github/ISSUE_TEMPLATE.md
+
+diff --git a/.github/ISSUE_TEMPLATE.md b/.github/ISSUE_TEMPLATE.md
+new file mode 100644
+index 00000000..6bb31a1c
+--- /dev/null
++++ b/.github/ISSUE_TEMPLATE.md
+@@ -0,0 +1,22 @@
++<!--
++   - Please provide as much as detail and example as you can.
++   - Add screenshots if appropriate.
++   - Make sure that you are always on the latest version.
++   - Search issue before submitting a new one.
++   
++   Public Slack channel: https://rebrand.ly/fasthub
++   
++   #### How to submit Issue/Feature Request to *FastHub*
++   - Make sure the included template is filled ( using FastHub will fill them up automatically ). 
++   - If you planning to report multiple FRs/Issues that falls under the same category ~PLEASE REPORT THEM IN ONE TICKET~.
++   - Make sure you are always on latest (FastHub/About & Click on version name).
++   - Make sure the issue doesn't exists, lets keep things clean & tidy here :).  
++-->
++
++**FastHub Version:**  <!-- Don't forget to mention "Enterprise" here if needed. -->  
++**Android Version:**  
++**Device Information:**  
++- MANUFACTURER: <!-- e.g. Yota Devices Limited -->  
++- BRAND: <!-- e.g. YotaPhone -->  
++- MODEL: <!-- e.g. YD201 -->  
++---
+diff --git a/app/build.gradle b/app/build.gradle
+index 5f5db43c..79898c02 100644
+--- a/app/build.gradle
++++ b/app/build.gradle
+@@ -5,7 +5,6 @@ apply plugin: 'kotlin-kapt'
+ apply plugin: 'com.apollographql.android'
+ apply plugin: 'com.novoda.build-properties'
+ apply plugin: 'io.fabric'
+-apply plugin: 'com.google.firebase.firebase-perf'
+ 
+ buildProperties {
+     notThere {
+@@ -148,7 +147,6 @@ dependencies {
+     implementation "com.google.firebase:firebase-inappmessaging:19.0.2"
+     implementation "com.google.firebase:firebase-messaging:20.1.0"
+     implementation "com.google.firebase:firebase-database:19.2.0"
+-    implementation 'com.google.firebase:firebase-perf:19.0.4'
+     implementation "com.google.android.gms:play-services-base:17.1.0"
+     implementation('com.github.b3er.rxfirebase:firebase-database-kotlin:11.2.0') { transitive = false }
+     implementation('com.github.b3er.rxfirebase:firebase-database:11.2.0') { transitive = false }
+diff --git a/build.gradle b/build.gradle
+index 356b722c..31b23c6c 100644
+--- a/build.gradle
++++ b/build.gradle
+@@ -28,7 +28,6 @@ buildscript {
+         classpath 'com.novoda:gradle-build-properties-plugin:0.4.1'
+         classpath 'io.fabric.tools:gradle:1.31.2'
+         classpath 'com.apollographql.apollo:apollo-gradle-plugin:1.2.2'
+-        classpath 'com.google.firebase:perf-plugin:1.3.1'
+     }
+ }
+ 
+-- 
+2.17.0.windows.1
+

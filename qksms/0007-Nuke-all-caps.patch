@@ -1,0 +1,88 @@
+From 43b7bf912744fa5c34850373bf5a85b4e94d0773 Mon Sep 17 00:00:00 2001
+From: George Zacharia <george.zcharia@gmail.com>
+Date: Tue, 21 Jan 2020 10:13:09 +0530
+Subject: [PATCH 07/12] Nuke all caps
+
+It's better this way
+---
+ presentation/src/main/res/layout/changelog_dialog.xml     | 2 --
+ .../src/main/res/layout/swipe_actions_controller.xml      | 2 --
+ presentation/src/main/res/values/strings.xml              | 8 ++++----
+ 3 files changed, 4 insertions(+), 8 deletions(-)
+
+diff --git a/presentation/src/main/res/layout/changelog_dialog.xml b/presentation/src/main/res/layout/changelog_dialog.xml
+index 2d98cad2..2d379b8f 100644
+--- a/presentation/src/main/res/layout/changelog_dialog.xml
++++ b/presentation/src/main/res/layout/changelog_dialog.xml
+@@ -79,7 +79,6 @@
+         android:paddingEnd="16dp"
+         android:paddingBottom="8dp"
+         android:text="@string/changelog_more"
+-        android:textAllCaps="true"
+         android:textStyle="bold"
+         app:layout_constraintBottom_toBottomOf="parent"
+         app:layout_constraintEnd_toStartOf="@id/dismiss"
+@@ -100,7 +99,6 @@
+         android:paddingEnd="16dp"
+         android:paddingBottom="8dp"
+         android:text="@string/changelog_dismiss"
+-        android:textAllCaps="true"
+         android:textStyle="bold"
+         app:layout_constraintBottom_toBottomOf="parent"
+         app:layout_constraintEnd_toEndOf="parent"
+diff --git a/presentation/src/main/res/layout/swipe_actions_controller.xml b/presentation/src/main/res/layout/swipe_actions_controller.xml
+index 7be0191b..f70af68d 100644
+--- a/presentation/src/main/res/layout/swipe_actions_controller.xml
++++ b/presentation/src/main/res/layout/swipe_actions_controller.xml
+@@ -68,7 +68,6 @@
+                 android:layout_height="wrap_content"
+                 android:layout_marginEnd="24dp"
+                 android:text="@string/settings_swipe_actions_change"
+-                android:textAllCaps="true"
+                 android:textColor="?android:attr/textColorSecondary"
+                 android:textStyle="bold"
+                 app:layout_constraintEnd_toEndOf="parent"
+@@ -189,7 +188,6 @@
+                 android:layout_height="wrap_content"
+                 android:layout_marginEnd="24dp"
+                 android:text="@string/settings_swipe_actions_change"
+-                android:textAllCaps="true"
+                 android:textColor="?android:attr/textColorSecondary"
+                 android:textStyle="bold"
+                 app:layout_constraintEnd_toEndOf="parent"
+diff --git a/presentation/src/main/res/values/strings.xml b/presentation/src/main/res/values/strings.xml
+index 13dfecdd..d9f00e66 100644
+--- a/presentation/src/main/res/values/strings.xml
++++ b/presentation/src/main/res/values/strings.xml
+@@ -84,8 +84,8 @@
+ 
+     <string name="rate_title">Enjoying QKSMS?</string>
+     <string name="rate_summary">Share some love and rate us on Google Play!</string>
+-    <string name="rate_okay">OKAY!</string>
+-    <string name="rate_dismiss">DISMISS</string>
++    <string name="rate_okay">Okay!</string>
++    <string name="rate_dismiss">Dismiss</string>
+ 
+     <string name="dialog_delete_title">Delete</string>
+     <plurals name="dialog_delete_message">
+@@ -238,7 +238,7 @@
+     <string name="settings_swipe_actions_summary">Configure swipe actions for conversations</string>
+     <string name="settings_swipe_actions_right">Right swipe</string>
+     <string name="settings_swipe_actions_left">Left swipe</string>
+-    <string name="settings_swipe_actions_change">CHANGE</string>
++    <string name="settings_swipe_actions_change">Change</string>
+     <string-array name="settings_swipe_actions">
+         <item>None</item>
+         <item>Archive</item>
+@@ -359,7 +359,7 @@
+ 
+     <string name="theme_material">Material</string>
+     <string name="theme_plus" translatable="false">QKSMS+</string>
+-    <string name="theme_hex">HEX</string>
++    <string name="theme_hex">Hex</string>
+     <string name="theme_apply">Apply</string>
+ 
+     <string name="about_developer" translatable="false">Moez Bhatti</string>
+-- 
+2.24.1.windows.2
+

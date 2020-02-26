@@ -1,0 +1,57 @@
+From bf5f5e83f1b96e92e996b318fb9170b0ed955636 Mon Sep 17 00:00:00 2001
+From: George Zacharia <george.zcharia@gmail.com>
+Date: Fri, 17 Jan 2020 10:21:27 +0530
+Subject: [PATCH 05/12] Use a nicer pin icon
+
+Isn't pin same as bookmark?
+Use bookmark icon from material icon
+Also use a different icon for unpin
+---
+ presentation/src/main/res/drawable/ic_pin_black_24dp.xml | 2 +-
+ .../src/main/res/drawable/ic_unpin_black_24dp.xml        | 9 +++++++++
+ presentation/src/main/res/menu/main.xml                  | 2 +-
+ 3 files changed, 11 insertions(+), 2 deletions(-)
+ create mode 100644 presentation/src/main/res/drawable/ic_unpin_black_24dp.xml
+
+diff --git a/presentation/src/main/res/drawable/ic_pin_black_24dp.xml b/presentation/src/main/res/drawable/ic_pin_black_24dp.xml
+index 3602d9d2..9ea3ac87 100644
+--- a/presentation/src/main/res/drawable/ic_pin_black_24dp.xml
++++ b/presentation/src/main/res/drawable/ic_pin_black_24dp.xml
+@@ -23,5 +23,5 @@
+     android:viewportHeight="24">
+     <path
+         android:fillColor="#FF000000"
+-        android:pathData="M19.083,1c0,1.018 -1.424,1.907 -3.541,2.382V11c2.926,0.652 4.958,2.086 4.958,3.751h-7.792V23h-1.416v-8.25H3.5c0,-1.665 2.032,-3.1 4.958,-3.751V3.382C6.341,2.907 4.917,2.018 4.917,1h14.166z" />
++        android:pathData="M17,3H7c-1.1,0 -1.99,0.9 -1.99,2L5,21l7,-3 7,3V5c0,-1.1 -0.9,-2 -2,-2z" />
+ </vector>
+diff --git a/presentation/src/main/res/drawable/ic_unpin_black_24dp.xml b/presentation/src/main/res/drawable/ic_unpin_black_24dp.xml
+new file mode 100644
+index 00000000..6ab9a0c6
+--- /dev/null
++++ b/presentation/src/main/res/drawable/ic_unpin_black_24dp.xml
+@@ -0,0 +1,9 @@
++<vector xmlns:android="http://schemas.android.com/apk/res/android"
++        android:width="24dp"
++        android:height="24dp"
++        android:viewportWidth="24.0"
++        android:viewportHeight="24.0">
++    <path
++        android:fillColor="#FF000000"
++        android:pathData="M17,3L7,3c-1.1,0 -1.99,0.9 -1.99,2L5,21l7,-3 7,3L19,5c0,-1.1 -0.9,-2 -2,-2zM17,18l-5,-2.18L7,18L7,5h10v13z"/>
++</vector>
+diff --git a/presentation/src/main/res/menu/main.xml b/presentation/src/main/res/menu/main.xml
+index 557b1ccf..0a53cb52 100644
+--- a/presentation/src/main/res/menu/main.xml
++++ b/presentation/src/main/res/menu/main.xml
+@@ -57,7 +57,7 @@
+ 
+     <item
+         android:id="@+id/unpin"
+-        android:icon="@drawable/ic_pin_black_24dp"
++        android:icon="@drawable/ic_unpin_black_24dp"
+         android:title="@string/main_menu_unpin"
+         android:visible="false"
+         app:showAsAction="ifRoom" />
+-- 
+2.24.1.windows.2
+

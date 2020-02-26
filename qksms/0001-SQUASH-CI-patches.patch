@@ -1,0 +1,160 @@
+From 7b846574932087b0247bb7dfc0e6508b33e389d6 Mon Sep 17 00:00:00 2001
+From: George Zacharia <george.zcharia@gmail.com>
+Date: Sat, 28 Dec 2019 12:13:47 +0530
+Subject: [PATCH 01/12] [SQUASH] CI patches
+
+Completely overrides the CI config from upstream project
+
+Add a simple CircleCI config
+
+Local builds were failing for some reason, need to pinpoint the issue
+Correct apk output path
+
+
+Add some more tasks to CI
+
+Clean and assemble withanalytics variant also
+
+Update CircleCI image version
+
+
+[TEMP] Add dependencies task
+
+I need a dependency tree
+Should help who's causing "w: Runtime JAR files in the classpath should have the same version."
+---
+ .circleci/config.yml | 107 +++++++++++++++----------------------------
+ 1 file changed, 38 insertions(+), 69 deletions(-)
+
+diff --git a/.circleci/config.yml b/.circleci/config.yml
+index d524fe69..bb46b0c1 100644
+--- a/.circleci/config.yml
++++ b/.circleci/config.yml
+@@ -1,85 +1,54 @@
++# Java Gradle CircleCI 2.0 configuration file
++#
++# Check https://circleci.com/docs/2.0/language-android/ for more details
++#
+ version: 2
+ 
++cache_key: &cache_key
++  key: jars-{{ checksum "build.gradle" }}-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
++
+ jobs:
+   build:
+-    working_directory: ~/code
++    branches:
++      ignore:
++        - master
++        
++    working_directory: ~/qksms
++
+     docker:
+       - image: circleci/android:api-29
++
++    environment:
++      JVM_OPTS: -Xmx2400m
++
+     steps:
+       - checkout
++      
+       - restore_cache:
+-          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "presentation/build.gradle" }}-{{ checksum  "data/build.gradle" }}-{{ checksum  "domain/build.gradle" }}
++          <<: *cache_key
++      
+       - run:
+-          name: Download dependencies
+-          command: ./gradlew androidDependencies
+-      - save_cache:
+-          paths:
+-            - ~/.gradle
+-          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "presentation/build.gradle" }}-{{ checksum  "data/build.gradle" }}-{{ checksum  "domain/build.gradle" }}
++          name: Clean
++          command: ./gradlew clean
++          
+       - run:
+-          name: Decrypt and unzip secrets
+-          command: |
+-            openssl aes-256-cbc -d -in secrets.tar.enc -md sha1 -k ${SECRETS_KEY} -iv ${SECRETS_IV} >> secrets.tar
+-            tar xvf secrets.tar
++          name: Dependencies
++          command: ./gradlew presentation:dependencies
++          
+       - run:
+-          name: Gradle build
+-          command: ./gradlew :presentation:assembleWithAnalyticsRelease :presentation:bundleWithAnalyticsRelease
++          name: Assemble NoAnalytics
++          command: ./gradlew assemblenoAnalyticsDebug
++          
+       - run:
+-          name: Flatten outputs
+-          command: find presentation/build/outputs -mindepth 2 -type f -exec mv -i '{}' presentation/build/outputs/ ';'
+-      - store_artifacts:
+-          path: presentation/build/outputs
+-      - persist_to_workspace:
+-          root: presentation/build/outputs
+-          paths: .
++          name: Assemble WithAnalytics
++          command: ./gradlew assemblewithAnalyticsDebug
+ 
+-  test:
+-    working_directory: ~/code
+-    docker:
+-      - image: circleci/android:api-29
+-    steps:
+-      - checkout
+-      - restore_cache:
+-          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "presentation/build.gradle" }}-{{ checksum  "data/build.gradle" }}-{{ checksum  "domain/build.gradle" }}
+-      - run:
+-          name: Download dependencies
+-          command: ./gradlew androidDependencies
++      - store_artifacts:
++          path: presentation/build/outputs/apk
++          destination: apk
++          
+       - save_cache:
++          <<: *cache_key
+           paths:
+-            - ~/.gradle
+-          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "presentation/build.gradle" }}-{{ checksum  "data/build.gradle" }}-{{ checksum  "domain/build.gradle" }}
+-      - store_test_results:
+-          path: presentation/build/test-results
+-
+-  deploy:
+-    docker:
+-      - image: cibuilds/github:0.10
+-    steps:
+-      - attach_workspace:
+-          at: presentation/build/outputs
+-      - run:
+-          name: "Publish Release on GitHub"
+-          command: ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} ${CIRCLE_TAG} presentation/build/outputs/
+-
+-workflows:
+-  version: 2
+-  main:
+-    jobs:
+-      - build:
+-          filters:
+-            tags:
+-              only: /^v.*/
+-      - test:
+-          requires:
+-            - build
+-          filters:
+-            tags:
+-              only: /^v.*/
+-      - deploy:
+-          requires:
+-            - test
+-          filters:
+-            branches:
+-              ignore: /.*/
+-            tags:
+-              only: /^v.*/
++            - ~/.gradle/caches
++            - ~/.gradle/wrapper
+\ No newline at end of file
+-- 
+2.24.1.windows.2
+

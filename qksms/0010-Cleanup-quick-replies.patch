@@ -1,0 +1,45 @@
+From 5184e53531b633696a41de78760bba3409cbb1e7 Mon Sep 17 00:00:00 2001
+From: George Zacharia <george.zcharia@gmail.com>
+Date: Tue, 28 Jan 2020 11:55:52 +0530
+Subject: [PATCH 10/12] Cleanup quick replies
+
+Too long strings will cause fewer options to show up
+---
+ presentation/src/main/res/values/strings.xml | 20 +++++++++-----------
+ 1 file changed, 9 insertions(+), 11 deletions(-)
+
+diff --git a/presentation/src/main/res/values/strings.xml b/presentation/src/main/res/values/strings.xml
+index d9f00e66..0f40e610 100644
+--- a/presentation/src/main/res/values/strings.xml
++++ b/presentation/src/main/res/values/strings.xml
+@@ -456,18 +456,16 @@
+     </integer-array>
+ 
+     <string-array name="qk_responses">
+-        <item>Okay</item>
+-        <item>Give me a moment</item>
+-        <item>On my way</item>
+-        <item>Thanks</item>
+-        <item>Sounds good</item>
+-        <item>What\'s up?</item>
+-        <item>Agreed</item>
++        <item>Yes</item>
+         <item>No</item>
+-        <item>Love you</item>
+-        <item>Sorry</item>
+-        <item>LOL</item>
+-        <item>That\'s okay</item>
++        <item>OK</item>
++        <item>Hehe</item>
++        <item>Thanks</item>
++        <item>I agree</item>
++        <item>Nice</item>
++        <item>On my way</item>
++        <item>:)</item>
++        <item>:(</item>
+     </string-array>
+ 
+ </resources>
+-- 
+2.24.1.windows.2
+

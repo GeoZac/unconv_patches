@@ -1,0 +1,36 @@
+From 18432ffb54266e2a9deaa634034f601c79004a8d Mon Sep 17 00:00:00 2001
+From: George Zacharia <george.zcharia@gmail.com>
+Date: Fri, 17 Jan 2020 10:05:34 +0530
+Subject: [PATCH 03/12] Show time-stamp for all messages
+
+Earlier had to tap each messages to check the delivery status
+---
+ .../java/com/moez/QKSMS/feature/compose/MessagesAdapter.kt   | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/presentation/src/main/java/com/moez/QKSMS/feature/compose/MessagesAdapter.kt b/presentation/src/main/java/com/moez/QKSMS/feature/compose/MessagesAdapter.kt
+index f11b3398..c9c95f00 100644
+--- a/presentation/src/main/java/com/moez/QKSMS/feature/compose/MessagesAdapter.kt
++++ b/presentation/src/main/java/com/moez/QKSMS/feature/compose/MessagesAdapter.kt
+@@ -305,7 +305,8 @@ class MessagesAdapter @Inject constructor(
+             else -> dateFormatter.getTimestamp(message.date)
+         }
+ 
+-        holder.status.setVisible(when {
++        holder.status.setVisible(true
++            /*when {
+             expanded[message.id] == true -> true
+             message.isSending() -> true
+             message.isFailedMessage() -> true
+@@ -313,7 +314,7 @@ class MessagesAdapter @Inject constructor(
+             conversation?.recipients?.size ?: 0 > 1 && !message.isMe() && next?.compareSender(message) != true -> true
+             message.isDelivered() && next?.isDelivered() != true && age <= BubbleUtils.TIMESTAMP_THRESHOLD -> true
+             else -> false
+-        })
++        }*/)
+     }
+ 
+     override fun getItemViewType(position: Int): Int {
+-- 
+2.24.1.windows.2
+

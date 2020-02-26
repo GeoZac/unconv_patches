@@ -1,0 +1,25 @@
+From 892c99e0beb235c93aa237ce302ae6e8e6ebc2d8 Mon Sep 17 00:00:00 2001
+From: George Zacharia <george.zcharia@gmail.com>
+Date: Tue, 28 Jan 2020 12:33:44 +0530
+Subject: [PATCH 12/12] Enable some gradle flags
+
+Should help fix the OOM in CI builds
+---
+ gradle.properties | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/gradle.properties b/gradle.properties
+index bb91abfe..2bdae07d 100644
+--- a/gradle.properties
++++ b/gradle.properties
+@@ -20,3 +20,6 @@ android.enableJetifier=true
+ # This option should only be used with decoupled projects. More details, visit
+ # http://www.gradle.org/docs/current/userguide/multi_project_builds.html#sec:decoupled_projects
+ # org.gradle.parallel=true
++
++org.gradle.parallel=true
++org.gradle.daemon=false
+\ No newline at end of file
+-- 
+2.24.1.windows.2
+

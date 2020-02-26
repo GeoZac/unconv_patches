@@ -1,0 +1,33 @@
+From a4c370ff19c39adad68a7aded2c815809aae7f68 Mon Sep 17 00:00:00 2001
+From: George Zacharia <george.zcharia@gmail.com>
+Date: Fri, 17 Jan 2020 10:39:07 +0530
+Subject: [PATCH 06/12] Declare Preference activity in Manifest
+
+Enables launching App Settings from App Info screen
+---
+ presentation/src/main/AndroidManifest.xml | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/presentation/src/main/AndroidManifest.xml b/presentation/src/main/AndroidManifest.xml
+index b082c22f..b4f7a52c 100644
+--- a/presentation/src/main/AndroidManifest.xml
++++ b/presentation/src/main/AndroidManifest.xml
+@@ -94,7 +94,14 @@
+                 android:name="android.service.chooser.chooser_target_service"
+                 android:value=".common.util.QkChooserTargetService" />
+         </activity>
+-        <activity android:name=".feature.settings.SettingsActivity" />
++        <activity android:name=".feature.settings.SettingsActivity"
++            android:label="@string/app_name"
++            android:exported="false">
++            <intent-filter>
++                    <action android:name="android.intent.action.APPLICATION_PREFERENCES" />
++                    <category android:name="android.intent.category.DEFAULT" />
++            </intent-filter>
++</activity>
+         <activity android:name=".feature.plus.PlusActivity" />
+         <activity
+             android:name=".feature.gallery.GalleryActivity"
+-- 
+2.24.1.windows.2
+

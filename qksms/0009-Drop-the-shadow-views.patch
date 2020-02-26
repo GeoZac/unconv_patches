@@ -1,0 +1,151 @@
+From 1b9f8dc2098b9a47d1bb081226709a6a7f884923 Mon Sep 17 00:00:00 2001
+From: George Zacharia <george.zcharia@gmail.com>
+Date: Wed, 22 Jan 2020 15:58:32 +0530
+Subject: [PATCH 09/12] Drop the shadow views
+
+---
+ presentation/src/main/res/layout/compose_activity.xml  | 10 +++++-----
+ presentation/src/main/res/layout/contacts_activity.xml |  4 ++--
+ presentation/src/main/res/layout/main_activity.xml     |  4 ++--
+ .../main/res/layout/notification_prefs_activity.xml    |  4 ++--
+ presentation/src/main/res/layout/qkreply_activity.xml  |  4 ++--
+ presentation/src/main/res/layout/widget.xml            |  4 ++--
+ 6 files changed, 15 insertions(+), 15 deletions(-)
+
+diff --git a/presentation/src/main/res/layout/compose_activity.xml b/presentation/src/main/res/layout/compose_activity.xml
+index 3015b575..5f3734bd 100644
+--- a/presentation/src/main/res/layout/compose_activity.xml
++++ b/presentation/src/main/res/layout/compose_activity.xml
+@@ -75,7 +75,7 @@
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:visibility="gone"
+-        app:constraint_referenced_ids="sendAsGroupBackground,sendAsGroupTitle,sendAsGroupSummary,sendAsGroupSwitch,sendAsGroupShadow"
++        app:constraint_referenced_ids="sendAsGroupBackground,sendAsGroupTitle,sendAsGroupSummary,sendAsGroupSwitch"
+         tools:visibility="visible" />
+ 
+     <View
+@@ -124,12 +124,12 @@
+         app:layout_constraintEnd_toEndOf="@id/sendAsGroupBackground"
+         app:layout_constraintTop_toTopOf="@id/sendAsGroupBackground" />
+ 
+-    <View
++    <!--<View
+         android:id="@+id/sendAsGroupShadow"
+         android:layout_width="match_parent"
+         android:layout_height="8dp"
+         android:background="@drawable/ab_shadow"
+-        app:layout_constraintTop_toBottomOf="@id/sendAsGroupBackground" />
++        app:layout_constraintTop_toBottomOf="@id/sendAsGroupBackground" />-->
+ 
+     <androidx.constraintlayout.widget.Group
+         android:id="@+id/composeBar"
+@@ -350,11 +350,11 @@
+ 
+     </androidx.appcompat.widget.Toolbar>
+ 
+-    <View
++    <!--<View
+         android:layout_width="match_parent"
+         android:layout_height="8dp"
+         android:background="@drawable/ab_shadow"
+-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
++        app:layout_constraintTop_toBottomOf="@id/toolbar" />-->
+ 
+     <View
+         android:layout_width="match_parent"
+diff --git a/presentation/src/main/res/layout/contacts_activity.xml b/presentation/src/main/res/layout/contacts_activity.xml
+index 89181ebf..3d45ab34 100644
+--- a/presentation/src/main/res/layout/contacts_activity.xml
++++ b/presentation/src/main/res/layout/contacts_activity.xml
+@@ -91,11 +91,11 @@
+ 
+     </androidx.appcompat.widget.Toolbar>
+ 
+-    <View
++    <!--<View
+         android:layout_width="match_parent"
+         android:layout_height="8dp"
+         android:background="@drawable/ab_shadow"
+-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
++        app:layout_constraintTop_toBottomOf="@id/toolbar" />-->
+ 
+     <View
+         android:layout_width="match_parent"
+diff --git a/presentation/src/main/res/layout/main_activity.xml b/presentation/src/main/res/layout/main_activity.xml
+index e0128783..3e4a7921 100644
+--- a/presentation/src/main/res/layout/main_activity.xml
++++ b/presentation/src/main/res/layout/main_activity.xml
+@@ -104,13 +104,13 @@
+             app:layout_constraintEnd_toEndOf="parent"
+             tools:backgroundTint="@color/tools_theme" />
+ 
+-        <View
++        <!--<View
+             android:layout_width="0dp"
+             android:layout_height="8dp"
+             android:background="@drawable/ab_shadow"
+             app:layout_constraintEnd_toEndOf="parent"
+             app:layout_constraintStart_toStartOf="parent"
+-            app:layout_constraintTop_toBottomOf="@id/toolbar" />
++            app:layout_constraintTop_toBottomOf="@id/toolbar" />-->
+ 
+         <View
+             android:id="@+id/bottom"
+diff --git a/presentation/src/main/res/layout/notification_prefs_activity.xml b/presentation/src/main/res/layout/notification_prefs_activity.xml
+index 49749033..2a6f850c 100644
+--- a/presentation/src/main/res/layout/notification_prefs_activity.xml
++++ b/presentation/src/main/res/layout/notification_prefs_activity.xml
+@@ -159,11 +159,11 @@
+ 
+     </ScrollView>
+ 
+-    <View
++    <!--<View
+         android:layout_width="match_parent"
+         android:layout_height="8dp"
+         android:background="@drawable/ab_shadow"
+-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
++        app:layout_constraintTop_toBottomOf="@id/toolbar" />-->
+ 
+     <View
+         android:layout_width="match_parent"
+diff --git a/presentation/src/main/res/layout/qkreply_activity.xml b/presentation/src/main/res/layout/qkreply_activity.xml
+index f7b51a27..116b0a2d 100644
+--- a/presentation/src/main/res/layout/qkreply_activity.xml
++++ b/presentation/src/main/res/layout/qkreply_activity.xml
+@@ -168,11 +168,11 @@
+ 
+     </androidx.appcompat.widget.Toolbar>
+ 
+-    <View
++    <!--<View
+         android:id="@+id/view2"
+         android:layout_width="match_parent"
+         android:layout_height="8dp"
+         android:background="@drawable/ab_shadow"
+-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
++        app:layout_constraintTop_toBottomOf="@id/toolbar" />-->
+ 
+ </androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file
+diff --git a/presentation/src/main/res/layout/widget.xml b/presentation/src/main/res/layout/widget.xml
+index 408d9215..6ed6a43b 100644
+--- a/presentation/src/main/res/layout/widget.xml
++++ b/presentation/src/main/res/layout/widget.xml
+@@ -80,10 +80,10 @@
+         tools:listitem="@layout/widget_list_item" />
+ 
+     <!-- This needs to be a FrameLayout, since Views are not supported-->
+-    <FrameLayout
++    <!--<FrameLayout
+         android:layout_width="match_parent"
+         android:layout_height="8dp"
+         android:layout_below="@id/toolbar"
+         android:background="@drawable/ab_shadow" />
+-
++-->
+ </RelativeLayout>
+-- 
+2.24.1.windows.2
+

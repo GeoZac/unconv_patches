@@ -1,0 +1,42 @@
+From 251115f2194b238d5e7e26feb4fca17d69a6f5e7 Mon Sep 17 00:00:00 2001
+From: George Zacharia <george.zcharia@gmail.com>
+Date: Thu, 6 Feb 2020 14:25:59 +0530
+Subject: [PATCH] Slim the fastscroller
+
+The fastscroller was too thick for me, reduce thickness to a "saner" value
+---
+ .../seriesguide/widgets/FastScrollerDecoration.java           | 4 ++--
+ app/src/main/res/values/dimens.xml                            | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/app/src/main/java/com/battlelancer/seriesguide/widgets/FastScrollerDecoration.java b/app/src/main/java/com/battlelancer/seriesguide/widgets/FastScrollerDecoration.java
+index 405ef7d6c..126eb8330 100644
+--- a/app/src/main/java/com/battlelancer/seriesguide/widgets/FastScrollerDecoration.java
++++ b/app/src/main/java/com/battlelancer/seriesguide/widgets/FastScrollerDecoration.java
+@@ -147,8 +147,8 @@ public class FastScrollerDecoration extends RecyclerView.ItemDecoration implemen
+         mVerticalTrackDrawable = verticalTrackDrawable;
+         mHorizontalThumbDrawable = horizontalThumbDrawable;
+         mHorizontalTrackDrawable = horizontalTrackDrawable;
+-        mVerticalThumbWidth = Math.max(defaultWidth, verticalThumbDrawable.getIntrinsicWidth());
+-        mVerticalTrackWidth = Math.max(defaultWidth, verticalTrackDrawable.getIntrinsicWidth());
++        mVerticalThumbWidth = 12;
++        mVerticalTrackWidth = 12;
+         mHorizontalThumbHeight = Math
+             .max(defaultWidth, horizontalThumbDrawable.getIntrinsicWidth());
+         mHorizontalTrackHeight = Math
+diff --git a/app/src/main/res/values/dimens.xml b/app/src/main/res/values/dimens.xml
+index 2821cc862..2943a4370 100644
+--- a/app/src/main/res/values/dimens.xml
++++ b/app/src/main/res/values/dimens.xml
+@@ -39,7 +39,7 @@
+     <dimen name="grid_item_margin_horizontal">4dp</dimen>
+ 
+     <!-- RecyclerView Fast Scroller decoration -->
+-    <dimen name="sg_fastscroll_default_thickness">16dp</dimen>
++    <dimen name="sg_fastscroll_default_thickness">12dp</dimen>
+     <dimen name="sg_fastscroll_minimum_height">56dp</dimen>
+     <dimen name="sg_fastscroll_margin">0dp</dimen>
+     <dimen name="sg_fastscroll_minimum_range">50dp</dimen>
+-- 
+2.24.1.windows.2
+

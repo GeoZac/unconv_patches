@@ -1,7 +1,7 @@
 From 7b681a1cd30ce2bb1f731816c4ebd60d4c0c157b Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Fri, 17 Jan 2020 10:04:38 +0530
-Subject: [PATCH 02/12] Enable Smart Replies for all
+Subject: [PATCH] Enable Smart Replies for all
 
 The smart replies were disabled by dev citing
 > these are intended to be made available only for smart watches, but on P they show up in the notification UI on the phone and a lot of people found that to be quite annoying
@@ -26,6 +26,3 @@ index 1ba84dac..896b5c05 100644
  
          return NotificationCompat.Action.Builder(R.drawable.ic_reply_white_24dp, title, replyPI)
                  .setSemanticAction(NotificationCompat.Action.SEMANTIC_ACTION_REPLY)
--- 
-2.24.1.windows.2
-

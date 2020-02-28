@@ -1,7 +1,7 @@
 From 7b846574932087b0247bb7dfc0e6508b33e389d6 Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Sat, 28 Dec 2019 12:13:47 +0530
-Subject: [PATCH 01/12] [SQUASH] CI patches
+Subject: [PATCH] [SQUASH] CI patches
 
 Completely overrides the CI config from upstream project
 
@@ -155,6 +155,3 @@ index d524fe69..bb46b0c1 100644
 +            - ~/.gradle/caches
 +            - ~/.gradle/wrapper
 \ No newline at end of file
--- 
-2.24.1.windows.2
-

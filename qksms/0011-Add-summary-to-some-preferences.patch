@@ -1,7 +1,7 @@
 From 77e89818716e74338f1b1f047fd34442d77c710e Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Tue, 28 Jan 2020 12:00:46 +0530
-Subject: [PATCH 11/12] Add summary to some preferences
+Subject: [PATCH] Add summary to some preferences
 
 Looks out of context without summaries
 ---
@@ -86,6 +86,3 @@ index 0f40e610..90de78f7 100644
      <string name="settings_notifications_o_summary">Tap to customize</string>
      <string name="settings_notification_actions_title">Actions</string>
      <string name="settings_notification_action_1">Button 1</string>
--- 
-2.24.1.windows.2
-

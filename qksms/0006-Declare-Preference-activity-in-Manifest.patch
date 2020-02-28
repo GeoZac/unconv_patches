@@ -1,7 +1,7 @@
 From a4c370ff19c39adad68a7aded2c815809aae7f68 Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Fri, 17 Jan 2020 10:39:07 +0530
-Subject: [PATCH 06/12] Declare Preference activity in Manifest
+Subject: [PATCH] Declare Preference activity in Manifest
 
 Enables launching App Settings from App Info screen
 ---
@@ -28,6 +28,3 @@ index b082c22f..b4f7a52c 100644
          <activity android:name=".feature.plus.PlusActivity" />
          <activity
              android:name=".feature.gallery.GalleryActivity"
--- 
-2.24.1.windows.2
-

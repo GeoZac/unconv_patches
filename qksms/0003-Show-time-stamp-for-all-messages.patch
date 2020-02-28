@@ -1,7 +1,7 @@
 From 18432ffb54266e2a9deaa634034f601c79004a8d Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Fri, 17 Jan 2020 10:05:34 +0530
-Subject: [PATCH 03/12] Show time-stamp for all messages
+Subject: [PATCH] Show time-stamp for all messages
 
 Earlier had to tap each messages to check the delivery status
 ---
@@ -31,6 +31,3 @@ index f11b3398..c9c95f00 100644
      }
  
      override fun getItemViewType(position: Int): Int {
--- 
-2.24.1.windows.2
-

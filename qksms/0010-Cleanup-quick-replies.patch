@@ -1,7 +1,7 @@
 From 5184e53531b633696a41de78760bba3409cbb1e7 Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Tue, 28 Jan 2020 11:55:52 +0530
-Subject: [PATCH 10/12] Cleanup quick replies
+Subject: [PATCH] Cleanup quick replies
 
 Too long strings will cause fewer options to show up
 ---
@@ -40,6 +40,3 @@ index d9f00e66..0f40e610 100644
      </string-array>
  
  </resources>
--- 
-2.24.1.windows.2
-

@@ -1,7 +1,7 @@
 From 43b7bf912744fa5c34850373bf5a85b4e94d0773 Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Tue, 21 Jan 2020 10:13:09 +0530
-Subject: [PATCH 07/12] Nuke all caps
+Subject: [PATCH] Nuke all caps
 
 It's better this way
 ---
@@ -83,6 +83,3 @@ index 13dfecdd..d9f00e66 100644
      <string name="theme_apply">Apply</string>
  
      <string name="about_developer" translatable="false">Moez Bhatti</string>
--- 
-2.24.1.windows.2
-

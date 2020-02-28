@@ -1,7 +1,7 @@
 From bf5f5e83f1b96e92e996b318fb9170b0ed955636 Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Fri, 17 Jan 2020 10:21:27 +0530
-Subject: [PATCH 05/12] Use a nicer pin icon
+Subject: [PATCH] Use a nicer pin icon
 
 Isn't pin same as bookmark?
 Use bookmark icon from material icon
@@ -52,6 +52,3 @@ index 557b1ccf..0a53cb52 100644
          android:title="@string/main_menu_unpin"
          android:visible="false"
          app:showAsAction="ifRoom" />
--- 
-2.24.1.windows.2
-

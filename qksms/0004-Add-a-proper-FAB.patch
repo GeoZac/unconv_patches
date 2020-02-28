@@ -1,7 +1,7 @@
 From 3e5fe5721eeb27d13fe2499a1ac317c9ba491451 Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Fri, 17 Jan 2020 10:10:45 +0530
-Subject: [PATCH 04/12] Add a proper FAB
+Subject: [PATCH] Add a proper FAB
 
 Also hide the FAB on scroll
 Looks good and makes it easier for glancing through messages
@@ -68,6 +68,3 @@ index f19d171f..e0128783 100644
              android:tint="@color/white"
              app:layout_constraintBottom_toTopOf="@id/bottom"
              app:layout_constraintEnd_toEndOf="parent"
--- 
-2.24.1.windows.2
-

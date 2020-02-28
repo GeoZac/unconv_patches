@@ -1,7 +1,7 @@
 From 70965602cfe05e51a42896d1123a5fc9516cafc8 Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Wed, 22 Jan 2020 12:50:16 +0530
-Subject: [PATCH 08/12] Allow only two lines in the list
+Subject: [PATCH] Allow only two lines in the list
 
 More than 2 lines will looks bad on the layout while 1 line won't give all the details
 ---
@@ -35,6 +35,3 @@ index 1ed7eebf..2cf5f642 100644
          app:layout_constraintBottom_toBottomOf="parent"
          app:layout_constraintEnd_toStartOf="@id/pinned"
          app:layout_constraintStart_toStartOf="@id/title"
--- 
-2.24.1.windows.2
-

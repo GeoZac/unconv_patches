@@ -1,0 +1,418 @@
+From f02bf02c6f767cc3a7ca865b30c4de02ce799d22 Mon Sep 17 00:00:00 2001
+From: George Zacharia <george.zcharia@gmail.com>
+Date: Tue, 28 Jan 2020 21:03:43 +0530
+Subject: [PATCH] Nuke all dividers
+
+Lot of 1dp thick dividers are provided in layouts for better visibility, remove them all
+Even some of them disrupt the seamless experience in newer Android version.
+
+For views without ids comment out completely and for view with id visibility is set to gone
+---
+ .../notificationprefs/NotificationPrefsActivity.kt        | 4 ++--
+ presentation/src/main/res/layout/backup_controller.xml    | 8 ++++----
+ presentation/src/main/res/layout/backup_list_dialog.xml   | 4 ++--
+ presentation/src/main/res/layout/compose_activity.xml     | 5 +++--
+ presentation/src/main/res/layout/contacts_activity.xml    | 4 ++--
+ presentation/src/main/res/layout/container_activity.xml   | 4 ++--
+ .../src/main/res/layout/conversation_info_settings.xml    | 8 ++++----
+ presentation/src/main/res/layout/drawer_view.xml          | 8 ++++----
+ presentation/src/main/res/layout/main_activity.xml        | 1 +
+ .../src/main/res/layout/notification_prefs_activity.xml   | 6 ++++--
+ presentation/src/main/res/layout/qksms_plus_activity.xml  | 8 ++++----
+ presentation/src/main/res/layout/scheduled_activity.xml   | 4 ++--
+ presentation/src/main/res/layout/search_list_item.xml     | 1 +
+ presentation/src/main/res/layout/settings_controller.xml  | 8 ++++----
+ .../src/main/res/layout/swipe_actions_controller.xml      | 4 ++--
+ .../src/main/res/layout/theme_palette_list_item.xml       | 4 ++--
+ presentation/src/main/res/layout/theme_picker_hsv.xml     | 1 +
+ 17 files changed, 44 insertions(+), 38 deletions(-)
+
+diff --git a/presentation/src/main/java/com/moez/QKSMS/feature/notificationprefs/NotificationPrefsActivity.kt b/presentation/src/main/java/com/moez/QKSMS/feature/notificationprefs/NotificationPrefsActivity.kt
+index 210b5d3fe..09b1b92f8 100644
+--- a/presentation/src/main/java/com/moez/QKSMS/feature/notificationprefs/NotificationPrefsActivity.kt
++++ b/presentation/src/main/java/com/moez/QKSMS/feature/notificationprefs/NotificationPrefsActivity.kt
+@@ -102,7 +102,7 @@ class NotificationPrefsActivity : QkThemedActivity(), NotificationPrefsView {
+         vibration.checkbox.isChecked = state.vibrationEnabled
+         ringtone.summary = state.ringtoneName
+ 
+-        actionsDivider.isVisible = state.threadId == 0L
++        // actionsDivider.isVisible = state.threadId == 0L
+         actionsTitle.isVisible = state.threadId == 0L
+         action1.isVisible = state.threadId == 0L
+         action1.summary = state.action1Summary
+@@ -111,7 +111,7 @@ class NotificationPrefsActivity : QkThemedActivity(), NotificationPrefsView {
+         action3.isVisible = state.threadId == 0L
+         action3.summary = state.action3Summary
+ 
+-        qkreplyDivider.isVisible = state.threadId == 0L
++        // qkreplyDivider.isVisible = state.threadId == 0L
+         qkreplyTitle.isVisible = state.threadId == 0L
+         qkreply.checkbox.isChecked = state.qkReplyEnabled
+         qkreply.isVisible = state.threadId == 0L
+diff --git a/presentation/src/main/res/layout/backup_controller.xml b/presentation/src/main/res/layout/backup_controller.xml
+index 88983dbcc..0ecb94025 100644
+--- a/presentation/src/main/res/layout/backup_controller.xml
++++ b/presentation/src/main/res/layout/backup_controller.xml
+@@ -106,7 +106,7 @@
+                     app:layout_constraintStart_toStartOf="@id/progressTitle"
+                     app:layout_constraintTop_toBottomOf="@id/progressSummary" />
+ 
+-                <View
++                <!--<View
+                     android:layout_width="0dp"
+                     android:layout_height="1dp"
+                     android:layout_marginTop="16dp"
+@@ -114,7 +114,7 @@
+                     app:layout_constraintBottom_toBottomOf="parent"
+                     app:layout_constraintEnd_toEndOf="parent"
+                     app:layout_constraintStart_toStartOf="parent"
+-                    app:layout_constraintTop_toBottomOf="@id/progressBar" />
++                    app:layout_constraintTop_toBottomOf="@id/progressBar" />-->
+ 
+             </androidx.constraintlayout.widget.ConstraintLayout>
+ 
+@@ -134,10 +134,10 @@
+                 app:summary="@string/backup_restore_summary"
+                 app:title="@string/backup_restore_title" />
+ 
+-            <View
++            <!--<View
+                 android:layout_width="match_parent"
+                 android:layout_height="1dp"
+-                android:background="?android:attr/divider" />
++                android:background="?android:attr/divider" />-->
+ 
+             <com.moez.QKSMS.common.widget.QkTextView
+                 android:layout_width="match_parent"
+diff --git a/presentation/src/main/res/layout/backup_list_dialog.xml b/presentation/src/main/res/layout/backup_list_dialog.xml
+index cc819e6ad..2cc151eaf 100644
+--- a/presentation/src/main/res/layout/backup_list_dialog.xml
++++ b/presentation/src/main/res/layout/backup_list_dialog.xml
+@@ -45,11 +45,11 @@
+         android:textColor="?android:attr/textColorTertiary"
+         app:textSize="primary" />
+ 
+-    <View
++    <!--<View
+         android:layout_width="match_parent"
+         android:layout_height="1dp"
+         android:layout_marginTop="16dp"
+-        android:background="?android:attr/divider" />
++        android:background="?android:attr/divider" />-->
+ 
+     <androidx.recyclerview.widget.RecyclerView
+         android:id="@+id/files"
+diff --git a/presentation/src/main/res/layout/compose_activity.xml b/presentation/src/main/res/layout/compose_activity.xml
+index c12703402..fbf88142c 100644
+--- a/presentation/src/main/res/layout/compose_activity.xml
++++ b/presentation/src/main/res/layout/compose_activity.xml
+@@ -212,6 +212,7 @@
+         android:id="@+id/scheduledSeparator"
+         android:layout_width="0dp"
+         android:layout_height="1dp"
++        android:visibility="gone"
+         android:background="?android:attr/divider"
+         app:layout_constraintBottom_toTopOf="@id/attachments"
+         app:layout_constraintEnd_toEndOf="@id/messageBackground"
+@@ -356,11 +357,11 @@
+         android:background="@drawable/ab_shadow"
+         app:layout_constraintTop_toBottomOf="@id/toolbar" />-->
+ 
+-    <View
++    <!--<View
+         android:layout_width="match_parent"
+         android:layout_height="1dp"
+         android:background="?android:attr/divider"
+-        app:layout_constraintBottom_toBottomOf="parent" />
++        app:layout_constraintBottom_toBottomOf="parent" />-->
+ 
+     <androidx.constraintlayout.widget.Group
+         android:id="@+id/attaching"
+diff --git a/presentation/src/main/res/layout/contacts_activity.xml b/presentation/src/main/res/layout/contacts_activity.xml
+index 3d45ab343..526ca1dcc 100644
+--- a/presentation/src/main/res/layout/contacts_activity.xml
++++ b/presentation/src/main/res/layout/contacts_activity.xml
+@@ -97,10 +97,10 @@
+         android:background="@drawable/ab_shadow"
+         app:layout_constraintTop_toBottomOf="@id/toolbar" />-->
+ 
+-    <View
++    <!--<View
+         android:layout_width="match_parent"
+         android:layout_height="1dp"
+         android:background="?android:attr/divider"
+-        app:layout_constraintBottom_toBottomOf="parent" />
++        app:layout_constraintBottom_toBottomOf="parent" />-->
+ 
+ </androidx.constraintlayout.widget.ConstraintLayout>
+diff --git a/presentation/src/main/res/layout/container_activity.xml b/presentation/src/main/res/layout/container_activity.xml
+index 1f4c959c3..cc3251198 100644
+--- a/presentation/src/main/res/layout/container_activity.xml
++++ b/presentation/src/main/res/layout/container_activity.xml
+@@ -41,9 +41,9 @@
+         android:layout_height="0dp"
+         android:layout_weight="1" />
+ 
+-    <View
++    <!--<View
+         android:layout_width="match_parent"
+         android:layout_height="1dp"
+-        android:background="?android:attr/divider" />
++        android:background="?android:attr/divider" />-->
+ 
+ </LinearLayout>
+\ No newline at end of file
+diff --git a/presentation/src/main/res/layout/conversation_info_settings.xml b/presentation/src/main/res/layout/conversation_info_settings.xml
+index 9fc371aab..8b6d7ca77 100644
+--- a/presentation/src/main/res/layout/conversation_info_settings.xml
++++ b/presentation/src/main/res/layout/conversation_info_settings.xml
+@@ -23,11 +23,11 @@
+     android:layout_height="wrap_content"
+     android:orientation="vertical">
+ 
+-    <View
++    <!--<View
+         android:layout_width="match_parent"
+         android:layout_height="1dp"
+         android:layout_marginBottom="8dp"
+-        android:background="?android:attr/divider" />
++        android:background="?android:attr/divider" />-->
+ 
+     <com.moez.QKSMS.common.widget.PreferenceView
+         android:id="@+id/groupName"
+@@ -65,10 +65,10 @@
+         app:icon="@drawable/ic_delete_white_24dp"
+         app:title="@string/info_delete" />
+ 
+-    <View
++    <!--<View
+         android:layout_width="match_parent"
+         android:layout_height="1dp"
+         android:layout_marginTop="8dp"
+-        android:background="?android:attr/divider" />
++        android:background="?android:attr/divider" />-->
+ 
+ </LinearLayout>
+diff --git a/presentation/src/main/res/layout/drawer_view.xml b/presentation/src/main/res/layout/drawer_view.xml
+index 5efa85282..5a13b8070 100644
+--- a/presentation/src/main/res/layout/drawer_view.xml
++++ b/presentation/src/main/res/layout/drawer_view.xml
+@@ -63,12 +63,12 @@
+ 
+         </LinearLayout>
+ 
+-        <View
++        <!--<View
+             android:layout_width="match_parent"
+             android:layout_height="1dp"
+             android:layout_marginTop="8dp"
+             android:layout_marginBottom="8dp"
+-            android:background="?android:attr/divider" />
++            android:background="?android:attr/divider" />-->
+ 
+         <LinearLayout
+             android:id="@+id/backup"
+@@ -139,12 +139,12 @@
+ 
+         </LinearLayout>
+ 
+-        <View
++        <!--<View
+             android:layout_width="match_parent"
+             android:layout_height="1dp"
+             android:layout_marginTop="8dp"
+             android:layout_marginBottom="8dp"
+-            android:background="?android:attr/divider" />
++            android:background="?android:attr/divider" />-->
+ 
+         <LinearLayout
+             android:id="@+id/settings"
+diff --git a/presentation/src/main/res/layout/main_activity.xml b/presentation/src/main/res/layout/main_activity.xml
+index 3e4a7921d..4ecb709b0 100644
+--- a/presentation/src/main/res/layout/main_activity.xml
++++ b/presentation/src/main/res/layout/main_activity.xml
+@@ -116,6 +116,7 @@
+             android:id="@+id/bottom"
+             android:layout_width="match_parent"
+             android:layout_height="1dp"
++            android:visibility="gone"
+             android:background="?android:attr/divider"
+             app:layout_constraintBottom_toTopOf="@id/snackbar" />
+ 
+diff --git a/presentation/src/main/res/layout/notification_prefs_activity.xml b/presentation/src/main/res/layout/notification_prefs_activity.xml
+index 2a6f850c5..6100f9716 100644
+--- a/presentation/src/main/res/layout/notification_prefs_activity.xml
++++ b/presentation/src/main/res/layout/notification_prefs_activity.xml
+@@ -96,6 +96,7 @@
+                 android:id="@+id/actionsDivider"
+                 android:layout_width="match_parent"
+                 android:layout_height="1dp"
++                android:visibility="gone"
+                 android:layout_marginTop="8dp"
+                 android:layout_marginBottom="8dp"
+                 android:background="?android:attr/divider" />
+@@ -130,6 +131,7 @@
+                 android:id="@+id/qkreplyDivider"
+                 android:layout_width="match_parent"
+                 android:layout_height="1dp"
++                android:visibility="gone"
+                 android:layout_marginTop="8dp"
+                 android:layout_marginBottom="8dp"
+                 android:background="?android:attr/divider" />
+@@ -165,11 +167,11 @@
+         android:background="@drawable/ab_shadow"
+         app:layout_constraintTop_toBottomOf="@id/toolbar" />-->
+ 
+-    <View
++    <!--<View
+         android:layout_width="match_parent"
+         android:layout_height="1dp"
+         android:layout_gravity="bottom"
+         android:background="?android:attr/divider"
+-        app:layout_constraintBottom_toBottomOf="parent" />
++        app:layout_constraintBottom_toBottomOf="parent" />-->
+ 
+ </androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file
+diff --git a/presentation/src/main/res/layout/qksms_plus_activity.xml b/presentation/src/main/res/layout/qksms_plus_activity.xml
+index eef115ddd..bc5cece6c 100644
+--- a/presentation/src/main/res/layout/qksms_plus_activity.xml
++++ b/presentation/src/main/res/layout/qksms_plus_activity.xml
+@@ -155,11 +155,11 @@
+ 
+             </LinearLayout>
+ 
+-            <View
++            <!--<View
+                 android:layout_width="match_parent"
+                 android:layout_height="1dp"
+                 android:layout_marginBottom="8dp"
+-                android:background="?android:attr/divider" />
++                android:background="?android:attr/divider" />-->
+ 
+             <com.moez.QKSMS.common.widget.PreferenceView
+                 android:id="@+id/themes"
+@@ -256,10 +256,10 @@
+ 
+     </androidx.core.widget.NestedScrollView>
+ 
+-    <View
++    <!--<View
+         android:layout_width="match_parent"
+         android:layout_height="1dp"
+         android:layout_gravity="bottom"
+-        android:background="?android:attr/divider" />
++        android:background="?android:attr/divider" />-->
+ 
+ </androidx.coordinatorlayout.widget.CoordinatorLayout>
+\ No newline at end of file
+diff --git a/presentation/src/main/res/layout/scheduled_activity.xml b/presentation/src/main/res/layout/scheduled_activity.xml
+index 5b5d00586..2d36284c6 100644
+--- a/presentation/src/main/res/layout/scheduled_activity.xml
++++ b/presentation/src/main/res/layout/scheduled_activity.xml
+@@ -153,10 +153,10 @@
+ 
+     <include layout="@layout/collapsing_toolbar" />
+ 
+-    <View
++    <!--<View
+         android:layout_width="match_parent"
+         android:layout_height="1dp"
+         android:layout_gravity="bottom"
+-        android:background="?android:attr/divider" />
++        android:background="?android:attr/divider" />-->
+ 
+ </androidx.coordinatorlayout.widget.CoordinatorLayout>
+\ No newline at end of file
+diff --git a/presentation/src/main/res/layout/search_list_item.xml b/presentation/src/main/res/layout/search_list_item.xml
+index 5177569b7..be2930a1a 100644
+--- a/presentation/src/main/res/layout/search_list_item.xml
++++ b/presentation/src/main/res/layout/search_list_item.xml
+@@ -38,6 +38,7 @@
+         android:layout_width="match_parent"
+         android:layout_height="1dp"
+         android:layout_marginTop="12dp"
++        android:visibility="gone"
+         android:background="?android:attr/divider"
+         app:layout_constraintTop_toTopOf="parent" />
+ 
+diff --git a/presentation/src/main/res/layout/settings_controller.xml b/presentation/src/main/res/layout/settings_controller.xml
+index 4479b6dad..fb84961fe 100644
+--- a/presentation/src/main/res/layout/settings_controller.xml
++++ b/presentation/src/main/res/layout/settings_controller.xml
+@@ -104,12 +104,12 @@
+             app:title="@string/settings_system_font_title"
+             app:widget="@layout/settings_switch_widget" />
+ 
+-        <View
++        <!--<View
+             android:layout_width="match_parent"
+             android:layout_height="1dp"
+             android:layout_marginTop="8dp"
+             android:layout_marginBottom="8dp"
+-            android:background="?android:attr/divider" />
++            android:background="?android:attr/divider" />-->
+ 
+         <com.moez.QKSMS.common.widget.QkTextView
+             style="@style/PreferenceCategory"
+@@ -201,12 +201,12 @@
+             app:title="@string/settings_mms_size_title"
+             tools:summary="100KB" />
+ 
+-        <View
++        <!--<View
+             android:layout_width="match_parent"
+             android:layout_height="1dp"
+             android:layout_marginTop="8dp"
+             android:layout_marginBottom="8dp"
+-            android:background="?android:attr/divider" />
++            android:background="?android:attr/divider" />-->
+ 
+         <com.moez.QKSMS.common.widget.PreferenceView
+             android:id="@+id/sync"
+diff --git a/presentation/src/main/res/layout/swipe_actions_controller.xml b/presentation/src/main/res/layout/swipe_actions_controller.xml
+index 71a59d4bc..b6161dc32 100644
+--- a/presentation/src/main/res/layout/swipe_actions_controller.xml
++++ b/presentation/src/main/res/layout/swipe_actions_controller.xml
+@@ -145,10 +145,10 @@
+ 
+         </androidx.constraintlayout.widget.ConstraintLayout>
+ 
+-        <View
++        <!--<View
+             android:layout_width="match_parent"
+             android:layout_height="1dp"
+-            android:background="?android:attr/divider" />
++            android:background="?android:attr/divider" />-->
+ 
+         <androidx.constraintlayout.widget.ConstraintLayout
+             android:id="@+id/left"
+diff --git a/presentation/src/main/res/layout/theme_palette_list_item.xml b/presentation/src/main/res/layout/theme_palette_list_item.xml
+index 1c8ee0cd3..43da53f6c 100644
+--- a/presentation/src/main/res/layout/theme_palette_list_item.xml
++++ b/presentation/src/main/res/layout/theme_palette_list_item.xml
+@@ -27,9 +27,9 @@
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content" />
+ 
+-    <View
++    <!--<View
+         android:layout_width="match_parent"
+         android:layout_height="1dp"
+-        android:background="?android:attr/divider" />
++        android:background="?android:attr/divider" />-->
+ 
+ </LinearLayout>
+\ No newline at end of file
+diff --git a/presentation/src/main/res/layout/theme_picker_hsv.xml b/presentation/src/main/res/layout/theme_picker_hsv.xml
+index 372525624..1c10c8f74 100644
+--- a/presentation/src/main/res/layout/theme_picker_hsv.xml
++++ b/presentation/src/main/res/layout/theme_picker_hsv.xml
+@@ -98,6 +98,7 @@
+         android:id="@+id/applyDivider"
+         android:layout_width="match_parent"
+         android:layout_height="1dp"
++        android:visibility="gone"
+         android:background="?android:attr/divider"
+         app:layout_constraintBottom_toTopOf="@id/clear" />
+ 

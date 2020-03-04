@@ -1,0 +1,180 @@
+From 7e2bcb9066f308284f0739823c18a31f1d3b5d3d Mon Sep 17 00:00:00 2001
+From: sstarlung <sstar.lung@gmail.com>
+Date: Sat, 18 Jan 2020 17:48:26 +0530
+Subject: [PATCH] Add selection animation
+
+Add a flip animation like gmail for selection state.
+
+unconv edits:
+switched to a bit more simplified icon for selected state, the original one has sharp corners and wasn't matching the UI
+---
+ .../conversations/ConversationsAdapter.kt     | 34 ++++++++++++++++++-
+ .../src/main/res/animator/flip_back.xml       | 17 ++++++++++
+ .../src/main/res/animator/flip_front.xml      | 17 ++++++++++
+ .../res/drawable/ic_check_circle_24dp.xml     |  9 +++++
+ .../res/layout/conversation_list_item.xml     | 11 ++++++
+ 5 files changed, 87 insertions(+), 1 deletion(-)
+ create mode 100644 presentation/src/main/res/animator/flip_back.xml
+ create mode 100644 presentation/src/main/res/animator/flip_front.xml
+ create mode 100644 presentation/src/main/res/drawable/ic_check_circle_24dp.xml
+
+diff --git a/presentation/src/main/java/com/moez/QKSMS/feature/conversations/ConversationsAdapter.kt b/presentation/src/main/java/com/moez/QKSMS/feature/conversations/ConversationsAdapter.kt
+index 6799dcb27..02cecd0b2 100644
+--- a/presentation/src/main/java/com/moez/QKSMS/feature/conversations/ConversationsAdapter.kt
++++ b/presentation/src/main/java/com/moez/QKSMS/feature/conversations/ConversationsAdapter.kt
+@@ -18,9 +18,12 @@
+  */
+ package com.moez.QKSMS.feature.conversations
+ 
++import android.animation.AnimatorInflater
++import android.animation.AnimatorSet
+ import android.content.Context
+ import android.graphics.Typeface
+ import android.view.LayoutInflater
++import android.view.View
+ import android.view.ViewGroup
+ import androidx.core.view.isVisible
+ import com.moez.QKSMS.R
+@@ -73,7 +76,11 @@ class ConversationsAdapter @Inject constructor(
+             view.setOnClickListener {
+                 val conversation = getItem(adapterPosition) ?: return@setOnClickListener
+                 when (toggleSelection(conversation.id, false)) {
+-                    true -> view.isActivated = isSelected(conversation.id)
++                    true -> {
++                        view.isActivated = isSelected(conversation.id)
++                        // add selection image
++                        flipAvatarPic(view)
++                    }
+                     false -> navigator.showConversation(conversation.id)
+                 }
+             }
+@@ -81,6 +88,8 @@ class ConversationsAdapter @Inject constructor(
+                 val conversation = getItem(adapterPosition) ?: return@setOnLongClickListener true
+                 toggleSelection(conversation.id)
+                 view.isActivated = isSelected(conversation.id)
++                // add selection image
++                flipAvatarPic(view)
+                 true
+             }
+         }
+@@ -89,7 +98,10 @@ class ConversationsAdapter @Inject constructor(
+     override fun onBindViewHolder(holder: QkViewHolder, position: Int) {
+         val conversation = getItem(position) ?: return
+ 
++        val origActivated = holder.containerView.isActivated
+         holder.containerView.isActivated = isSelected(conversation.id)
++        // add selection image
++        if (origActivated != holder.containerView.isActivated) flipAvatarPic(holder.containerView)
+ 
+         holder.avatars.recipients = conversation.recipients
+         holder.title.collapseEnabled = conversation.recipients.size > 1
+@@ -121,4 +133,24 @@ class ConversationsAdapter @Inject constructor(
+     override fun getItemViewType(position: Int): Int {
+         return if (getItem(position)?.unread == false) 0 else 1
+     }
++
++    // add selection image
++    private fun flipAvatarPic(parentView: View) {
++        if (parentView.isActivated) {
++            animatorFlipViews(parentView.avatars, parentView.checked)
++        } else {
++            animatorFlipViews(parentView.checked, parentView.avatars)
++        }
++    }
++
++    private fun animatorFlipViews(oldView: View, newView: View) {
++        val animatorSetOldView = AnimatorInflater.loadAnimator(oldView.context, R.animator.flip_front) as AnimatorSet
++        animatorSetOldView.setTarget(oldView)
++        val animatorSetNewView = AnimatorInflater.loadAnimator(newView.context, R.animator.flip_back) as AnimatorSet
++        animatorSetNewView.setTarget(newView)
++
++        val combAnimatorSet = AnimatorSet()
++        combAnimatorSet.playSequentially(animatorSetOldView,animatorSetNewView)
++        combAnimatorSet.start()
++    }
+ }
+diff --git a/presentation/src/main/res/animator/flip_back.xml b/presentation/src/main/res/animator/flip_back.xml
+new file mode 100644
+index 000000000..44a13a1f5
+--- /dev/null
++++ b/presentation/src/main/res/animator/flip_back.xml
+@@ -0,0 +1,17 @@
++<?xml version="1.0" encoding="utf-8"?>
++<set xmlns:android="http://schemas.android.com/apk/res/android" android:ordering="sequentially">
++    <!-- Before rotating, immediately set the alpha to 1. -->
++    <objectAnimator
++        android:valueFrom="0.0"
++        android:valueTo="1.0"
++        android:propertyName="alpha"
++        android:duration="0" />
++
++    <!-- Rotate. -->
++    <objectAnimator
++        android:valueFrom="90"
++        android:valueTo="0"
++        android:propertyName="rotationY"
++        android:interpolator="@android:interpolator/accelerate_decelerate"
++        android:duration="200" />
++</set>
+\ No newline at end of file
+diff --git a/presentation/src/main/res/animator/flip_front.xml b/presentation/src/main/res/animator/flip_front.xml
+new file mode 100644
+index 000000000..75ec3d142
+--- /dev/null
++++ b/presentation/src/main/res/animator/flip_front.xml
+@@ -0,0 +1,17 @@
++<?xml version="1.0" encoding="utf-8"?>
++<set xmlns:android="http://schemas.android.com/apk/res/android" android:ordering="sequentially">
++    <!-- Rotate. -->
++    <objectAnimator
++        android:valueFrom="0"
++        android:valueTo="-90"
++        android:propertyName="rotationY"
++        android:interpolator="@android:interpolator/accelerate_decelerate"
++        android:duration="200" />
++
++    <!-- After rotation, set the alpha to 0. -->
++    <objectAnimator
++        android:valueFrom="1.0"
++        android:valueTo="0.0"
++        android:propertyName="alpha"
++        android:duration="1" />
++</set>
+\ No newline at end of file
+diff --git a/presentation/src/main/res/drawable/ic_check_circle_24dp.xml b/presentation/src/main/res/drawable/ic_check_circle_24dp.xml
+new file mode 100644
+index 000000000..705aec406
+--- /dev/null
++++ b/presentation/src/main/res/drawable/ic_check_circle_24dp.xml
+@@ -0,0 +1,9 @@
++<vector xmlns:android="http://schemas.android.com/apk/res/android"
++    android:width="24dp"
++    android:height="24dp"
++    android:viewportWidth="24"
++    android:viewportHeight="24">
++  <path
++      android:fillColor="@color/tools_theme"
++      android:pathData="M12,2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2zM9.29,16.29L5.7,12.7c-0.39,-0.39 -0.39,-1.02 0,-1.41 0.39,-0.39 1.02,-0.39 1.41,0L10,14.17l6.88,-6.88c0.39,-0.39 1.02,-0.39 1.41,0 0.39,0.39 0.39,1.02 0,1.41l-7.59,7.59c-0.38,0.39 -1.02,0.39 -1.41,0z"/>
++</vector>
+diff --git a/presentation/src/main/res/layout/conversation_list_item.xml b/presentation/src/main/res/layout/conversation_list_item.xml
+index 2cf5f642b..13baff0c7 100644
+--- a/presentation/src/main/res/layout/conversation_list_item.xml
++++ b/presentation/src/main/res/layout/conversation_list_item.xml
+@@ -30,6 +30,17 @@
+     android:paddingEnd="16dp"
+     android:paddingBottom="8dp">
+ 
++    <ImageView
++        android:id="@+id/checked"
++        android:layout_width="48dp"
++        android:layout_height="48dp"
++        android:alpha="0"
++        app:layout_constraintBottom_toBottomOf="parent"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toTopOf="parent"
++        app:layout_constraintVertical_bias="0"
++        app:srcCompat="@drawable/ic_check_circle_24dp" />
++
+     <com.moez.QKSMS.common.widget.GroupAvatarView
+         android:id="@+id/avatars"
+         android:layout_width="56dp"

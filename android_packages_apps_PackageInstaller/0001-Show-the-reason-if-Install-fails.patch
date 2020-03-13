@@ -1,0 +1,51 @@
+From dbb6dc0a3a2d9b0828ac57cf6a3e83fac78b1cb6 Mon Sep 17 00:00:00 2001
+From: George Zacharia <george.zcharia@gmail.com>
+Date: Thu, 27 Feb 2020 18:21:45 +0530
+Subject: [PATCH] Show the reason if Install fails
+
+Is not always possible to go into logcat to check for the failure reason.
+---
+ res/layout/install_failed.xml                       | 7 +++++++
+ src/com/android/packageinstaller/InstallFailed.java | 4 ++++
+ 2 files changed, 11 insertions(+)
+
+diff --git a/res/layout/install_failed.xml b/res/layout/install_failed.xml
+index d000ee9a..3dd0a9a8 100644
+--- a/res/layout/install_failed.xml
++++ b/res/layout/install_failed.xml
+@@ -67,6 +67,13 @@
+                 android:layout_height="wrap_content"
+                 android:textAppearance="?android:attr/textAppearanceMedium" />
+ 
++        <TextView
++            android:id="@+id/not_so_simple_status"
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content"
++            android:paddingTop="8dip"
++            android:textAppearance="?android:attr/textAppearanceMedium" />
++
+     </LinearLayout>
+ 
+     <LinearLayout android:id="@+id/buttons_panel"
+diff --git a/src/com/android/packageinstaller/InstallFailed.java b/src/com/android/packageinstaller/InstallFailed.java
+index a972fb0b..8fcaedbc 100644
+--- a/src/com/android/packageinstaller/InstallFailed.java
++++ b/src/com/android/packageinstaller/InstallFailed.java
+@@ -74,6 +74,8 @@ public class InstallFailed extends Activity {
+         int statusCode = getIntent().getIntExtra(PackageInstaller.EXTRA_STATUS,
+                 PackageInstaller.STATUS_FAILURE);
+ 
++        String statusMessage = getIntent().getStringExtra(PackageInstaller.EXTRA_STATUS_MESSAGE);
++
+         if (getIntent().getBooleanExtra(Intent.EXTRA_RETURN_RESULT, false)) {
+             int legacyStatus = getIntent().getIntExtra(PackageInstaller.EXTRA_LEGACY_STATUS,
+                     PackageManager.INSTALL_FAILED_INTERNAL_ERROR);
+@@ -117,6 +119,8 @@ public class InstallFailed extends Activity {
+             ((TextView) findViewById(R.id.simple_status)).setText(
+                     getExplanationFromErrorCode(statusCode));
+ 
++            ((TextView) findViewById(R.id.not_so_simple_status)).setText(statusMessage);
++
+             // Set up "done" button
+             findViewById(R.id.done_button).setOnClickListener(view -> finish());
+         }

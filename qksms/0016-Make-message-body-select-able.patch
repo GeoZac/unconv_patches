@@ -1,0 +1,61 @@
+From e908d21175c1a535ab41acaabd7919fe8c8f6401 Mon Sep 17 00:00:00 2001
+From: George Zacharia <george.zcharia@gmail.com>
+Date: Sun, 1 Mar 2020 01:27:45 +0530
+Subject: [PATCH] Make message body select-able
+
+---
+ .../main/java/com/moez/QKSMS/feature/compose/MessagesAdapter.kt | 2 +-
+ presentation/src/main/res/layout/message_list_item_in.xml       | 1 +
+ presentation/src/main/res/layout/message_list_item_out.xml      | 1 +
+ .../src/main/res/layout/scheduled_message_list_item.xml         | 1 +
+ 4 files changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/presentation/src/main/java/com/moez/QKSMS/feature/compose/MessagesAdapter.kt b/presentation/src/main/java/com/moez/QKSMS/feature/compose/MessagesAdapter.kt
+index 2f80b4adf..3d84dde37 100644
+--- a/presentation/src/main/java/com/moez/QKSMS/feature/compose/MessagesAdapter.kt
++++ b/presentation/src/main/java/com/moez/QKSMS/feature/compose/MessagesAdapter.kt
+@@ -154,7 +154,7 @@ class MessagesAdapter @Inject constructor(
+         partsAdapter.clicks.subscribe(partClicks)
+         binding.attachments.adapter = partsAdapter
+         binding.attachments.setRecycledViewPool(partsViewPool)
+-        binding.body.forwardTouches(view)
++        // binding.body.forwardTouches(view)
+ 
+         return QkViewHolder(binding).apply {
+             view.setOnClickListener {
+diff --git a/presentation/src/main/res/layout/message_list_item_in.xml b/presentation/src/main/res/layout/message_list_item_in.xml
+index efea1e80c..7d60069c8 100644
+--- a/presentation/src/main/res/layout/message_list_item_in.xml
++++ b/presentation/src/main/res/layout/message_list_item_in.xml
+@@ -98,6 +98,7 @@
+         android:background="@drawable/message_only"
+         android:gravity="start|center_vertical"
+         android:minHeight="36dp"
++        android:textIsSelectable="true"
+         app:layout_constrainedWidth="true"
+         app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintHorizontal_bias="0"
+diff --git a/presentation/src/main/res/layout/message_list_item_out.xml b/presentation/src/main/res/layout/message_list_item_out.xml
+index 6a9bcfe95..f6cec756c 100644
+--- a/presentation/src/main/res/layout/message_list_item_out.xml
++++ b/presentation/src/main/res/layout/message_list_item_out.xml
+@@ -97,6 +97,7 @@
+         android:backgroundTint="?attr/bubbleColor"
+         android:gravity="start|center_vertical"
+         android:minHeight="36dp"
++        android:textIsSelectable="true"
+         app:layout_constrainedWidth="true"
+         app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintHorizontal_bias="1"
+diff --git a/presentation/src/main/res/layout/scheduled_message_list_item.xml b/presentation/src/main/res/layout/scheduled_message_list_item.xml
+index 6520ea741..7c4724125 100644
+--- a/presentation/src/main/res/layout/scheduled_message_list_item.xml
++++ b/presentation/src/main/res/layout/scheduled_message_list_item.xml
+@@ -67,6 +67,7 @@
+         android:layout_width="0dp"
+         android:layout_height="wrap_content"
+         android:layout_marginTop="2dp"
++        android:textIsSelectable="true"
+         app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintStart_toStartOf="@id/recipients"
+         app:layout_constraintTop_toBottomOf="@id/date"

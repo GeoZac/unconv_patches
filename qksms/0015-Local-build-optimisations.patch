@@ -1,0 +1,58 @@
+From df9642425628adea8b3e906bf353195acd99a1cb Mon Sep 17 00:00:00 2001
+From: George Zacharia <george.zcharia@gmail.com>
+Date: Fri, 6 Mar 2020 09:39:14 +0530
+Subject: [PATCH] Local build optimisations
+
+Optimise APK size
+> Build only for arm64 arch
+> zipalign APK
+> Discard translations
+---
+ presentation/build.gradle | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
+
+diff --git a/presentation/build.gradle b/presentation/build.gradle
+index 2517fd48..72bf23ac 100644
+--- a/presentation/build.gradle
++++ b/presentation/build.gradle
+@@ -35,10 +35,32 @@ android {
+         versionName "3.8.1"
+         setProperty("archivesBaseName", "QKSMS-v${versionName}")
+         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
++        resConfigs "en"
+ 
+         setProperty("archivesBaseName", "QKSMS-v${versionName}")
+     }
+ 
++    splits {
++        // Configures multiple APKs based on ABI.
++        abi {
++
++            // Enables building multiple APKs per ABI.
++            enable true
++
++            // By default all ABIs are included, so use reset()
++            // Resets the list of ABIs that Gradle should create APKs for to none.
++            reset()
++
++            // Specifies a list of ABIs that Gradle should create APKs for.
++            include 'arm64-v8a'
++
++            // Specifies that we do not want to also generate a universal APK that includes all ABIs.
++            universalApk false
++        }
++    }
++
++
++
+     signingConfigs {
+         release
+     }
+@@ -47,6 +69,7 @@ android {
+         release {
+             minifyEnabled true
+             shrinkResources true
++            zipAlignEnabled true
+             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+             signingConfig signingConfigs.release
+         }

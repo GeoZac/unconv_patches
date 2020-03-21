@@ -1,0 +1,707 @@
+From 02000cf779021d2abe7209d2458aaf5b779e37b6 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?eray=20or=C3=A7unus?= <erayorcunus@gmail.com>
+Date: Tue, 23 Apr 2019 16:46:35 +0300
+Subject: [PATCH] SystemUI: Enable and fix QS detail view, adapt layout to 10
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+* Re-enabling dual-target(detail view) was easy as pie, but layout was from Oreo
+  and DND tile was broken.
+
+* I've applied QS Customize layout to details view to match it with Pie look.
+
+* DND showDetail function was overriden to show new EnableZenModeDialog.
+  New dialog's implementation were taken from old detail view, so I've disabled
+  the new one, added the only new thing (priority-but-alarm-disabled warning text)
+  to old one and enabled it.
+
+* DND tile will still respect "Ask duration every time" setting and ask duration to
+  the user, but this time with detail view.
+
+* Squashes in the follow commits:
+
+Author: Chengzhi.Hou <hcz017@gmail.com>
+Date:   Fri May 11 12:26:56 2018 +0800
+
+    SystemUI: Enable dualTarget on CellularTile
+
+    * To show DataUsageDetailView
+
+    Change-Id: If09b4ac51bb6df01b8ea9f59bccf123de65da8cf
+
+Author: LuK1337 <priv.luk@gmail.com>
+Date:   Sat Jun 23 13:18:27 2018 +0200
+
+    SystemUI: CellularTile: Don't call showDetail() when device is locked
+
+    * We recently enabled dualTarget for CellularTile which allowed us
+      to toggle mobile data without unlocking device. Moving showDetail
+      call to postQSRunnableDismissingKeyguard when the device is locked
+      fixes this issue.
+
+    Change-Id: I16dc766166a33a309a2fc945e81fa15b5d194196
+
+Author: Paul Keith <javelinanddart@gmail.com>
+Date:   Wed Jun 27 18:28:22 2018 +0200
+
+    SystemUI: Fix Data Usage tile to match Settings
+
+    Change-Id: Ieff3504baf3d13c77d06fcde87d5ac56d2586194
+
+Author: eray orçunus <erayorcunus@gmail.com>
+Date:   Fri Apr 26 00:15:30 2019 +0300
+
+    SystemUI: Fix several layout bugs
+
+    * QSDetail and QSCustomize panels' clippers starts after the black
+      header, but the ripple animation coords were wrong.
+
+    * QSDetail and QSCustomize use a transparent view to let QS header
+      be seen. Header's height changes with orientation, but QSDetail
+      and QSCustomize do nothing about it.
+      As a result, there were gaps or blocked views.
+
+    Change-Id: I5cefad14b519be99adcf5c913e96385d45b8fb17
+    Signed-off-by: eray orçunus <erayorcunus@gmail.com>
+
+Author: Dan Pasanen <dan.pasanen@gmail.com>
+Date:   Wed Nov 6 15:01:32 2019 -0600
+
+    SystemUI: Convert tiles to use UnlockMethodCache#canSkipBouncer
+
+     * This updates the API following commit aaba8ef2.
+
+    Change-Id: I4932a3e023a40e362e81fd74f2921e9cb472ebf3
+
+Change-Id: I5ecb419fbf699be33494d0a9cc215914d90004bd
+---
+ .../res/drawable/qs_detail_toolbar.xml        | 23 ++++++
+ packages/SystemUI/res/layout/qs_detail.xml    | 60 ++++++++------
+ .../SystemUI/res/layout/qs_detail_buttons.xml |  9 +--
+ .../SystemUI/res/layout/qs_detail_header.xml  |  8 +-
+ .../SystemUI/res/layout/qs_detail_item.xml    |  4 +-
+ .../SystemUI/res/layout/qs_detail_items.xml   |  1 +
+ .../SystemUI/res/values-sw410dp/dimens.xml    |  2 -
+ packages/SystemUI/res/values/dimens.xml       |  2 +-
+ packages/SystemUI/res/values/styles.xml       | 10 ++-
+ .../src/com/android/systemui/qs/QSDetail.java | 11 ++-
+ .../src/com/android/systemui/qs/QSPanel.java  |  5 +-
+ .../systemui/qs/tiles/CellularTile.java       | 13 +++-
+ .../qs/tiles/DataUsageDetailView.java         |  4 +
+ .../android/systemui/qs/tiles/DndTile.java    | 78 ++++++++++++-------
+ .../statusbar/policy/ZenModeController.java   |  3 +-
+ .../policy/ZenModeControllerImpl.java         |  6 ++
+ .../android/systemui/volume/ZenModePanel.java |  9 ++-
+ 17 files changed, 166 insertions(+), 82 deletions(-)
+ create mode 100644 packages/SystemUI/res/drawable/qs_detail_toolbar.xml
+
+diff --git a/packages/SystemUI/res/drawable/qs_detail_toolbar.xml b/packages/SystemUI/res/drawable/qs_detail_toolbar.xml
+new file mode 100644
+index 00000000000..557cae15030
+--- /dev/null
++++ b/packages/SystemUI/res/drawable/qs_detail_toolbar.xml
+@@ -0,0 +1,23 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!-- Copyright (C) 2014 The Android Open Source Project
++
++     Licensed under the Apache License, Version 2.0 (the "License");
++     you may not use this file except in compliance with the License.
++     You may obtain a copy of the License at
++
++          http://www.apache.org/licenses/LICENSE-2.0
++
++     Unless required by applicable law or agreed to in writing, software
++     distributed under the License is distributed on an "AS IS" BASIS,
++     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++     See the License for the specific language governing permissions and
++     limitations under the License.
++-->
++<inset xmlns:android="http://schemas.android.com/apk/res/android">
++    <shape>
++        <solid android:color="?android:attr/colorSecondary"/>
++        <corners
++            android:topLeftRadius="?android:attr/dialogCornerRadius"
++            android:topRightRadius="?android:attr/dialogCornerRadius" />
++    </shape>
++</inset>
+diff --git a/packages/SystemUI/res/layout/qs_detail.xml b/packages/SystemUI/res/layout/qs_detail.xml
+index 294bd50fcf8..808d3f8bde7 100644
+--- a/packages/SystemUI/res/layout/qs_detail.xml
++++ b/packages/SystemUI/res/layout/qs_detail.xml
+@@ -19,7 +19,6 @@
+     xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
+-    android:background="@drawable/qs_detail_background"
+     android:clickable="true"
+     android:orientation="vertical"
+     android:paddingBottom="8dp"
+@@ -27,35 +26,50 @@
+     android:elevation="4dp"
+     android:importantForAccessibility="no" >
+ 
+-    <include
+-        android:id="@+id/qs_detail_header"
+-        layout="@layout/qs_detail_header"
++    <View
++        android:id="@+id/qs_detail_top_space"
+         android:layout_width="match_parent"
+-        android:layout_height="wrap_content"
+-        />
++        android:layout_height="@*android:dimen/quick_qs_offset_height"
++        android:background="@android:color/transparent" />
+ 
+-    <com.android.systemui.statusbar.AlphaOptimizedImageView
+-        android:id="@+id/qs_detail_header_progress"
+-        android:layout_width="match_parent"
+-        android:layout_height="wrap_content"
+-        android:alpha="0"
+-        android:background="@color/qs_detail_progress_track"
+-        android:src="@drawable/indeterminate_anim"
+-        android:scaleType="fitXY"
+-        />
+-
+-    <com.android.systemui.qs.NonInterceptingScrollView
++    <com.android.keyguard.AlphaOptimizedLinearLayout
++        android:id="@+id/detail_container"
+         android:layout_width="match_parent"
+         android:layout_height="0dp"
+         android:layout_weight="1"
+-        android:fillViewport="true">
++        android:orientation="vertical"
++        android:background="@drawable/qs_detail_background">
++
++        <include
++            android:id="@+id/qs_detail_header"
++            layout="@layout/qs_detail_header"
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            />
+ 
+-        <FrameLayout
+-            android:id="@android:id/content"
++        <com.android.systemui.statusbar.AlphaOptimizedImageView
++            android:id="@+id/qs_detail_header_progress"
+             android:layout_width="match_parent"
+-            android:layout_height="match_parent"/>
+-    </com.android.systemui.qs.NonInterceptingScrollView>
++            android:layout_height="wrap_content"
++            android:alpha="0"
++            android:background="@color/qs_detail_progress_track"
++            android:src="@drawable/indeterminate_anim"
++            android:scaleType="fitXY"
++            />
++
++        <com.android.systemui.qs.NonInterceptingScrollView
++            android:layout_width="match_parent"
++            android:layout_height="0dp"
++            android:layout_weight="1"
++            android:fillViewport="true">
++
++            <FrameLayout
++                android:id="@android:id/content"
++                android:layout_width="match_parent"
++                android:layout_height="match_parent"/>
++        </com.android.systemui.qs.NonInterceptingScrollView>
+ 
+-    <include layout="@layout/qs_detail_buttons" />
++        <include layout="@layout/qs_detail_buttons" />
++    </com.android.keyguard.AlphaOptimizedLinearLayout>
+ 
+ </com.android.systemui.qs.QSDetail>
+diff --git a/packages/SystemUI/res/layout/qs_detail_buttons.xml b/packages/SystemUI/res/layout/qs_detail_buttons.xml
+index 75f43f9a580..f5930469c68 100644
+--- a/packages/SystemUI/res/layout/qs_detail_buttons.xml
++++ b/packages/SystemUI/res/layout/qs_detail_buttons.xml
+@@ -17,17 +17,16 @@
+ <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+-    android:paddingEnd="8dp"
+-    android:gravity="end">
++    android:layout_marginEnd="@dimen/notification_guts_button_side_margin"
++    android:gravity="end"
++    android:orientation="horizontal">
+ 
+     <TextView
+         android:id="@android:id/button2"
+         style="@style/QSBorderlessButton"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+-        android:layout_marginEnd="8dp"
+         android:minHeight="48dp"
+-        android:minWidth="132dp"
+         android:textAppearance="@style/TextAppearance.QS.DetailButton"
+         android:focusable="true" />
+ 
+@@ -37,7 +36,7 @@
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:minHeight="48dp"
+-        android:minWidth="88dp"
++        android:layout_marginStart="@dimen/notification_guts_button_horizontal_spacing"
+         android:textAppearance="@style/TextAppearance.QS.DetailButton"
+         android:focusable="true"/>
+ 
+diff --git a/packages/SystemUI/res/layout/qs_detail_header.xml b/packages/SystemUI/res/layout/qs_detail_header.xml
+index a1f0ee75c23..f3feda45547 100644
+--- a/packages/SystemUI/res/layout/qs_detail_header.xml
++++ b/packages/SystemUI/res/layout/qs_detail_header.xml
+@@ -19,17 +19,13 @@
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     android:paddingLeft="@dimen/qs_detail_header_padding"
+-    android:paddingTop="@dimen/qs_detail_header_padding"
++    android:paddingTop="@dimen/qs_detail_items_padding_top"
+     android:paddingBottom="@dimen/qs_detail_items_padding_top"
+     android:paddingEnd="@dimen/qs_panel_padding"
+-    android:background="@drawable/btn_borderless_rect"
++    android:background="@drawable/qs_detail_toolbar"
+     android:orientation="vertical"
+     android:gravity="center">
+ 
+-    <com.android.systemui.ResizingSpace
+-        android:layout_width="match_parent"
+-        android:layout_height="@dimen/qs_detail_margin_top" />
+-
+     <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+diff --git a/packages/SystemUI/res/layout/qs_detail_item.xml b/packages/SystemUI/res/layout/qs_detail_item.xml
+index 0844bb46d53..ad091c2f310 100644
+--- a/packages/SystemUI/res/layout/qs_detail_item.xml
++++ b/packages/SystemUI/res/layout/qs_detail_item.xml
+@@ -30,7 +30,7 @@
+         android:layout_height="@dimen/qs_detail_item_icon_size"
+         android:layout_marginStart="@dimen/qs_detail_item_icon_marginStart"
+         android:layout_marginEnd="@dimen/qs_detail_item_icon_marginEnd"
+-        android:tint="?android:attr/textColorPrimary"/>
++        android:tint="?android:attr/textColorSecondary"/>
+ 
+     <LinearLayout
+         android:layout_width="0dp"
+@@ -65,6 +65,6 @@
+         android:focusable="true"
+         android:scaleType="center"
+         android:contentDescription="@*android:string/media_route_controller_disconnect"
+-        android:tint="?android:attr/textColorPrimary" />
++        android:tint="?android:attr/textColorSecondary" />
+ 
+ </LinearLayout>
+diff --git a/packages/SystemUI/res/layout/qs_detail_items.xml b/packages/SystemUI/res/layout/qs_detail_items.xml
+index 60cba67cf3d..51efe6c89ba 100644
+--- a/packages/SystemUI/res/layout/qs_detail_items.xml
++++ b/packages/SystemUI/res/layout/qs_detail_items.xml
+@@ -20,6 +20,7 @@
+     xmlns:sysui="http://schemas.android.com/apk/res-auto"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
++    android:paddingTop="8dp"
+     android:paddingStart="@dimen/qs_detail_padding_start"
+     android:paddingEnd="16dp">
+ 
+diff --git a/packages/SystemUI/res/values-sw410dp/dimens.xml b/packages/SystemUI/res/values-sw410dp/dimens.xml
+index 6780dca130b..6036b962bdc 100644
+--- a/packages/SystemUI/res/values-sw410dp/dimens.xml
++++ b/packages/SystemUI/res/values-sw410dp/dimens.xml
+@@ -20,8 +20,6 @@
+ <!-- These resources are around just to allow their values to be customized
+      for different hardware and product builds. -->
+ <resources>
+-    <dimen name="qs_detail_items_padding_top">16dp</dimen>
+-
+     <!-- Global actions grid -->
+     <dimen name="global_actions_grid_vertical_padding">8dp</dimen>
+     <dimen name="global_actions_grid_horizontal_padding">4dp</dimen>
+diff --git a/packages/SystemUI/res/values/dimens.xml b/packages/SystemUI/res/values/dimens.xml
+index a4eae270ce5..3458ef4af57 100644
+--- a/packages/SystemUI/res/values/dimens.xml
++++ b/packages/SystemUI/res/values/dimens.xml
+@@ -496,7 +496,7 @@
+     <dimen name="qs_data_usage_usage_text_size">36sp</dimen>
+     <dimen name="qs_battery_padding">2dp</dimen>
+     <dimen name="qs_detail_padding_start">16dp</dimen>
+-    <dimen name="qs_detail_items_padding_top">4dp</dimen>
++    <dimen name="qs_detail_items_padding_top">16dp</dimen>
+     <dimen name="qs_detail_item_icon_size">24dp</dimen>
+     <dimen name="qs_detail_item_icon_width">32dp</dimen>
+     <dimen name="qs_detail_item_icon_marginStart">0dp</dimen>
+diff --git a/packages/SystemUI/res/values/styles.xml b/packages/SystemUI/res/values/styles.xml
+index 6374191c4d7..476c051edac 100644
+--- a/packages/SystemUI/res/values/styles.xml
++++ b/packages/SystemUI/res/values/styles.xml
+@@ -144,6 +144,7 @@
+ 
+     <style name="TextAppearance.QS.DetailHeader">
+         <item name="android:textSize">@dimen/qs_detail_header_text_size</item>
++        <item name="android:textColor">?android:attr/colorAccent</item>
+         <item name="android:fontFamily">@*android:string/config_bodyFontFamilyMedium</item>
+     </style>
+ 
+@@ -153,7 +154,7 @@
+ 
+     <style name="TextAppearance.QS.DetailItemSecondary">
+         <item name="android:textSize">@dimen/qs_detail_item_secondary_text_size</item>
+-        <item name="android:textColor">?android:attr/colorAccent</item>
++        <item name="android:textColor">?android:attr/textColorSecondary</item>
+     </style>
+ 
+     <style name="TextAppearance.QS.Introduction">
+@@ -168,10 +169,13 @@
+ 
+     <style name="TextAppearance.QS.DetailButton">
+         <item name="android:textSize">@dimen/qs_detail_button_text_size</item>
+-        <item name="android:textColor">?android:attr/textColorSecondary</item>
+-        <item name="android:textAllCaps">true</item>
++        <item name="android:textColor">?android:attr/colorAccent</item>
+         <item name="android:fontFamily">@*android:string/config_bodyFontFamilyMedium</item>
+         <item name="android:gravity">center</item>
++        <item name="android:paddingTop">@dimen/notification_guts_button_vertical_padding</item>
++        <item name="android:paddingBottom">@dimen/notification_guts_button_vertical_padding</item>
++        <item name="android:paddingLeft">@dimen/notification_guts_button_horizontal_padding</item>
++        <item name="android:paddingRight">@dimen/notification_guts_button_horizontal_padding</item>
+     </style>
+ 
+     <style name="TextAppearance.QS.DetailButton.White">
+diff --git a/packages/SystemUI/src/com/android/systemui/qs/QSDetail.java b/packages/SystemUI/src/com/android/systemui/qs/QSDetail.java
+index 496aa0e572a..a9dadecf88a 100644
+--- a/packages/SystemUI/src/com/android/systemui/qs/QSDetail.java
++++ b/packages/SystemUI/src/com/android/systemui/qs/QSDetail.java
+@@ -61,6 +61,7 @@ public class QSDetail extends LinearLayout {
+     protected TextView mQsDetailHeaderTitle;
+     protected Switch mQsDetailHeaderSwitch;
+     protected ImageView mQsDetailHeaderProgress;
++    protected View mQsDetailTopSpace;
+ 
+     protected QSTileHost mHost;
+ 
+@@ -88,6 +89,12 @@ public class QSDetail extends LinearLayout {
+         for (int i = 0; i < mDetailViews.size(); i++) {
+             mDetailViews.valueAt(i).dispatchConfigurationChanged(newConfig);
+         }
++
++        // Update top space height in orientation change
++        mQsDetailTopSpace.getLayoutParams().height =
++                mContext.getResources().getDimensionPixelSize(
++                        com.android.internal.R.dimen.quick_qs_offset_height);
++        mQsDetailTopSpace.setLayoutParams(mQsDetailTopSpace.getLayoutParams());
+     }
+ 
+     @Override
+@@ -101,10 +108,11 @@ public class QSDetail extends LinearLayout {
+         mQsDetailHeaderTitle = (TextView) mQsDetailHeader.findViewById(android.R.id.title);
+         mQsDetailHeaderSwitch = (Switch) mQsDetailHeader.findViewById(android.R.id.toggle);
+         mQsDetailHeaderProgress = findViewById(R.id.qs_detail_header_progress);
++        mQsDetailTopSpace = findViewById(R.id.qs_detail_top_space);
+ 
+         updateDetailText();
+ 
+-        mClipper = new QSDetailClipper(this);
++        mClipper = new QSDetailClipper(findViewById(R.id.detail_container));
+ 
+         final OnClickListener doneListener = new OnClickListener() {
+             @Override
+@@ -355,7 +363,6 @@ public class QSDetail extends LinearLayout {
+             // Only hide content if still in detail state.
+             if (mDetailAdapter != null) {
+                 mQsPanel.setGridContentVisibility(false);
+-                mHeader.setVisibility(View.INVISIBLE);
+                 mFooter.setVisibility(View.INVISIBLE);
+             }
+             mAnimatingOpen = false;
+diff --git a/packages/SystemUI/src/com/android/systemui/qs/QSPanel.java b/packages/SystemUI/src/com/android/systemui/qs/QSPanel.java
+index be60899113d..9708080ba09 100644
+--- a/packages/SystemUI/src/com/android/systemui/qs/QSPanel.java
++++ b/packages/SystemUI/src/com/android/systemui/qs/QSPanel.java
+@@ -651,7 +651,8 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
+                     if (!mCustomizePanel.isCustomizing()) {
+                         int[] loc = v.getLocationOnScreen();
+                         int x = loc[0] + v.getWidth() / 2;
+-                        int y = loc[1] + v.getHeight() / 2;
++                        // we subtract getTop, because Pie clipper starts after black area
++                        int y = loc[1] + v.getHeight() / 2 - getTop();
+                         mCustomizePanel.show(x, y);
+                     }
+                 }
+@@ -696,7 +697,7 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
+         }
+         r.tile.setDetailListening(show);
+         int x = r.tileView.getLeft() + r.tileView.getWidth() / 2;
+-        int y = r.tileView.getDetailY() + mTileLayout.getOffsetTop(r) + getTop();
++        int y = r.tileView.getDetailY() + mTileLayout.getOffsetTop(r);
+         handleShowDetailImpl(r, show, x, y);
+     }
+ 
+diff --git a/packages/SystemUI/src/com/android/systemui/qs/tiles/CellularTile.java b/packages/SystemUI/src/com/android/systemui/qs/tiles/CellularTile.java
+index ca13fc66cce..cab5db63844 100644
+--- a/packages/SystemUI/src/com/android/systemui/qs/tiles/CellularTile.java
++++ b/packages/SystemUI/src/com/android/systemui/qs/tiles/CellularTile.java
+@@ -48,6 +48,7 @@ import com.android.systemui.qs.QSHost;
+ import com.android.systemui.qs.SignalTileView;
+ import com.android.systemui.qs.tileimpl.QSTileImpl;
+ import com.android.systemui.statusbar.phone.SystemUIDialog;
++import com.android.systemui.statusbar.phone.UnlockMethodCache;
+ import com.android.systemui.statusbar.policy.KeyguardMonitor;
+ import com.android.systemui.statusbar.policy.NetworkController;
+ import com.android.systemui.statusbar.policy.NetworkController.IconState;
+@@ -67,16 +68,18 @@ public class CellularTile extends QSTileImpl<SignalState> {
+     private final ActivityStarter mActivityStarter;
+     private final KeyguardMonitor mKeyguardMonitor;
+     private final KeyguardCallback mKeyguardCallback = new KeyguardCallback();
++    private final UnlockMethodCache mUnlockMethodCache;
+ 
+     @Inject
+     public CellularTile(QSHost host, NetworkController networkController,
+-            ActivityStarter activityStarter) {
++            ActivityStarter activityStarter, KeyguardMonitor keyguardMonitor) {
+         super(host);
+         mController = networkController;
+         mActivityStarter = activityStarter;
++        mKeyguardMonitor = keyguardMonitor;
++        mUnlockMethodCache = UnlockMethodCache.getInstance(mHost.getContext());
+         mDataController = mController.getMobileDataController();
+         mDetailAdapter = new CellularDetailAdapter();
+-        mKeyguardMonitor = Dependency.get(KeyguardMonitor.class);
+         mController.observe(getLifecycle(), mSignalCallback);
+     }
+ 
+@@ -163,10 +166,12 @@ public class CellularTile extends QSTileImpl<SignalState> {
+ 
+     @Override
+     protected void handleSecondaryClick() {
++        if (getState().state == Tile.STATE_UNAVAILABLE) {
++            return;
++        }
+         if (mDataController.isMobileDataSupported()) {
+-            if (mKeyguardMonitor.isSecure() && mKeyguardMonitor.isShowing()) {
++            if (mKeyguardMonitor.isSecure() && mKeyguardMonitor.isShowing() && !mUnlockMethodCache.canSkipBouncer()) {
+                 Dependency.get(ActivityStarter.class).postQSRunnableDismissingKeyguard(() -> {
+-                    mHost.openPanels();
+                     showDetail(true);
+                 });
+                 return;
+diff --git a/packages/SystemUI/src/com/android/systemui/qs/tiles/DataUsageDetailView.java b/packages/SystemUI/src/com/android/systemui/qs/tiles/DataUsageDetailView.java
+index 6082f1c6a70..2cfb664659c 100644
+--- a/packages/SystemUI/src/com/android/systemui/qs/tiles/DataUsageDetailView.java
++++ b/packages/SystemUI/src/com/android/systemui/qs/tiles/DataUsageDetailView.java
+@@ -41,6 +41,10 @@ import java.text.DecimalFormat;
+  */
+ public class DataUsageDetailView extends LinearLayout {
+ 
++    private static final double KB = 1000;
++    private static final double MB = 1000 * KB;
++    private static final double GB = 1000 * MB;
++
+     private final DecimalFormat FORMAT = new DecimalFormat("#.##");
+ 
+     public DataUsageDetailView(Context context, AttributeSet attrs) {
+diff --git a/packages/SystemUI/src/com/android/systemui/qs/tiles/DndTile.java b/packages/SystemUI/src/com/android/systemui/qs/tiles/DndTile.java
+index bf25180e049..04b82db6b71 100644
+--- a/packages/SystemUI/src/com/android/systemui/qs/tiles/DndTile.java
++++ b/packages/SystemUI/src/com/android/systemui/qs/tiles/DndTile.java
+@@ -66,6 +66,10 @@ import javax.inject.Inject;
+ /** Quick settings tile: Do not disturb **/
+ public class DndTile extends QSTileImpl<BooleanState> {
+ 
++    private static final int DONT_SHOW_DETAILS = 0;
++    private static final int SHOW_DETAILS_IF_DURATION_HAS_TO_BE_CHOSEN = 1;
++    private static final int SHOW_DETAILS = 2;
++
+     private static final Intent ZEN_SETTINGS =
+             new Intent(Settings.ACTION_ZEN_MODE_SETTINGS);
+ 
+@@ -142,12 +146,11 @@ public class DndTile extends QSTileImpl<BooleanState> {
+         if (mState.value) {
+             mController.setZen(ZEN_MODE_OFF, null, TAG);
+         } else {
+-            showDetail(true);
++            turnOnDND(SHOW_DETAILS_IF_DURATION_HAS_TO_BE_CHOSEN);
+         }
+     }
+ 
+-    @Override
+-    public void showDetail(boolean show) {
++    public void turnOnDND(int showDetails) {
+         int zenDuration = Settings.Secure.getInt(mContext.getContentResolver(),
+                 Settings.Secure.ZEN_DURATION, 0);
+         boolean showOnboarding = Settings.Secure.getInt(mContext.getContentResolver(),
+@@ -165,27 +168,51 @@ public class DndTile extends QSTileImpl<BooleanState> {
+             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+             mActivityStarter.postStartActivityDismissingKeyguard(intent, 0);
+         } else {
++            // Not using FAVORITE_ZEN for consistency. Pie has always used this mode since now.
++            int zen = Global.ZEN_MODE_IMPORTANT_INTERRUPTIONS;
++
++            ZenModeController.Callback callback = new ZenModeController.Callback() {
++                @Override
++                public void onZenChanged(int zen) {
++                    mController.removeCallback(this);
++                    showDetail(true);
++                }
++            };
++
++            if (showDetails == SHOW_DETAILS) {
++                 mController.addCallback(callback);
++            }
++
+             switch (zenDuration) {
+                 case Settings.Secure.ZEN_DURATION_PROMPT:
+-                    mUiHandler.post(() -> {
+-                        Dialog mDialog = new EnableZenModeDialog(mContext).createDialog();
+-                        mDialog.getWindow().setType(
+-                                WindowManager.LayoutParams.TYPE_KEYGUARD_DIALOG);
+-                        SystemUIDialog.setShowForAllUsers(mDialog, true);
+-                        SystemUIDialog.registerDismissListener(mDialog);
+-                        SystemUIDialog.setWindowOnTop(mDialog);
+-                        mUiHandler.post(() -> mDialog.show());
+-                        mHost.collapsePanels();
+-                    });
++                    if (showDetails == SHOW_DETAILS_IF_DURATION_HAS_TO_BE_CHOSEN) {
++                        mController.addCallback(callback);
++                    }
++                    mController.setZen(zen, null, TAG);
++
++                    /**
++                     * ZenModePanel (details panel) has exact same time conditions with new
++                     * EnableZenModeDialog. So we open detail panel instead above.
++                     *
++                     * mUiHandler.post(() -> {
++                     *     Dialog mDialog = new EnableZenModeDialog(mContext).createDialog();
++                     *     mDialog.getWindow().setType(
++                     *             WindowManager.LayoutParams.TYPE_KEYGUARD_DIALOG);
++                     *     SystemUIDialog.setShowForAllUsers(mDialog, true);
++                     *     SystemUIDialog.registerDismissListener(mDialog);
++                     *     SystemUIDialog.setWindowOnTop(mDialog);
++                     *     mUiHandler.post(() -> mDialog.show());
++                     *     mHost.collapsePanels();
++                     * });
++                     */
+                     break;
+                 case Settings.Secure.ZEN_DURATION_FOREVER:
+-                    mController.setZen(Settings.Global.ZEN_MODE_IMPORTANT_INTERRUPTIONS, null, TAG);
++                    mController.setZen(zen, null, TAG);
+                     break;
+                 default:
+                     Uri conditionId = ZenModeConfig.toTimeCondition(mContext, zenDuration,
+                             ActivityManager.getCurrentUser(), true).id;
+-                    mController.setZen(Settings.Global.ZEN_MODE_IMPORTANT_INTERRUPTIONS,
+-                            conditionId, TAG);
++                    mController.setZen(zen, conditionId, TAG);
+             }
+         }
+     }
+@@ -201,16 +228,7 @@ public class DndTile extends QSTileImpl<BooleanState> {
+             return;
+         }
+         if (!mState.value) {
+-            // Because of the complexity of the zen panel, it needs to be shown after
+-            // we turn on zen below.
+-            mController.addCallback(new ZenModeController.Callback() {
+-                @Override
+-                public void onZenChanged(int zen) {
+-                    mController.removeCallback(this);
+-                    showDetail(true);
+-                }
+-            });
+-            mController.setZen(Global.ZEN_MODE_IMPORTANT_INTERRUPTIONS, null, TAG);
++            turnOnDND(SHOW_DETAILS);
+         } else {
+             showDetail(true);
+         }
+@@ -225,6 +243,8 @@ public class DndTile extends QSTileImpl<BooleanState> {
+     protected void handleUpdateState(BooleanState state, Object arg) {
+         if (mController == null) return;
+         final int zen = arg instanceof Integer ? (Integer) arg : mController.getZen();
++        final ZenModeConfig zenConfig = arg instanceof ZenModeConfig ?
++                (ZenModeConfig) arg : mController.getConfig();
+         final boolean newValue = zen != ZEN_MODE_OFF;
+         final boolean valueChanged = state.value != newValue;
+         if (state.slash == null) state.slash = new SlashState();
+@@ -233,7 +253,7 @@ public class DndTile extends QSTileImpl<BooleanState> {
+         state.slash.isSlashed = !state.value;
+         state.label = getTileLabel();
+         state.secondaryLabel = TextUtils.emptyIfNull(ZenModeConfig.getDescription(mContext,
+-                zen != Global.ZEN_MODE_OFF, mController.getConfig(), false));
++                zen != Global.ZEN_MODE_OFF, zenConfig, false));
+         state.icon = ResourceIcon.get(com.android.internal.R.drawable.ic_qs_dnd);
+         checkIfRestrictionEnforcedByAdminOnly(state, UserManager.DISALLOW_ADJUST_VOLUME);
+         switch (zen) {
+@@ -319,6 +339,7 @@ public class DndTile extends QSTileImpl<BooleanState> {
+ 
+         @Override
+         public void onConfigChanged(ZenModeConfig config) {
++            refreshState(config);
+             if (isShowingDetail()) {
+                 mDetailAdapter.updatePanel();
+             }
+@@ -361,7 +382,8 @@ public class DndTile extends QSTileImpl<BooleanState> {
+                 mController.setZen(ZEN_MODE_OFF, null, TAG);
+                 mAuto = false;
+             } else {
+-                mController.setZen(Global.ZEN_MODE_IMPORTANT_INTERRUPTIONS, null, TAG);
++                // We're already in details view
++                turnOnDND(DONT_SHOW_DETAILS);
+             }
+         }
+ 
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/policy/ZenModeController.java b/packages/SystemUI/src/com/android/systemui/statusbar/policy/ZenModeController.java
+index ad19729aa10..09bb3af9e62 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/policy/ZenModeController.java
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/policy/ZenModeController.java
+@@ -28,6 +28,7 @@ import com.android.systemui.statusbar.policy.ZenModeController.Callback;
+ public interface ZenModeController extends CallbackController<Callback> {
+     void setZen(int zen, Uri conditionId, String reason);
+     int getZen();
++    boolean areAlarmsAllowedInPriority();
+     ZenRule getManualRule();
+     ZenModeConfig getConfig();
+     /** Gets consolidated zen policy that will apply when DND is on in priority only mode */
+@@ -52,4 +53,4 @@ public interface ZenModeController extends CallbackController<Callback> {
+         default void onConsolidatedPolicyChanged(NotificationManager.Policy policy) {}
+     }
+ 
+-}
+\ No newline at end of file
++}
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/policy/ZenModeControllerImpl.java b/packages/SystemUI/src/com/android/systemui/statusbar/policy/ZenModeControllerImpl.java
+index 29c42d24b3b..96c6a2b3717 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/policy/ZenModeControllerImpl.java
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/policy/ZenModeControllerImpl.java
+@@ -147,6 +147,12 @@ public class ZenModeControllerImpl extends CurrentUserTracker
+         mNoMan.setZenMode(zen, conditionId, reason);
+     }
+ 
++    @Override
++    public boolean areAlarmsAllowedInPriority() {
++        return (mNoMan.getNotificationPolicy().priorityCategories
++                & NotificationManager.Policy.PRIORITY_CATEGORY_ALARMS) != 0;
++    }
++
+     @Override
+     public boolean isZenAvailable() {
+         return mSetupObserver.isDeviceProvisioned() && mSetupObserver.isUserSetup();
+diff --git a/packages/SystemUI/src/com/android/systemui/volume/ZenModePanel.java b/packages/SystemUI/src/com/android/systemui/volume/ZenModePanel.java
+index 7bb987ca7cf..d66e0e8624b 100644
+--- a/packages/SystemUI/src/com/android/systemui/volume/ZenModePanel.java
++++ b/packages/SystemUI/src/com/android/systemui/volume/ZenModePanel.java
+@@ -476,13 +476,16 @@ public class ZenModePanel extends FrameLayout {
+             mConfigurableTexts.update();
+             mZenIntroductionCustomize.setVisibility(zenImportant ? VISIBLE : GONE);
+         }
+-        final String warning = computeAlarmWarningText(zenNone);
++        final boolean allowAlarms = !zenNone &&
++                !(zenImportant && !mController.areAlarmsAllowedInPriority());
++        final String warning = computeAlarmWarningText(allowAlarms);
+         mZenAlarmWarning.setVisibility(warning != null ? VISIBLE : GONE);
+         mZenAlarmWarning.setText(warning);
+     }
+ 
+-    private String computeAlarmWarningText(boolean zenNone) {
+-        if (!zenNone) {
++    private String computeAlarmWarningText(boolean allowAlarms) {
++        // don't show alarm warning if alarms are allowed to bypass dnd
++        if (allowAlarms) {
+             return null;
+         }
+         final long now = System.currentTimeMillis();

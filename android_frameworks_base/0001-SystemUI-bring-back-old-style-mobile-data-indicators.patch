@@ -1,0 +1,397 @@
+From d4c61b2d80a4e56916bcb6f515a5c358bf7b7f8c Mon Sep 17 00:00:00 2001
+From: maxwen <max.weninger@gmail.com>
+Date: Wed, 27 Nov 2019 16:27:40 +0100
+Subject: [PATCH] SystemUI: bring back old style mobile data indicators
+
+TODO maybe add settings observer to do update faster then
+waiting for the next update
+
+Change-Id: Idf6ba3cd97b6fde1f6a5fbb7ee72b3fba71f710b
+---
+ core/java/android/provider/Settings.java      |  11 ++
+ .../layout/status_bar_mobile_signal_group.xml |  10 +-
+ packages/SystemUI/res/values/aicp_dimens.xml  |   6 +
+ .../statusbar/StatusBarMobileView.java        | 131 +++++++++++++++---
+ .../statusbar/phone/DemoStatusIcons.java      |   4 +-
+ .../phone/StatusBarIconController.java        |  13 +-
+ 6 files changed, 150 insertions(+), 25 deletions(-)
+
+diff --git a/core/java/android/provider/Settings.java b/core/java/android/provider/Settings.java
+index 9b1c88207b0..c84b5533dae 100644
+--- a/core/java/android/provider/Settings.java
++++ b/core/java/android/provider/Settings.java
+@@ -6363,6 +6363,14 @@ public final class Settings {
+          */
+         public static final String ALERT_SLIDER_NOTIFICATIONS = "alert_slider_notifications";
+ 
++        /**
++         * @hide
++         */
++        public static final String OMNI_USE_OLD_MOBILETYPE = "use_old_mobiletype";
++
++        private static final Validator OMNI_USE_OLD_MOBILETYPE_VALIDATOR =
++                BOOLEAN_VALIDATOR;
++
+         /***************************
+          * AICP System Settings end
+          ***************************/
+@@ -6611,6 +6619,7 @@ public final class Settings {
+             NAVIGATION_BAR_ARROW_KEYS,
+             BACK_GESTURE_BLOCK_IME,
+             PULSE_AMBIENT_LIGHT_REPEAT_COUNT,
++            OMNI_USE_OLD_MOBILETYPE,
+             // AICP Settings end
+         };
+ 
+@@ -6913,6 +6922,7 @@ public final class Settings {
+             PRIVATE_SETTINGS.add(NAVIGATION_BAR_ARROW_KEYS);
+             PRIVATE_SETTINGS.add(BACK_GESTURE_BLOCK_IME);
+             PRIVATE_SETTINGS.add(PULSE_AMBIENT_LIGHT_REPEAT_COUNT);
++            PRIVATE_SETTINGS.add(OMNI_USE_OLD_MOBILETYPE);
+             // AICP Settings end
+         }
+ 
+@@ -7206,6 +7216,7 @@ public final class Settings {
+                     NAVIGATION_BAR_ARROW_KEYS_VALIDATOR);
+             VALIDATORS.put(BACK_GESTURE_BLOCK_IME, BACK_GESTURE_BLOCK_IME_VALIDATOR);
+             VALIDATORS.put(PULSE_AMBIENT_LIGHT_REPEAT_COUNT, PULSE_AMBIENT_LIGHT_REPEAT_COUNT_VALIDATOR);
++            VALIDATORS.put(OMNI_USE_OLD_MOBILETYPE, OMNI_USE_OLD_MOBILETYPE_VALIDATOR);
+             // AICP Settings end
+         }
+ 
+diff --git a/packages/SystemUI/res/layout/status_bar_mobile_signal_group.xml b/packages/SystemUI/res/layout/status_bar_mobile_signal_group.xml
+index 976ce9da23b..14eab7c3a32 100644
+--- a/packages/SystemUI/res/layout/status_bar_mobile_signal_group.xml
++++ b/packages/SystemUI/res/layout/status_bar_mobile_signal_group.xml
+@@ -73,7 +73,8 @@
+             android:visibility="gone"
+         />
+         <FrameLayout
+-            android:layout_width="wrap_content"
++            android:id="@+id/mobile_signal_type"
++            android:layout_width="@dimen/status_bar_mobile_signal_width"
+             android:layout_height="wrap_content"
+             android:layout_gravity="center_vertical">
+             <com.android.systemui.statusbar.AnimatedImageView
+@@ -81,14 +82,17 @@
+                 android:layout_height="wrap_content"
+                 android:layout_width="wrap_content"
+                 systemui:hasOverlappingRendering="false"
++                android:layout_gravity="end"
+             />
+             <ImageView
+                 android:id="@+id/mobile_roaming"
+                 android:layout_width="wrap_content"
+-                android:layout_height="wrap_content"
++                android:layout_height="@dimen/status_bar_mobile_type_height"
+                 android:src="@drawable/stat_sys_roaming"
+                 android:contentDescription="@string/data_connection_roaming"
+-                android:visibility="gone" />
++                android:visibility="gone"
++                android:scaleType="centerInside"
++                android:layout_gravity="start|top" />
+         </FrameLayout>
+     </com.android.keyguard.AlphaOptimizedLinearLayout>
+ </com.android.systemui.statusbar.StatusBarMobileView>
+diff --git a/packages/SystemUI/res/values/aicp_dimens.xml b/packages/SystemUI/res/values/aicp_dimens.xml
+index 55a3baf88ee..d3f73e08b18 100644
+--- a/packages/SystemUI/res/values/aicp_dimens.xml
++++ b/packages/SystemUI/res/values/aicp_dimens.xml
+@@ -90,4 +90,10 @@
+     <dimen name="right_tri_state_up_bottom_right_radius">0.0dip</dimen>
+     <dimen name="right_tri_state_up_top_left_radius">24.0dip</dimen>
+     <dimen name="right_tri_state_up_top_right_radius">24.0dip</dimen>
++
++    <!-- Old mobile signal -->
++    <dimen name="status_bar_mobile_signal_with_type_width">22dp</dimen>
++    <dimen name="status_bar_mobile_signal_width">16dp</dimen>
++    <dimen name="status_bar_mobile_type_height">10dp</dimen>
++
+ </resources>
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/StatusBarMobileView.java b/packages/SystemUI/src/com/android/systemui/statusbar/StatusBarMobileView.java
+index bcf414bbcfb..6445dfcde3d 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/StatusBarMobileView.java
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/StatusBarMobileView.java
+@@ -30,6 +30,7 @@ import android.util.AttributeSet;
+ import android.view.Gravity;
+ import android.view.LayoutInflater;
+ import android.view.View;
++import android.view.ViewGroup;
+ import android.widget.FrameLayout;
+ import android.widget.ImageView;
+ import android.widget.LinearLayout;
+@@ -56,10 +57,12 @@ public class StatusBarMobileView extends FrameLayout implements DarkReceiver,
+     private ImageView mIn;
+     private ImageView mOut;
+     private ImageView mMobile, mMobileType, mMobileRoaming;
++    private View mMobileSignalType;
+     private View mMobileRoamingSpace;
+     private int mVisibleState = -1;
+     private DualToneHandler mDualToneHandler;
+     private ImageView mVolte;
++    private boolean mOldStyleType;
+ 
+     public static StatusBarMobileView fromContext(Context context, String slot) {
+         LayoutInflater inflater = LayoutInflater.from(context);
+@@ -111,6 +114,7 @@ public class StatusBarMobileView extends FrameLayout implements DarkReceiver,
+         mOut = findViewById(R.id.mobile_out);
+         mInoutContainer = findViewById(R.id.inout_container);
+         mVolte = findViewById(R.id.mobile_volte);
++        mMobileSignalType = findViewById(R.id.mobile_signal_type);
+ 
+         mMobileDrawable = new SignalDrawable(getContext());
+         mMobile.setImageDrawable(mMobileDrawable);
+@@ -128,7 +132,7 @@ public class StatusBarMobileView extends FrameLayout implements DarkReceiver,
+         addView(mDotView, lp);
+     }
+ 
+-    public void applyMobileState(MobileIconState state) {
++    public void applyMobileState(MobileIconState state, boolean oldStyleType) {
+         boolean requestLayout = false;
+         if (state == null) {
+             requestLayout = getVisibility() != View.GONE;
+@@ -137,9 +141,10 @@ public class StatusBarMobileView extends FrameLayout implements DarkReceiver,
+         } else if (mState == null) {
+             requestLayout = true;
+             mState = state.copy();
++            mOldStyleType = oldStyleType;
+             initViewState();
+-        } else if (!mState.equals(state)) {
+-            requestLayout = updateState(state.copy());
++        } else if (!mState.equals(state) || mOldStyleType != oldStyleType) {
++            requestLayout = updateState(state.copy(), oldStyleType);
+         }
+ 
+         if (requestLayout) {
+@@ -155,16 +160,32 @@ public class StatusBarMobileView extends FrameLayout implements DarkReceiver,
+             mMobileGroup.setVisibility(View.VISIBLE);
+         }
+         mMobileDrawable.setLevel(mState.strengthId);
++        boolean showRoamingSpace = false;
+         if (mState.typeId > 0) {
+-            mMobileType.setContentDescription(mState.typeContentDescription);
+-            mMobileType.setImageResource(mState.typeId);
+-            mMobileType.setVisibility(View.VISIBLE);
++            if (mOldStyleType) {
++                mMobileType.setVisibility(View.GONE);
++                mMobileRoaming.setContentDescription(mState.typeContentDescription);
++                mMobileRoaming.setImageResource(mState.typeId);
++                mMobileRoaming.setVisibility(View.VISIBLE);
++                showRoamingSpace = true;
++                setMobileSignalWidth(false);
++            } else {
++                mMobileType.setContentDescription(mState.typeContentDescription);
++                mMobileType.setImageResource(mState.typeId);
++                mMobileType.setVisibility(View.VISIBLE);
++                mMobileRoaming.setVisibility(View.GONE);
++                setMobileSignalWidth(true);
++            }
+         } else {
+             mMobileType.setVisibility(View.GONE);
++            mMobileRoaming.setVisibility(View.GONE);
++            setMobileSignalWidth(true);
+         }
+-
+-        mMobileRoaming.setVisibility(mState.roaming ? View.VISIBLE : View.GONE);
+-        mMobileRoamingSpace.setVisibility(mState.roaming ? View.VISIBLE : View.GONE);
++        if (mState.roaming) {
++            mMobileRoaming.setImageResource(R.drawable.stat_sys_roaming);
++            mMobileRoaming.setVisibility(View.VISIBLE);
++        }
++        mMobileRoamingSpace.setVisibility(mState.roaming || showRoamingSpace ? View.VISIBLE : View.GONE);
+         mIn.setVisibility(mState.activityIn ? View.VISIBLE : View.GONE);
+         mOut.setVisibility(mState.activityOut ? View.VISIBLE : View.GONE);
+         mInoutContainer.setVisibility((mState.activityIn || mState.activityOut)
+@@ -177,7 +198,19 @@ public class StatusBarMobileView extends FrameLayout implements DarkReceiver,
+         }
+     }
+ 
+-    private boolean updateState(MobileIconState state) {
++    private void setMobileSignalWidth(boolean small) {
++        ViewGroup.LayoutParams p = mMobileSignalType.getLayoutParams();
++        if (small) {
++            p.width = mContext.getResources().getDimensionPixelSize(
++                        R.dimen.status_bar_mobile_signal_width);
++        } else {
++            p.width = mContext.getResources().getDimensionPixelSize(
++                        R.dimen.status_bar_mobile_signal_with_type_width);
++        }
++        mMobileSignalType.setLayoutParams(p);
++    }
++
++    private boolean updateState(MobileIconState state, boolean oldStyleType) {
+         boolean needsLayout = false;
+ 
+         setContentDescription(state.contentDescription);
+@@ -188,19 +221,35 @@ public class StatusBarMobileView extends FrameLayout implements DarkReceiver,
+         if (mState.strengthId != state.strengthId) {
+             mMobileDrawable.setLevel(state.strengthId);
+         }
+-        if (mState.typeId != state.typeId) {
++        boolean showRoamingSpace = false;
++        if (mState.typeId != state.typeId || mOldStyleType != oldStyleType) {
+             needsLayout |= state.typeId == 0 || mState.typeId == 0;
+             if (state.typeId != 0) {
+-                mMobileType.setContentDescription(state.typeContentDescription);
+-                mMobileType.setImageResource(state.typeId);
+-                mMobileType.setVisibility(View.VISIBLE);
++                if (oldStyleType) {
++                    mMobileType.setVisibility(View.GONE);
++                    mMobileRoaming.setContentDescription(state.typeContentDescription);
++                    mMobileRoaming.setImageResource(state.typeId);
++                    mMobileRoaming.setVisibility(View.VISIBLE);
++                    showRoamingSpace = true;
++                    setMobileSignalWidth(false);
++                } else {
++                    mMobileType.setContentDescription(state.typeContentDescription);
++                    mMobileType.setImageResource(state.typeId);
++                    mMobileType.setVisibility(View.VISIBLE);
++                    mMobileRoaming.setVisibility(View.GONE);
++                    setMobileSignalWidth(true);
++                }
+             } else {
+                 mMobileType.setVisibility(View.GONE);
++                mMobileRoaming.setVisibility(View.GONE);
++                setMobileSignalWidth(true);
+             }
+         }
+-
+-        mMobileRoaming.setVisibility(state.roaming ? View.VISIBLE : View.GONE);
+-        mMobileRoamingSpace.setVisibility(state.roaming ? View.VISIBLE : View.GONE);
++        if (state.roaming) {
++            mMobileRoaming.setImageResource(R.drawable.stat_sys_roaming);
++            mMobileRoaming.setVisibility(View.VISIBLE);
++        }
++        mMobileRoamingSpace.setVisibility(showRoamingSpace || state.roaming ? View.VISIBLE : View.GONE);
+         mIn.setVisibility(state.activityIn ? View.VISIBLE : View.GONE);
+         mOut.setVisibility(state.activityOut ? View.VISIBLE : View.GONE);
+         mInoutContainer.setVisibility((state.activityIn || state.activityOut)
+@@ -217,9 +266,11 @@ public class StatusBarMobileView extends FrameLayout implements DarkReceiver,
+ 
+         needsLayout |= state.roaming != mState.roaming
+                 || state.activityIn != mState.activityIn
+-                || state.activityOut != mState.activityOut;
++                || state.activityOut != mState.activityOut
++                || mOldStyleType != oldStyleType;
+ 
+         mState = state;
++        mOldStyleType = oldStyleType;
+         return needsLayout;
+     }
+ 
+@@ -311,4 +362,48 @@ public class StatusBarMobileView extends FrameLayout implements DarkReceiver,
+     public String toString() {
+         return "StatusBarMobileView(slot=" + mSlot + " state=" + mState + ")";
+     }
++
++    public void updateDisplayType(boolean oldStyleType) {
++        boolean needsLayout = false;
++        boolean showRoamingSpace = false;
++
++        if (mOldStyleType != oldStyleType) {
++            if (mState.typeId != 0) {
++                if (oldStyleType) {
++                    mMobileType.setVisibility(View.GONE);
++                    mMobileRoaming.setContentDescription(mState.typeContentDescription);
++                    mMobileRoaming.setImageResource(mState.typeId);
++                    mMobileRoaming.setVisibility(View.VISIBLE);
++                    showRoamingSpace = true;
++                    setMobileSignalWidth(false);
++                } else {
++                    mMobileType.setContentDescription(mState.typeContentDescription);
++                    mMobileType.setImageResource(mState.typeId);
++                    mMobileType.setVisibility(View.VISIBLE);
++                    mMobileRoaming.setVisibility(View.GONE);
++                    setMobileSignalWidth(true);
++                }
++            } else {
++                mMobileType.setVisibility(View.GONE);
++                mMobileRoaming.setVisibility(View.GONE);
++                setMobileSignalWidth(true);
++            }
++        }
++        if (mState.roaming) {
++            mMobileRoaming.setImageResource(R.drawable.stat_sys_roaming);
++            mMobileRoaming.setVisibility(View.VISIBLE);
++        }
++        mMobileRoamingSpace.setVisibility(showRoamingSpace || mState.roaming ? View.VISIBLE : View.GONE);
++        mIn.setVisibility(mState.activityIn ? View.VISIBLE : View.GONE);
++        mOut.setVisibility(mState.activityOut ? View.VISIBLE : View.GONE);
++        mInoutContainer.setVisibility((mState.activityIn || mState.activityOut)
++                ? View.VISIBLE : View.GONE);
++
++        needsLayout = mOldStyleType != oldStyleType;
++        mOldStyleType = oldStyleType;
++
++        if (needsLayout) {
++            requestLayout();
++        }
++    }
+ }
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/phone/DemoStatusIcons.java b/packages/SystemUI/src/com/android/systemui/statusbar/phone/DemoStatusIcons.java
+index 0731a568ae7..500c403151b 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/phone/DemoStatusIcons.java
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/phone/DemoStatusIcons.java
+@@ -236,7 +236,7 @@ public class DemoStatusIcons extends StatusIconContainer implements DemoMode, Da
+         Log.d(TAG, "addMobileView: ");
+         StatusBarMobileView view = StatusBarMobileView.fromContext(mContext, state.slot);
+ 
+-        view.applyMobileState(state);
++        view.applyMobileState(state, false);
+         view.setStaticDrawableColor(mColor);
+ 
+         // mobile always goes at the end
+@@ -250,7 +250,7 @@ public class DemoStatusIcons extends StatusIconContainer implements DemoMode, Da
+         for (int i = 0; i < mMobileViews.size(); i++) {
+             StatusBarMobileView view = mMobileViews.get(i);
+             if (view.getState().subId == state.subId) {
+-                view.applyMobileState(state);
++                view.applyMobileState(state, false);
+                 return;
+             }
+         }
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/phone/StatusBarIconController.java b/packages/SystemUI/src/com/android/systemui/statusbar/phone/StatusBarIconController.java
+index bb958725e2d..41e5a2a3d2a 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/phone/StatusBarIconController.java
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/phone/StatusBarIconController.java
+@@ -23,7 +23,10 @@ import static com.android.systemui.statusbar.phone.StatusBarIconHolder.TYPE_NETW
+ import static com.android.systemui.statusbar.phone.StatusBarIconHolder.TYPE_WIFI;
+ 
+ import android.content.Context;
++import android.content.ContentResolver;
+ import android.os.Bundle;
++import android.os.UserHandle;
++import android.provider.Settings;
+ import android.text.TextUtils;
+ import android.util.ArraySet;
+ import android.view.Gravity;
+@@ -290,7 +293,7 @@ public interface StatusBarIconController {
+         @VisibleForTesting
+         protected StatusBarMobileView addMobileIcon(int index, String slot, MobileIconState state) {
+             StatusBarMobileView view = onCreateStatusBarMobileView(slot);
+-            view.applyMobileState(state);
++            view.applyMobileState(state, useOldStyleMobileDataIcons());
+             mGroup.addView(view, index, onCreateLayoutParams());
+ 
+             if (mIsInDemoMode) {
+@@ -396,7 +399,7 @@ public interface StatusBarIconController {
+         public void onSetMobileIcon(int viewIndex, MobileIconState state) {
+             StatusBarMobileView view = (StatusBarMobileView) mGroup.getChildAt(viewIndex);
+             if (view != null) {
+-                view.applyMobileState(state);
++                view.applyMobileState(state, useOldStyleMobileDataIcons());
+             }
+ 
+             if (mIsInDemoMode) {
+@@ -433,5 +436,11 @@ public interface StatusBarIconController {
+         protected DemoStatusIcons createDemoStatusIcons() {
+             return new DemoStatusIcons((LinearLayout) mGroup, mIconSize);
+         }
++
++        private boolean useOldStyleMobileDataIcons() {
++            return Settings.System.getIntForUser(mContext.getContentResolver(),
++                    Settings.System.OMNI_USE_OLD_MOBILETYPE, 0,
++                    UserHandle.USER_CURRENT) != 0;
++        }
+     }
+ }

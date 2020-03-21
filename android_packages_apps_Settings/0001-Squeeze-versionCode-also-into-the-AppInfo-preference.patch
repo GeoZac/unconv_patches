@@ -1,0 +1,23 @@
+From a122cae1e63f1ec33fb4a524d83b70d050214476 Mon Sep 17 00:00:00 2001
+From: George Zacharia <george.zcharia@gmail.com>
+Date: Sat, 21 Mar 2020 13:47:53 +0530
+Subject: [PATCH] Squeeze  versionCode also into the AppInfo preference
+
+Useful in some occasions
+Change-Id: I6132019ab33e173d8b96b0956a44e5bcc55babf4
+---
+ .../applications/appinfo/AppVersionPreferenceController.java    | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/com/android/settings/applications/appinfo/AppVersionPreferenceController.java b/src/com/android/settings/applications/appinfo/AppVersionPreferenceController.java
+index 205b6d275e..7b492844f0 100644
+--- a/src/com/android/settings/applications/appinfo/AppVersionPreferenceController.java
++++ b/src/com/android/settings/applications/appinfo/AppVersionPreferenceController.java
+@@ -30,6 +30,6 @@ public class AppVersionPreferenceController extends AppInfoPreferenceControllerB
+     @Override
+     public CharSequence getSummary() {
+         return mContext.getString(R.string.version_text,
+-                BidiFormatter.getInstance().unicodeWrap(mParent.getPackageInfo().versionName));
++                BidiFormatter.getInstance().unicodeWrap(mParent.getPackageInfo().versionName + " ("+ mParent.getPackageInfo().versionCode + ")" ));
+     }
+ }

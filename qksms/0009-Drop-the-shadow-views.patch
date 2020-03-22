@@ -1,4 +1,4 @@
-From 1b9f8dc2098b9a47d1bb081226709a6a7f884923 Mon Sep 17 00:00:00 2001
+From 9f1a76a7f8713bebffb06cf4626664e282196446 Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Wed, 22 Jan 2020 15:58:32 +0530
 Subject: [PATCH] Drop the shadow views
@@ -13,7 +13,7 @@ Subject: [PATCH] Drop the shadow views
  6 files changed, 15 insertions(+), 15 deletions(-)
 
 diff --git a/presentation/src/main/res/layout/compose_activity.xml b/presentation/src/main/res/layout/compose_activity.xml
-index 3015b575..5f3734bd 100644
+index 19900e0ad..c12703402 100644
 --- a/presentation/src/main/res/layout/compose_activity.xml
 +++ b/presentation/src/main/res/layout/compose_activity.xml
 @@ -75,7 +75,7 @@
@@ -55,7 +55,7 @@ index 3015b575..5f3734bd 100644
      <View
          android:layout_width="match_parent"
 diff --git a/presentation/src/main/res/layout/contacts_activity.xml b/presentation/src/main/res/layout/contacts_activity.xml
-index 89181ebf..3d45ab34 100644
+index 89181ebff..3d45ab343 100644
 --- a/presentation/src/main/res/layout/contacts_activity.xml
 +++ b/presentation/src/main/res/layout/contacts_activity.xml
 @@ -91,11 +91,11 @@
@@ -73,7 +73,7 @@ index 89181ebf..3d45ab34 100644
      <View
          android:layout_width="match_parent"
 diff --git a/presentation/src/main/res/layout/main_activity.xml b/presentation/src/main/res/layout/main_activity.xml
-index e0128783..3e4a7921 100644
+index b4467e4e7..0af403330 100644
 --- a/presentation/src/main/res/layout/main_activity.xml
 +++ b/presentation/src/main/res/layout/main_activity.xml
 @@ -104,13 +104,13 @@
@@ -93,7 +93,7 @@ index e0128783..3e4a7921 100644
          <View
              android:id="@+id/bottom"
 diff --git a/presentation/src/main/res/layout/notification_prefs_activity.xml b/presentation/src/main/res/layout/notification_prefs_activity.xml
-index 49749033..2a6f850c 100644
+index 497490339..2a6f850c5 100644
 --- a/presentation/src/main/res/layout/notification_prefs_activity.xml
 +++ b/presentation/src/main/res/layout/notification_prefs_activity.xml
 @@ -159,11 +159,11 @@
@@ -111,7 +111,7 @@ index 49749033..2a6f850c 100644
      <View
          android:layout_width="match_parent"
 diff --git a/presentation/src/main/res/layout/qkreply_activity.xml b/presentation/src/main/res/layout/qkreply_activity.xml
-index f7b51a27..116b0a2d 100644
+index f7b51a277..116b0a2d2 100644
 --- a/presentation/src/main/res/layout/qkreply_activity.xml
 +++ b/presentation/src/main/res/layout/qkreply_activity.xml
 @@ -168,11 +168,11 @@
@@ -130,7 +130,7 @@ index f7b51a27..116b0a2d 100644
  </androidx.constraintlayout.widget.ConstraintLayout>
 \ No newline at end of file
 diff --git a/presentation/src/main/res/layout/widget.xml b/presentation/src/main/res/layout/widget.xml
-index 408d9215..6ed6a43b 100644
+index 408d92156..6ed6a43b9 100644
 --- a/presentation/src/main/res/layout/widget.xml
 +++ b/presentation/src/main/res/layout/widget.xml
 @@ -80,10 +80,10 @@

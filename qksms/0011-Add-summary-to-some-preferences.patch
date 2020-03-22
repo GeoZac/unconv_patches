@@ -1,4 +1,4 @@
-From 77e89818716e74338f1b1f047fd34442d77c710e Mon Sep 17 00:00:00 2001
+From e8250862185cb984809e5db4518461643d5d4163 Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Tue, 28 Jan 2020 12:00:46 +0530
 Subject: [PATCH] Add summary to some preferences
@@ -10,7 +10,7 @@ Looks out of context without summaries
  2 files changed, 11 insertions(+)
 
 diff --git a/presentation/src/main/res/layout/settings_controller.xml b/presentation/src/main/res/layout/settings_controller.xml
-index 0ae7a8cf..4479b6da 100644
+index 0ae7a8cf0..4479b6dad 100644
 --- a/presentation/src/main/res/layout/settings_controller.xml
 +++ b/presentation/src/main/res/layout/settings_controller.xml
 @@ -42,6 +42,7 @@
@@ -62,10 +62,10 @@ index 0ae7a8cf..4479b6da 100644
  
          <com.moez.QKSMS.common.widget.PreferenceView
 diff --git a/presentation/src/main/res/values/strings.xml b/presentation/src/main/res/values/strings.xml
-index 0f40e610..90de78f7 100644
+index 12806eaab..b1db3b497 100644
 --- a/presentation/src/main/res/values/strings.xml
 +++ b/presentation/src/main/res/values/strings.xml
-@@ -210,15 +210,20 @@
+@@ -212,15 +212,20 @@
      <string name="settings_category_qkreply">QK Reply</string>
  
      <string name="settings_theme_title">Theme</string>

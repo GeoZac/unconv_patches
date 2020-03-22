@@ -1,4 +1,4 @@
-From 18432ffb54266e2a9deaa634034f601c79004a8d Mon Sep 17 00:00:00 2001
+From da5b290b4d8020f307b7188fa0df7cdcbb5f004c Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Fri, 17 Jan 2020 10:05:34 +0530
 Subject: [PATCH] Show time-stamp for all messages
@@ -9,20 +9,20 @@ Earlier had to tap each messages to check the delivery status
  1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/presentation/src/main/java/com/moez/QKSMS/feature/compose/MessagesAdapter.kt b/presentation/src/main/java/com/moez/QKSMS/feature/compose/MessagesAdapter.kt
-index f11b3398..c9c95f00 100644
+index 6515746c0..2f80b4adf 100644
 --- a/presentation/src/main/java/com/moez/QKSMS/feature/compose/MessagesAdapter.kt
 +++ b/presentation/src/main/java/com/moez/QKSMS/feature/compose/MessagesAdapter.kt
-@@ -305,7 +305,8 @@ class MessagesAdapter @Inject constructor(
+@@ -299,7 +299,8 @@ class MessagesAdapter @Inject constructor(
              else -> dateFormatter.getTimestamp(message.date)
          }
  
--        holder.status.setVisible(when {
-+        holder.status.setVisible(true
+-        holder.binding.status.setVisible(when {
++        holder.binding.status.setVisible(true
 +            /*when {
              expanded[message.id] == true -> true
              message.isSending() -> true
              message.isFailedMessage() -> true
-@@ -313,7 +314,7 @@ class MessagesAdapter @Inject constructor(
+@@ -307,7 +308,7 @@ class MessagesAdapter @Inject constructor(
              conversation?.recipients?.size ?: 0 > 1 && !message.isMe() && next?.compareSender(message) != true -> true
              message.isDelivered() && next?.isDelivered() != true && age <= BubbleUtils.TIMESTAMP_THRESHOLD -> true
              else -> false

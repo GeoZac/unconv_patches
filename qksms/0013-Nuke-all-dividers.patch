@@ -1,4 +1,4 @@
-From f02bf02c6f767cc3a7ca865b30c4de02ce799d22 Mon Sep 17 00:00:00 2001
+From d0cb1a5315bfd5d198cecddbc3176cf8cb4070e9 Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Tue, 28 Jan 2020 21:03:43 +0530
 Subject: [PATCH] Nuke all dividers
@@ -28,27 +28,27 @@ For views without ids comment out completely and for view with id visibility is 
  17 files changed, 44 insertions(+), 38 deletions(-)
 
 diff --git a/presentation/src/main/java/com/moez/QKSMS/feature/notificationprefs/NotificationPrefsActivity.kt b/presentation/src/main/java/com/moez/QKSMS/feature/notificationprefs/NotificationPrefsActivity.kt
-index 210b5d3fe..09b1b92f8 100644
+index 570ca299d..a0d42f13c 100644
 --- a/presentation/src/main/java/com/moez/QKSMS/feature/notificationprefs/NotificationPrefsActivity.kt
 +++ b/presentation/src/main/java/com/moez/QKSMS/feature/notificationprefs/NotificationPrefsActivity.kt
-@@ -102,7 +102,7 @@ class NotificationPrefsActivity : QkThemedActivity(), NotificationPrefsView {
-         vibration.checkbox.isChecked = state.vibrationEnabled
-         ringtone.summary = state.ringtoneName
+@@ -104,7 +104,7 @@ class NotificationPrefsActivity : QkThemedActivity(), NotificationPrefsView {
+         binding.vibration.widget<QkSwitch>().isChecked = state.vibrationEnabled
+         binding.ringtone.summary = state.ringtoneName
  
--        actionsDivider.isVisible = state.threadId == 0L
-+        // actionsDivider.isVisible = state.threadId == 0L
-         actionsTitle.isVisible = state.threadId == 0L
-         action1.isVisible = state.threadId == 0L
-         action1.summary = state.action1Summary
-@@ -111,7 +111,7 @@ class NotificationPrefsActivity : QkThemedActivity(), NotificationPrefsView {
-         action3.isVisible = state.threadId == 0L
-         action3.summary = state.action3Summary
+-        binding.actionsDivider.isVisible = state.threadId == 0L
++        // binding.actionsDivider.isVisible = state.threadId == 0L
+         binding.actionsTitle.isVisible = state.threadId == 0L
+         binding.action1.isVisible = state.threadId == 0L
+         binding.action1.summary = state.action1Summary
+@@ -113,7 +113,7 @@ class NotificationPrefsActivity : QkThemedActivity(), NotificationPrefsView {
+         binding.action3.isVisible = state.threadId == 0L
+         binding.action3.summary = state.action3Summary
  
--        qkreplyDivider.isVisible = state.threadId == 0L
-+        // qkreplyDivider.isVisible = state.threadId == 0L
-         qkreplyTitle.isVisible = state.threadId == 0L
-         qkreply.checkbox.isChecked = state.qkReplyEnabled
-         qkreply.isVisible = state.threadId == 0L
+-        binding.qkreplyDivider.isVisible = state.threadId == 0L
++        // binding.qkreplyDivider.isVisible = state.threadId == 0L
+         binding.qkreplyTitle.isVisible = state.threadId == 0L
+         binding.qkreply.widget<QkSwitch>().isChecked = state.qkReplyEnabled
+         binding.qkreply.isVisible = state.threadId == 0L
 diff --git a/presentation/src/main/res/layout/backup_controller.xml b/presentation/src/main/res/layout/backup_controller.xml
 index 88983dbcc..0ecb94025 100644
 --- a/presentation/src/main/res/layout/backup_controller.xml
@@ -228,7 +228,7 @@ index 5efa85282..5a13b8070 100644
          <LinearLayout
              android:id="@+id/settings"
 diff --git a/presentation/src/main/res/layout/main_activity.xml b/presentation/src/main/res/layout/main_activity.xml
-index 3e4a7921d..4ecb709b0 100644
+index 0af403330..9a01652f7 100644
 --- a/presentation/src/main/res/layout/main_activity.xml
 +++ b/presentation/src/main/res/layout/main_activity.xml
 @@ -116,6 +116,7 @@
@@ -275,10 +275,10 @@ index 2a6f850c5..6100f9716 100644
  </androidx.constraintlayout.widget.ConstraintLayout>
 \ No newline at end of file
 diff --git a/presentation/src/main/res/layout/qksms_plus_activity.xml b/presentation/src/main/res/layout/qksms_plus_activity.xml
-index eef115ddd..bc5cece6c 100644
+index 42a945d23..f2c398f9e 100644
 --- a/presentation/src/main/res/layout/qksms_plus_activity.xml
 +++ b/presentation/src/main/res/layout/qksms_plus_activity.xml
-@@ -155,11 +155,11 @@
+@@ -157,11 +157,11 @@
  
              </LinearLayout>
  
@@ -292,7 +292,7 @@ index eef115ddd..bc5cece6c 100644
  
              <com.moez.QKSMS.common.widget.PreferenceView
                  android:id="@+id/themes"
-@@ -256,10 +256,10 @@
+@@ -258,10 +258,10 @@
  
      </androidx.core.widget.NestedScrollView>
  
@@ -307,12 +307,12 @@ index eef115ddd..bc5cece6c 100644
  </androidx.coordinatorlayout.widget.CoordinatorLayout>
 \ No newline at end of file
 diff --git a/presentation/src/main/res/layout/scheduled_activity.xml b/presentation/src/main/res/layout/scheduled_activity.xml
-index 5b5d00586..2d36284c6 100644
+index b2edcd045..6c7f851d5 100644
 --- a/presentation/src/main/res/layout/scheduled_activity.xml
 +++ b/presentation/src/main/res/layout/scheduled_activity.xml
-@@ -153,10 +153,10 @@
- 
-     <include layout="@layout/collapsing_toolbar" />
+@@ -155,10 +155,10 @@
+         android:id="@+id/appBarLayout"
+         layout="@layout/collapsing_toolbar" />
  
 -    <View
 +    <!--<View

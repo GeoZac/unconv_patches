@@ -1,4 +1,4 @@
-From 3e5fe5721eeb27d13fe2499a1ac317c9ba491451 Mon Sep 17 00:00:00 2001
+From 2fb47ae0fbe5f833fb2dc4b76b6a8ee954342740 Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Fri, 17 Jan 2020 10:10:45 +0530
 Subject: [PATCH] Add a proper FAB
@@ -13,10 +13,10 @@ TODO: Use a extended FAB when Material themes are implemented
  2 files changed, 17 insertions(+), 6 deletions(-)
 
 diff --git a/presentation/src/main/java/com/moez/QKSMS/feature/main/MainActivity.kt b/presentation/src/main/java/com/moez/QKSMS/feature/main/MainActivity.kt
-index ca2106af..9d424e74 100644
+index ea68d8f43..f1dd03439 100644
 --- a/presentation/src/main/java/com/moez/QKSMS/feature/main/MainActivity.kt
 +++ b/presentation/src/main/java/com/moez/QKSMS/feature/main/MainActivity.kt
-@@ -38,6 +38,7 @@ import androidx.lifecycle.Lifecycle
+@@ -36,6 +36,7 @@ import androidx.core.view.isVisible
  import androidx.lifecycle.ViewModelProvider
  import androidx.lifecycle.ViewModelProviders
  import androidx.recyclerview.widget.ItemTouchHelper
@@ -24,17 +24,17 @@ index ca2106af..9d424e74 100644
  import com.google.android.material.snackbar.Snackbar
  import com.jakewharton.rxbinding2.view.clicks
  import com.jakewharton.rxbinding2.widget.textChanges
-@@ -258,6 +259,16 @@ class MainActivity : QkThemedActivity(), MainView {
+@@ -244,6 +245,16 @@ class MainActivity : QkThemedActivity(), MainView {
                  conversationsAdapter.updateData(state.page.data)
-                 itemTouchHelper.attachToRecyclerView(recyclerView)
-                 empty.setText(R.string.inbox_empty_text)
+                 itemTouchHelper.attachToRecyclerView(binding.recyclerView)
+                 binding.empty.setText(R.string.inbox_empty_text)
 +
-+                recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
++                binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
 +                    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-+                        if (dy > 0 && compose.visibility == View.VISIBLE) {
-+                            compose.hide()
-+                        } else if (dy < 0 && compose.visibility != View.VISIBLE) {
-+                            compose.show()
++                        if (dy > 0 && binding.compose.visibility == View.VISIBLE) {
++                            binding.compose.hide()
++                        } else if (dy < 0 && binding.compose.visibility != View.VISIBLE) {
++                            binding.compose.show()
 +                        }
 +                    }
 +                })
@@ -42,7 +42,7 @@ index ca2106af..9d424e74 100644
  
              is Searching -> {
 diff --git a/presentation/src/main/res/layout/main_activity.xml b/presentation/src/main/res/layout/main_activity.xml
-index f19d171f..e0128783 100644
+index 8dec910d1..b4467e4e7 100644
 --- a/presentation/src/main/res/layout/main_activity.xml
 +++ b/presentation/src/main/res/layout/main_activity.xml
 @@ -89,16 +89,16 @@

@@ -1,7 +1,7 @@
-From 7b846574932087b0247bb7dfc0e6508b33e389d6 Mon Sep 17 00:00:00 2001
+From ca38daef0ed69a8c34eaeb252eac2b79a4be7b1e Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Sat, 28 Dec 2019 12:13:47 +0530
-Subject: [PATCH] [SQUASH] CI patches
+Subject: [PATCH] CI patches
 
 Completely overrides the CI config from upstream project
 
@@ -10,13 +10,11 @@ Add a simple CircleCI config
 Local builds were failing for some reason, need to pinpoint the issue
 Correct apk output path
 
-
 Add some more tasks to CI
 
 Clean and assemble withanalytics variant also
 
 Update CircleCI image version
-
 
 [TEMP] Add dependencies task
 
@@ -27,7 +25,7 @@ Should help who's causing "w: Runtime JAR files in the classpath should have the
  1 file changed, 38 insertions(+), 69 deletions(-)
 
 diff --git a/.circleci/config.yml b/.circleci/config.yml
-index d524fe69..bb46b0c1 100644
+index d524fe69b..bb46b0c1d 100644
 --- a/.circleci/config.yml
 +++ b/.circleci/config.yml
 @@ -1,85 +1,54 @@

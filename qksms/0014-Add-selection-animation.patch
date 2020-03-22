@@ -1,4 +1,4 @@
-From 7e2bcb9066f308284f0739823c18a31f1d3b5d3d Mon Sep 17 00:00:00 2001
+From 809e5ae18f474135b064fc3061df0b32fd96f0e4 Mon Sep 17 00:00:00 2001
 From: sstarlung <sstar.lung@gmail.com>
 Date: Sat, 18 Jan 2020 17:48:26 +0530
 Subject: [PATCH] Add selection animation
@@ -19,7 +19,7 @@ switched to a bit more simplified icon for selected state, the original one has 
  create mode 100644 presentation/src/main/res/drawable/ic_check_circle_24dp.xml
 
 diff --git a/presentation/src/main/java/com/moez/QKSMS/feature/conversations/ConversationsAdapter.kt b/presentation/src/main/java/com/moez/QKSMS/feature/conversations/ConversationsAdapter.kt
-index 6799dcb27..02cecd0b2 100644
+index 608f7c91b..516687d37 100644
 --- a/presentation/src/main/java/com/moez/QKSMS/feature/conversations/ConversationsAdapter.kt
 +++ b/presentation/src/main/java/com/moez/QKSMS/feature/conversations/ConversationsAdapter.kt
 @@ -18,9 +18,12 @@
@@ -35,47 +35,47 @@ index 6799dcb27..02cecd0b2 100644
  import android.view.ViewGroup
  import androidx.core.view.isVisible
  import com.moez.QKSMS.R
-@@ -73,7 +76,11 @@ class ConversationsAdapter @Inject constructor(
-             view.setOnClickListener {
+@@ -69,7 +72,11 @@ class ConversationsAdapter @Inject constructor(
+             binding.root.setOnClickListener {
                  val conversation = getItem(adapterPosition) ?: return@setOnClickListener
                  when (toggleSelection(conversation.id, false)) {
--                    true -> view.isActivated = isSelected(conversation.id)
+-                    true -> binding.root.isActivated = isSelected(conversation.id)
 +                    true -> {
-+                        view.isActivated = isSelected(conversation.id)
++                        binding.root.isActivated = isSelected(conversation.id)
 +                        // add selection image
-+                        flipAvatarPic(view)
++                        flipAvatarPic(binding)
 +                    }
                      false -> navigator.showConversation(conversation.id)
                  }
              }
-@@ -81,6 +88,8 @@ class ConversationsAdapter @Inject constructor(
+@@ -78,6 +85,8 @@ class ConversationsAdapter @Inject constructor(
                  val conversation = getItem(adapterPosition) ?: return@setOnLongClickListener true
                  toggleSelection(conversation.id)
-                 view.isActivated = isSelected(conversation.id)
+                 binding.root.isActivated = isSelected(conversation.id)
 +                // add selection image
-+                flipAvatarPic(view)
++                flipAvatarPic(binding)
                  true
              }
          }
-@@ -89,7 +98,10 @@ class ConversationsAdapter @Inject constructor(
-     override fun onBindViewHolder(holder: QkViewHolder, position: Int) {
+@@ -86,7 +95,10 @@ class ConversationsAdapter @Inject constructor(
+     override fun onBindViewHolder(holder: QkViewHolder<ConversationListItemBinding>, position: Int) {
          val conversation = getItem(position) ?: return
  
-+        val origActivated = holder.containerView.isActivated
-         holder.containerView.isActivated = isSelected(conversation.id)
++        val origActivated = holder.binding.root.isActivated
+         holder.binding.root.isActivated = isSelected(conversation.id)
 +        // add selection image
-+        if (origActivated != holder.containerView.isActivated) flipAvatarPic(holder.containerView)
++        if (origActivated != holder.binding.root.isActivated) flipAvatarPic(holder.binding)
  
-         holder.avatars.recipients = conversation.recipients
-         holder.title.collapseEnabled = conversation.recipients.size > 1
-@@ -121,4 +133,24 @@ class ConversationsAdapter @Inject constructor(
+         holder.binding.avatars.recipients = conversation.recipients
+         holder.binding.title.collapseEnabled = conversation.recipients.size > 1
+@@ -118,4 +130,24 @@ class ConversationsAdapter @Inject constructor(
      override fun getItemViewType(position: Int): Int {
          return if (getItem(position)?.unread == false) 0 else 1
      }
 +
 +    // add selection image
-+    private fun flipAvatarPic(parentView: View) {
-+        if (parentView.isActivated) {
++    private fun flipAvatarPic(parentView: ConversationListItemBinding) {
++        if (parentView.root.isActivated) {
 +            animatorFlipViews(parentView.avatars, parentView.checked)
 +        } else {
 +            animatorFlipViews(parentView.checked, parentView.avatars)

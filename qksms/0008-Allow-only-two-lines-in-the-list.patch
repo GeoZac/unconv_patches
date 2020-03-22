@@ -1,4 +1,4 @@
-From 70965602cfe05e51a42896d1123a5fc9516cafc8 Mon Sep 17 00:00:00 2001
+From e310f3266d80d5142e529a8f03a6782198703ade Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Wed, 22 Jan 2020 12:50:16 +0530
 Subject: [PATCH] Allow only two lines in the list
@@ -10,20 +10,20 @@ More than 2 lines will looks bad on the layout while 1 line won't give all the d
  2 files changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/presentation/src/main/java/com/moez/QKSMS/feature/conversations/ConversationsAdapter.kt b/presentation/src/main/java/com/moez/QKSMS/feature/conversations/ConversationsAdapter.kt
-index 8f1c0041..6799dcb2 100644
+index c2c9e7be6..608f7c91b 100644
 --- a/presentation/src/main/java/com/moez/QKSMS/feature/conversations/ConversationsAdapter.kt
 +++ b/presentation/src/main/java/com/moez/QKSMS/feature/conversations/ConversationsAdapter.kt
-@@ -61,7 +61,7 @@ class ConversationsAdapter @Inject constructor(
+@@ -58,7 +58,7 @@ class ConversationsAdapter @Inject constructor(
  
-             view.snippet.setTypeface(view.snippet.typeface, Typeface.BOLD)
-             view.snippet.setTextColor(textColorPrimary)
--            view.snippet.maxLines = 5
-+            view.snippet.maxLines = 2 // Just in case,else breaks the view
+                 binding.snippet.setTypeface(binding.snippet.typeface, Typeface.BOLD)
+                 binding.snippet.setTextColor(textColorPrimary)
+-                binding.snippet.maxLines = 5
++                binding.snippet.maxLines = 2 // Just in case,else breaks the view
  
-             view.unread.isVisible = true
+                 binding.unread.isVisible = true
  
 diff --git a/presentation/src/main/res/layout/conversation_list_item.xml b/presentation/src/main/res/layout/conversation_list_item.xml
-index 1ed7eebf..2cf5f642 100644
+index 1ed7eebfc..2cf5f642b 100644
 --- a/presentation/src/main/res/layout/conversation_list_item.xml
 +++ b/presentation/src/main/res/layout/conversation_list_item.xml
 @@ -63,7 +63,7 @@

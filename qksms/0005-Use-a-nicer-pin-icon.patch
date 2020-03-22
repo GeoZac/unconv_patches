@@ -1,4 +1,4 @@
-From bf5f5e83f1b96e92e996b318fb9170b0ed955636 Mon Sep 17 00:00:00 2001
+From 014dacae2a9358b703f8fcc196f51ffa06447f0d Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Fri, 17 Jan 2020 10:21:27 +0530
 Subject: [PATCH] Use a nicer pin icon
@@ -14,7 +14,7 @@ Also use a different icon for unpin
  create mode 100644 presentation/src/main/res/drawable/ic_unpin_black_24dp.xml
 
 diff --git a/presentation/src/main/res/drawable/ic_pin_black_24dp.xml b/presentation/src/main/res/drawable/ic_pin_black_24dp.xml
-index 3602d9d2..9ea3ac87 100644
+index 3602d9d2a..9ea3ac87a 100644
 --- a/presentation/src/main/res/drawable/ic_pin_black_24dp.xml
 +++ b/presentation/src/main/res/drawable/ic_pin_black_24dp.xml
 @@ -23,5 +23,5 @@
@@ -26,7 +26,7 @@ index 3602d9d2..9ea3ac87 100644
  </vector>
 diff --git a/presentation/src/main/res/drawable/ic_unpin_black_24dp.xml b/presentation/src/main/res/drawable/ic_unpin_black_24dp.xml
 new file mode 100644
-index 00000000..6ab9a0c6
+index 000000000..6ab9a0c6c
 --- /dev/null
 +++ b/presentation/src/main/res/drawable/ic_unpin_black_24dp.xml
 @@ -0,0 +1,9 @@
@@ -40,7 +40,7 @@ index 00000000..6ab9a0c6
 +        android:pathData="M17,3L7,3c-1.1,0 -1.99,0.9 -1.99,2L5,21l7,-3 7,3L19,5c0,-1.1 -0.9,-2 -2,-2zM17,18l-5,-2.18L7,18L7,5h10v13z"/>
 +</vector>
 diff --git a/presentation/src/main/res/menu/main.xml b/presentation/src/main/res/menu/main.xml
-index 557b1ccf..0a53cb52 100644
+index 579d60abc..d4b65fee4 100644
 --- a/presentation/src/main/res/menu/main.xml
 +++ b/presentation/src/main/res/menu/main.xml
 @@ -57,7 +57,7 @@

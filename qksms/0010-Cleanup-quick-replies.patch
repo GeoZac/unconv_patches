@@ -1,4 +1,4 @@
-From 5184e53531b633696a41de78760bba3409cbb1e7 Mon Sep 17 00:00:00 2001
+From 2bddbb5b744d9e8063cc9056699b0d50fe47bec8 Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Tue, 28 Jan 2020 11:55:52 +0530
 Subject: [PATCH] Cleanup quick replies
@@ -9,10 +9,10 @@ Too long strings will cause fewer options to show up
  1 file changed, 9 insertions(+), 11 deletions(-)
 
 diff --git a/presentation/src/main/res/values/strings.xml b/presentation/src/main/res/values/strings.xml
-index d9f00e66..0f40e610 100644
+index 5edef771b..12806eaab 100644
 --- a/presentation/src/main/res/values/strings.xml
 +++ b/presentation/src/main/res/values/strings.xml
-@@ -456,18 +456,16 @@
+@@ -461,18 +461,16 @@
      </integer-array>
  
      <string-array name="qk_responses">

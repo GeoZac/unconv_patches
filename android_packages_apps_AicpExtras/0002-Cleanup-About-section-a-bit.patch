@@ -1,0 +1,80 @@
+From 763680374fa80b4a1305346cfedda0e583272e56 Mon Sep 17 00:00:00 2001
+From: George Zacharia <george.zcharia@gmail.com>
+Date: Sun, 22 Mar 2020 12:52:35 +0530
+Subject: [PATCH] Cleanup About section a bit
+
+Use ro.aicp.version as it is much cleaner than ro.aicp.display.version and build date is already in the build date preference
+
+Former Device maintainer preference now shows Device model and open the device maintainer dialog ONLY if the build is official
+Change-Id: Id09705b2666f23b0ac0c7579f6d11f455648f7d8
+---
+ res/values/strings.xml                   | 1 +
+ res/xml/about.xml                        | 2 +-
+ src/com/aicp/extras/fragments/About.java | 7 +++++--
+ 3 files changed, 7 insertions(+), 3 deletions(-)
+
+diff --git a/res/values/strings.xml b/res/values/strings.xml
+index 75c41d1e..0a1fd0df 100644
+--- a/res/values/strings.xml
++++ b/res/values/strings.xml
+@@ -631,6 +631,7 @@
+     <string name="aicp_ota_summary">Check for AICP updates</string>
+     <string name="stats_title">Statistics</string>
+     <string name="stats_summary">Opt in/out for anonymous stats</string>
++    <string name="device_model">Device model</string>
+     <string name="device_maintainer_title">Device maintainer</string>
+     <string name="device_maintainer_dialog">Device maintainer</string>
+     <string name="device_maintainers_dialog">Device maintainers</string>
+diff --git a/res/xml/about.xml b/res/xml/about.xml
+index 08b156e4..c0ec13b4 100644
+--- a/res/xml/about.xml
++++ b/res/xml/about.xml
+@@ -83,7 +83,7 @@
+ 
+         <Preference
+             android:key="device_maintainer"
+-            android:title="@string/device_maintainer_title" />
++            android:title="@string/device_model" />
+ 
+         <Preference
+             android:key="aicp_version"
+diff --git a/src/com/aicp/extras/fragments/About.java b/src/com/aicp/extras/fragments/About.java
+index 1cf1a2b0..cd1cfae0 100644
+--- a/src/com/aicp/extras/fragments/About.java
++++ b/src/com/aicp/extras/fragments/About.java
+@@ -41,15 +41,17 @@ public class About extends BaseSettingsFragment {
+ 
+     private static final String PROPERTY_MAINTAINER = "ro.aicp.maintainer";
+     private static final String PREF_DEVICE_MAINTAINER = "device_maintainer";
+-    private static final String PROPERTY_AICP_VERSION = "ro.aicp.display.version";
++    private static final String PROPERTY_AICP_VERSION = "ro.aicp.version";
+     private static final String PREF_AICP_VERSION = "aicp_version";
+     private static final String PROPERTY_BUILD_DATE = "ro.build.date";
+     private static final String PREF_BUILD_DATE = "build_date";
+     private static final String PREF_AICP_LOGO = "aicp_logo";
++    private static final String PROPERTY_BUILD_TYPE = "ro.romstats.buildtype";
+ 
+     private Preference mDeviceMaintainer;
+     private Preference mAicpVersion;
+     private Preference mBuildDate;
++    private String mBuildType;
+ 
+ 
+     @Override
+@@ -68,6 +70,7 @@ public class About extends BaseSettingsFragment {
+         mAicpVersion.setSummary(SystemProperties.get(PROPERTY_AICP_VERSION,""));
+         mBuildDate = findPreference(PREF_BUILD_DATE);
+         mBuildDate.setSummary(SystemProperties.get(PROPERTY_BUILD_DATE,""));
++        mBuildType = SystemProperties.get(PROPERTY_BUILD_TYPE,"");
+ 
+         Preference aicpLogo = findPreference(PREF_AICP_LOGO);
+         aicpLogo.setOnPreferenceClickListener(new PreferenceMultiClickHandler(new Runnable() {
+@@ -80,7 +83,7 @@ public class About extends BaseSettingsFragment {
+ 
+     @Override
+     public boolean onPreferenceTreeClick(Preference preference) {
+-        if (preference == mDeviceMaintainer) {
++        if (preference == mDeviceMaintainer && mBuildType.equals("OFFICIAL")) {
+             showMaintainerDialog();
+             return true;
+         } else {

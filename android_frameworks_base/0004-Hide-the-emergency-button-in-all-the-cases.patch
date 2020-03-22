@@ -1,0 +1,28 @@
+From 5fa23d80962fc6aceb3367b14ed5718600454d4b Mon Sep 17 00:00:00 2001
+From: George Zacharia <george.zcharia@gmail.com>
+Date: Tue, 17 Mar 2020 09:44:18 +0530
+Subject: [PATCH] Hide the emergency button in all the cases
+
+Even though the emergency button can be hidden in ROM settings, the emergency button will appear because EmergencyAffordanceManager forces it via a carrier specific overlay  , hide it forcefully
+Change-Id: Id9d91d900780174887064eca9493988541448374
+---
+ .../android/systemui/globalactions/GlobalActionsDialog.java | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/packages/SystemUI/src/com/android/systemui/globalactions/GlobalActionsDialog.java b/packages/SystemUI/src/com/android/systemui/globalactions/GlobalActionsDialog.java
+index e2ba0e322b7..67872a375c4 100644
+--- a/packages/SystemUI/src/com/android/systemui/globalactions/GlobalActionsDialog.java
++++ b/packages/SystemUI/src/com/android/systemui/globalactions/GlobalActionsDialog.java
+@@ -537,8 +537,10 @@ public class GlobalActionsDialog implements DialogInterface.OnDismissListener,
+             addedKeys.add(actionKey);
+         }
+ 
+-        if (mEmergencyAffordanceManager.needsEmergencyAffordance()) {
+-            mItems.add(new EmergencyAffordanceAction());
++        if (mEmergencyAffordanceManager.needsEmergencyAffordance() && Settings.Secure.getIntForUser(mContext.getContentResolver(),
++                        Settings.Secure.EMERGENCY_IN_POWER_MENU, 0, getCurrentUser().id) != 0) {
++            Log.e(TAG, "Overriding Emergency Affordance specifications");
++            mItems.add(getEmergencyAction());
+         }
+ 
+         mAdapter = new MyAdapter();

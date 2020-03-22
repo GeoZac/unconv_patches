@@ -1,4 +1,4 @@
-From 02000cf779021d2abe7209d2458aaf5b779e37b6 Mon Sep 17 00:00:00 2001
+From 9aba33c4da7d0ec26f6d2abb31df145a249e9168 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?eray=20or=C3=A7unus?= <erayorcunus@gmail.com>
 Date: Tue, 23 Apr 2019 16:46:35 +0300
 Subject: [PATCH] SystemUI: Enable and fix QS detail view, adapt layout to 10

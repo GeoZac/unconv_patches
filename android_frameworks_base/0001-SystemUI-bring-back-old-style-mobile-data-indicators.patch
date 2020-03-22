@@ -1,4 +1,4 @@
-From d4c61b2d80a4e56916bcb6f515a5c358bf7b7f8c Mon Sep 17 00:00:00 2001
+From d8eb68578f14dea1a65c5cf38798b6f026a8341f Mon Sep 17 00:00:00 2001
 From: maxwen <max.weninger@gmail.com>
 Date: Wed, 27 Nov 2019 16:27:40 +0100
 Subject: [PATCH] SystemUI: bring back old style mobile data indicators

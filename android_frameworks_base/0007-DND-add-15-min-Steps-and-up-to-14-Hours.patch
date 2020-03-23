@@ -1,0 +1,48 @@
+From 31099f9ec870a6dcf2ebcacb2c57809bfb246a38 Mon Sep 17 00:00:00 2001
+From: Sven W <digixp2006@gmail.com>
+Date: Tue, 9 Jan 2018 13:56:57 +0100
+Subject: [PATCH] DND: add 15 min Steps and up to 14 Hours
+
+Edits:
+15 mins till 4 hours, 30 mins till 7 hrs, and then hourly buckets
+Remove debug references, cleanup values from original commit
+
+Change-Id: Idbbd9df595b5c662d1620c743920d4d31ce4c249
+---
+ .../service/notification/ZenModeConfig.java      | 16 +++-------------
+ 1 file changed, 3 insertions(+), 13 deletions(-)
+
+diff --git a/core/java/android/service/notification/ZenModeConfig.java b/core/java/android/service/notification/ZenModeConfig.java
+index d458a100c70..a137344ba9c 100644
+--- a/core/java/android/service/notification/ZenModeConfig.java
++++ b/core/java/android/service/notification/ZenModeConfig.java
+@@ -83,7 +83,9 @@ public class ZenModeConfig implements Parcelable {
+     public static final int[] ALL_DAYS = { Calendar.SUNDAY, Calendar.MONDAY, Calendar.TUESDAY,
+             Calendar.WEDNESDAY, Calendar.THURSDAY, Calendar.FRIDAY, Calendar.SATURDAY };
+ 
+-    public static final int[] MINUTE_BUCKETS = generateMinuteBuckets();
++    public static final int[] MINUTE_BUCKETS = new int[] { 15, 30, 45, 60, 75, 90, 105, 120,
++            135, 150, 165, 180, 195, 210, 225, 240, 270, 300, 330, 360, 390, 420, 480, 540, 600,
++            660, 720, 780, 840 };
+     private static final int SECONDS_MS = 1000;
+     private static final int MINUTES_MS = 60 * SECONDS_MS;
+     private static final int DAY_MINUTES = 24 * 60;
+@@ -387,18 +389,6 @@ public class ZenModeConfig implements Parcelable {
+         }
+     }
+ 
+-    private static int[] generateMinuteBuckets() {
+-        final int maxHrs = 24;
+-        final int[] buckets = new int[maxHrs + 3];
+-        buckets[0] = 15;
+-        buckets[1] = 30;
+-        buckets[2] = 45;
+-        for (int i = 1; i <= maxHrs; i++) {
+-            buckets[2 + i] = 60 * i;
+-        }
+-        return buckets;
+-    }
+-
+     public static String sourceToString(int source) {
+         switch (source) {
+             case SOURCE_ANYONE:

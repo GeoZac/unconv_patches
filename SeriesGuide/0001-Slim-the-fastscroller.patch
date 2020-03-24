@@ -1,4 +1,4 @@
-From 251115f2194b238d5e7e26feb4fca17d69a6f5e7 Mon Sep 17 00:00:00 2001
+From 9caed049665aae621cb30c45ecdccc3d23de7954 Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Thu, 6 Feb 2020 14:25:59 +0530
 Subject: [PATCH] Slim the fastscroller
@@ -37,6 +37,3 @@ index 2821cc862..2943a4370 100644
      <dimen name="sg_fastscroll_minimum_height">56dp</dimen>
      <dimen name="sg_fastscroll_margin">0dp</dimen>
      <dimen name="sg_fastscroll_minimum_range">50dp</dimen>
--- 
-2.24.1.windows.2
-

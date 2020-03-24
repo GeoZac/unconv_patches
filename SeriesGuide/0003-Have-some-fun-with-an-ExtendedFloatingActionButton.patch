@@ -1,0 +1,191 @@
+From 20b3774f1d723efca998969274add2d5227396cf Mon Sep 17 00:00:00 2001
+From: George Zacharia <george.zcharia@gmail.com>
+Date: Tue, 24 Mar 2020 07:52:14 +0530
+Subject: [PATCH] Have some fun with an ExtendedFloatingActionButton
+
+---
+ .../seriesguide/ui/ShowsActivity.java         |  8 +--
+ .../ui/shows/FabRecyclerViewScrollDetector.kt | 49 -------------------
+ .../seriesguide/ui/shows/ShowsFragment.java   | 21 ++++++--
+ app/src/main/res/layout/activity_shows.xml    | 13 +++--
+ app/src/main/res/values/strings.xml           |  3 +-
+ 5 files changed, 32 insertions(+), 62 deletions(-)
+ delete mode 100644 app/src/main/java/com/battlelancer/seriesguide/ui/shows/FabRecyclerViewScrollDetector.kt
+
+diff --git a/app/src/main/java/com/battlelancer/seriesguide/ui/ShowsActivity.java b/app/src/main/java/com/battlelancer/seriesguide/ui/ShowsActivity.java
+index 27fdca18c..4c8ee1471 100644
+--- a/app/src/main/java/com/battlelancer/seriesguide/ui/ShowsActivity.java
++++ b/app/src/main/java/com/battlelancer/seriesguide/ui/ShowsActivity.java
+@@ -47,7 +47,7 @@ import com.battlelancer.seriesguide.util.DBUtils;
+ import com.battlelancer.seriesguide.util.TabClickEvent;
+ import com.battlelancer.seriesguide.util.TaskManager;
+ import com.battlelancer.seriesguide.util.Utils;
+-import com.google.android.material.floatingactionbutton.FloatingActionButton;
++import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+ import com.google.android.material.snackbar.Snackbar;
+ import com.uwetrottmann.seriesguide.billing.BillingViewModel;
+ import com.uwetrottmann.seriesguide.widgets.SlidingTabLayout;
+@@ -185,7 +185,7 @@ public class ShowsActivity extends BaseTopActivity implements
+ 
+     private void setupViews() {
+         // setup floating action button for adding shows
+-        FloatingActionButton buttonAddShow = findViewById(R.id.buttonShowsAdd);
++        ExtendedFloatingActionButton buttonAddShow = findViewById(R.id.buttonShowsAdd);
+         buttonAddShow.setOnClickListener(
+                 v -> startActivity(new Intent(ShowsActivity.this, SearchActivity.class)
+                         .putExtra(SearchActivity.EXTRA_DEFAULT_TAB,
+@@ -442,10 +442,10 @@ public class ShowsActivity extends BaseTopActivity implements
+     public static class ShowsTabPageAdapter extends TabStripAdapter
+             implements ViewPager.OnPageChangeListener {
+ 
+-        private final FloatingActionButton floatingActionButton;
++        private final ExtendedFloatingActionButton floatingActionButton;
+ 
+         public ShowsTabPageAdapter(FragmentManager fm, Context context, ViewPager pager,
+-                SlidingTabLayout tabs, FloatingActionButton floatingActionButton) {
++                SlidingTabLayout tabs, ExtendedFloatingActionButton floatingActionButton) {
+             super(fm, context, pager, tabs);
+             this.floatingActionButton = floatingActionButton;
+             tabs.setOnPageChangeListener(this);
+diff --git a/app/src/main/java/com/battlelancer/seriesguide/ui/shows/FabRecyclerViewScrollDetector.kt b/app/src/main/java/com/battlelancer/seriesguide/ui/shows/FabRecyclerViewScrollDetector.kt
+deleted file mode 100644
+index 1f460c3b0..000000000
+--- a/app/src/main/java/com/battlelancer/seriesguide/ui/shows/FabRecyclerViewScrollDetector.kt
++++ /dev/null
+@@ -1,49 +0,0 @@
+-package com.battlelancer.seriesguide.ui.shows
+-
+-import androidx.recyclerview.widget.RecyclerView
+-import com.battlelancer.seriesguide.R
+-import com.google.android.material.floatingactionbutton.FloatingActionButton
+-
+-/**
+- * Hides the floating action button when scrolling down, shows it when scrolling up. If the view can
+- * no longer scroll down, shows the button also.
+- *
+- * Built upon https://github.com/makovkastar/FloatingActionButton scroll detectors.
+- */
+-internal class FabRecyclerViewScrollDetector(private val button: FloatingActionButton) :
+-    RecyclerView.OnScrollListener() {
+-
+-    private val scrollThreshold: Int =
+-        button.context.resources.getDimensionPixelOffset(R.dimen.fab_scroll_threshold)
+-
+-    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+-        // no action if RecyclerView is no longer visible, such as its tab was swiped away
+-        if (!recyclerView.hasFocus()) {
+-            return
+-        }
+-
+-        // always show if scrolled to bottom
+-        if (!recyclerView.canScrollVertically(1 /* down */)) {
+-            button.show()
+-            return
+-        }
+-
+-        val isSignificantDelta = Math.abs(dy) > scrollThreshold
+-        if (isSignificantDelta) {
+-            if (dy > 0) {
+-                onScrollDown()
+-            } else {
+-                onScrollUp()
+-            }
+-        }
+-    }
+-
+-    private fun onScrollDown() {
+-        button.hide()
+-    }
+-
+-    private fun onScrollUp() {
+-        button.show()
+-    }
+-
+-}
+diff --git a/app/src/main/java/com/battlelancer/seriesguide/ui/shows/ShowsFragment.java b/app/src/main/java/com/battlelancer/seriesguide/ui/shows/ShowsFragment.java
+index c8aad5aad..478b319fc 100644
+--- a/app/src/main/java/com/battlelancer/seriesguide/ui/shows/ShowsFragment.java
++++ b/app/src/main/java/com/battlelancer/seriesguide/ui/shows/ShowsFragment.java
+@@ -35,7 +35,7 @@ import com.battlelancer.seriesguide.ui.movies.AutoGridLayoutManager;
+ import com.battlelancer.seriesguide.util.DBUtils;
+ import com.battlelancer.seriesguide.util.TabClickEvent;
+ import com.battlelancer.seriesguide.util.ViewTools;
+-import com.google.android.material.floatingactionbutton.FloatingActionButton;
++import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+ import org.greenrobot.eventbus.EventBus;
+ import org.greenrobot.eventbus.Subscribe;
+ import org.greenrobot.eventbus.ThreadMode;
+@@ -145,8 +145,23 @@ public class ShowsFragment extends Fragment {
+         });
+ 
+         // hide floating action button when scrolling shows
+-        FloatingActionButton buttonAddShow = getActivity().findViewById(R.id.buttonShowsAdd);
+-        recyclerView.addOnScrollListener(new FabRecyclerViewScrollDetector(buttonAddShow));
++        ExtendedFloatingActionButton buttonAddShow = getActivity().findViewById(R.id.buttonShowsAdd);
++        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
++            @Override
++            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
++                super.onScrollStateChanged(recyclerView, newState);
++            }
++
++            @Override
++            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
++                super.onScrolled(recyclerView, dx, dy);
++                if (dy > 0 && buttonAddShow.getVisibility() == View.VISIBLE) {
++                    buttonAddShow.shrink();
++                } else if (dy < 0 && buttonAddShow.getVisibility() != View.INVISIBLE) {
++                    buttonAddShow.extend();
++                }
++            }
++        });
+ 
+         // listen for some settings changes
+         PreferenceManager
+diff --git a/app/src/main/res/layout/activity_shows.xml b/app/src/main/res/layout/activity_shows.xml
+index 3bb3baaa4..de5d52327 100644
+--- a/app/src/main/res/layout/activity_shows.xml
++++ b/app/src/main/res/layout/activity_shows.xml
+@@ -32,17 +32,20 @@
+             android:layout_height="match_parent"
+             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+ 
+-        <com.google.android.material.floatingactionbutton.FloatingActionButton
++        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+             android:id="@+id/buttonShowsAdd"
++            style="@style/Widget.MaterialComponents.FloatingActionButton"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_gravity="bottom|end"
+-            android:layout_marginBottom="@dimen/fab_margin"
+-            android:layout_marginLeft="0dp"
+-            android:layout_marginRight="@dimen/fab_margin"
++            android:layout_marginStart="0dp"
+             android:layout_marginTop="0dp"
++            android:layout_marginEnd="@dimen/fab_margin"
++            android:layout_marginBottom="@dimen/fab_margin"
+             android:contentDescription="@string/action_shows_add"
+-            app:srcCompat="@drawable/ic_add_white_24dp" />
++            android:text="@string/add_show"
++            app:backgroundTint="@color/sg_color_primary"
++            app:icon="@drawable/ic_add_white_24dp" />
+ 
+     </androidx.coordinatorlayout.widget.CoordinatorLayout>
+ 
+diff --git a/app/src/main/res/values/strings.xml b/app/src/main/res/values/strings.xml
+index 83007d2e2..2dc187fad 100644
+--- a/app/src/main/res/values/strings.xml
++++ b/app/src/main/res/values/strings.xml
+@@ -1,4 +1,4 @@
+-﻿<?xml version="1.0" encoding="utf-8"?>
++<?xml version="1.0" encoding="utf-8"?>
+ <resources>
+ 
+     <!-- Main Menu -->
+@@ -577,5 +577,6 @@
+     <string name="feedback_question_feedback">Tell me how to improve it?</string>
+     <string name="feedback_action_ok">OK, sure</string>
+     <string name="feedback_action_nothanks">No, thanks</string>
++    <string name="add_show">Add show</string>
+ 
+ </resources>
+\ No newline at end of file

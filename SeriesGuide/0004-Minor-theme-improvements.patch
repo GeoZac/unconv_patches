@@ -1,0 +1,174 @@
+From c6f5b6063e657b6ef3a042b1c098f6d2a99ac061 Mon Sep 17 00:00:00 2001
+From: George Zacharia <george.zcharia@gmail.com>
+Date: Tue, 24 Mar 2020 14:12:00 +0530
+Subject: [PATCH] Minor theme improvements
+
+Color StatusBar and NavigationBars in most of the cases (both Day and night)
+Disable AllCaps in some places
+Tweak some colors
+---
+ app/src/main/res/values-night/themes.xml | 18 +++++++++++++++---
+ app/src/main/res/values/colors.xml       |  6 +++---
+ app/src/main/res/values/styles.xml       |  5 +++--
+ app/src/main/res/values/themes.xml       | 20 +++++++++++++++-----
+ 4 files changed, 36 insertions(+), 13 deletions(-)
+
+diff --git a/app/src/main/res/values-night/themes.xml b/app/src/main/res/values-night/themes.xml
+index f5b2a04f6..a01e9ce47 100644
+--- a/app/src/main/res/values-night/themes.xml
++++ b/app/src/main/res/values-night/themes.xml
+@@ -1,8 +1,20 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <resources>
+ 
+-    <style name="Theme.SeriesGuide.DayNight" parent="Theme.SeriesGuide.Dark" />
+-    <style name="Theme.SeriesGuide.DayNight.Drawer" parent="Theme.SeriesGuide.Dark.Drawer" />
+-    <style name="Theme.SeriesGuide.DayNight.Immersive" parent="Theme.SeriesGuide.Dark.Immersive" />
++    <style name="Theme.SeriesGuide.DayNight" parent="Theme.SeriesGuide.Dark">
++        <item name="android:navigationBarColor">@color/sg_color_background_dark</item>
++        <item name="android:statusBarColor">@color/sg_background_app_bar_dark</item>
++    </style>
++
++    <style name="Theme.SeriesGuide.DayNight.Drawer" parent="Theme.SeriesGuide.Dark.Drawer">
++        <item name="backgroundColor">@color/sg_color_background_dark</item>
++        <item name="android:navigationBarColor">@color/sg_color_background_dark</item>
++        <item name="android:statusBarColor">@color/sg_background_app_bar_dark</item>
++    </style>
++
++    <style name="Theme.SeriesGuide.DayNight.Immersive" parent="Theme.SeriesGuide.Dark.Immersive">
++        <item name="android:navigationBarColor">@color/sg_color_background_dark</item>
++        <item name="android:statusBarColor">@color/sg_background_app_bar_dark</item>
++    </style>
+ 
+ </resources>
+\ No newline at end of file
+diff --git a/app/src/main/res/values/colors.xml b/app/src/main/res/values/colors.xml
+index 7408d1998..5d4ed5b3c 100644
+--- a/app/src/main/res/values/colors.xml
++++ b/app/src/main/res/values/colors.xml
+@@ -33,7 +33,7 @@
+     <color name="sg_color_secondary">@color/sg_color_secondary_light</color>
+ 
+     <!-- Dark background is 8% primary on top of #121212 -->
+-    <color name="sg_color_background_dark">#19161e</color>
++    <color name="sg_color_background_dark">#121212</color>
+     <color name="sg_color_background_light">#ebebeb</color>
+     <color name="sg_color_background">@color/sg_color_background_light</color>
+ 
+@@ -50,8 +50,8 @@
+ 
+     <color name="grey_50">#fffafafa</color>
+     <color name="grey_850">#ff303030</color>
+-    <color name="widget_default_background">@color/grey_850</color>
+-    <color name="widget_default_background_light">@color/grey_50</color>
++    <color name="widget_default_background">#ff202026</color>
++    <color name="widget_default_background_light">#80ffffff</color>
+ 
+     <color name="background_inverse">#ffebebeb</color>
+     <color name="background_black">#ff000000</color>
+diff --git a/app/src/main/res/values/styles.xml b/app/src/main/res/values/styles.xml
+index 1975a1d6a..4c54f4777 100644
+--- a/app/src/main/res/values/styles.xml
++++ b/app/src/main/res/values/styles.xml
+@@ -115,7 +115,7 @@
+ 
+     <style name="TextAppearance.Button">
+         <item name="android:textSize">@dimen/text_size_default_sg</item>
+-        <item name="android:textAllCaps">true</item>
++        <item name="android:textAllCaps">false</item>
+         <item name="android:fontFamily">sans-serif-medium</item>
+     </style>
+ 
+@@ -172,6 +172,7 @@
+ 
+     <style name="TextAppearance.SeriesGuide.Tab" parent="TextAppearance.MaterialComponents.Button">
+         <item name="android:textColor">?attr/colorOnPrimarySurface</item>
++        <item name="android:textAllCaps">false</item>
+     </style>
+ 
+     <style name="TextAppearance.SeriesGuide.Tab.Surface">
+@@ -183,7 +184,7 @@
+     <!-- Widgets are not part of the app, so app theme attributes can not be used. -->
+     <style name="TextAppearance.SeriesGuide.Widget.Title" parent="">
+         <item name="android:fontFamily">sans-serif-medium</item>
+-        <item name="android:textAllCaps">true</item>
++        <item name="android:textAllCaps">false</item>
+         <item name="android:textSize">18sp</item>
+         <item name="android:ellipsize">end</item>
+         <item name="android:maxLines">1</item>
+diff --git a/app/src/main/res/values/themes.xml b/app/src/main/res/values/themes.xml
+index d419db56d..09a8e024f 100644
+--- a/app/src/main/res/values/themes.xml
++++ b/app/src/main/res/values/themes.xml
+@@ -10,6 +10,8 @@
+     <style name="Theme.BaseSeriesGuide.Dark" parent="Theme.MaterialComponents.NoActionBar">
+ 
+         <!-- All customizations that are SPECIFIC to API-level 21 go here. -->
++        <item name="android:navigationBarColor">@color/sg_color_primary_dark</item>
++        <item name="android:statusBarColor">@color/sg_color_primary_900</item>
+ 
+     </style>
+ 
+@@ -40,6 +42,9 @@
+         <item name="android:windowContentTransitions">true</item>
+         <item name="windowActionModeOverlay">true</item>
+ 
++        <item name="android:navigationBarColor">@color/sg_color_background_dark</item>
++        <item name="android:statusBarColor">@color/sg_color_primary_900</item>
++
+         <!-- Remove default window shadow -->
+         <item name="android:windowContentOverlay">@null</item>
+ 
+@@ -52,7 +57,7 @@
+         <item name="sgColorIconInactive">@color/sg_white_50</item>
+         <item name="sgColorDivider">@color/sg_white_15</item>
+         <item name="sgColorShadow">@color/sg_black_40</item>
+-        <item name="sgColorStatusBarOverlay">@color/sg_black_87</item>
++        <item name="sgColorStatusBarOverlay">@color/sg_color_primary_900</item>
+ 
+         <!-- dialogTheme is used by AppCompatDialogFragment. -->
+         <item name="dialogTheme">@style/ThemeOverlay.MaterialComponents.Dialog</item>
+@@ -64,7 +69,8 @@
+         <!-- All customizations that are SPECIFIC to API-level 21 go here. -->
+ 
+         <!-- Note: nav bar color needs to be opaque! -->
+-        <item name="android:navigationBarColor">@color/sg_black_almost</item>
++        <item name="android:navigationBarColor">@color/sg_color_primary_dark</item>
++        <item name="android:statusBarColor">@color/sg_color_primary_900</item>
+ 
+     </style>
+ 
+@@ -90,6 +96,9 @@
+         <item name="colorOnSurface">@color/sg_black</item>
+         <item name="colorOnBackground">@color/sg_black</item>
+ 
++        <item name="android:navigationBarColor">@color/sg_white</item>
++        <item name="android:statusBarColor">@color/sg_color_primary_900</item>
++
+         <!-- Windows -->
+         <item name="android:windowBackground">@color/sg_color_background</item>
+         <item name="android:windowContentTransitions">true</item>
+@@ -107,7 +116,7 @@
+         <item name="sgColorIconInactive">@color/sg_black_38</item>
+         <item name="sgColorDivider">@color/sg_black_10</item>
+         <item name="sgColorShadow">@color/sg_black_7</item>
+-        <item name="sgColorStatusBarOverlay">@color/sg_white_87</item>
++        <item name="sgColorStatusBarOverlay">@color/sg_color_primary_900</item>
+ 
+         <!-- dialogTheme is used by AppCompatDialogFragment. -->
+         <item name="dialogTheme">@style/ThemeOverlay.MaterialComponents.Dialog</item>
+@@ -125,11 +134,12 @@
+     <style name="Theme.SeriesGuide.DayNight.Drawer" parent="Theme.SeriesGuide.Light.Drawer" />
+     <style name="Theme.SeriesGuide.Dark.Drawer">
+         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+-        <item name="android:statusBarColor">@android:color/transparent</item>
++        <item name="android:statusBarColor">@color/sg_color_primary_900</item>
+     </style>
+     <style name="Theme.SeriesGuide.Light.Drawer">
++        <item name="backgroundColor">@color/sg_color_background</item>
+         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+-        <item name="android:statusBarColor">@android:color/transparent</item>
++        <item name="android:statusBarColor">@color/sg_color_primary_900</item>
+     </style>
+ 
+     <!-- Immersive -->

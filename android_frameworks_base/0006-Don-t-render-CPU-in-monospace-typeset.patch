@@ -1,4 +1,4 @@
-From b28bfef110ebe9bd748ddb82e330bb36594b08f9 Mon Sep 17 00:00:00 2001
+From 7e99c8e0ccca28d02fe5196874c5797ef9ff7764 Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Sat, 21 Mar 2020 19:00:36 +0530
 Subject: [PATCH] Don't render CPU in monospace typeset

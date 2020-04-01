@@ -1,4 +1,4 @@
-From a1070dbcc517dd4be4d811c7481e0acfcf16b9eb Mon Sep 17 00:00:00 2001
+From 43cba116072e0a1f0ac0568c8cfb36e2bb5b4455 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?eray=20or=C3=A7unus?= <erayorcunus@gmail.com>
 Date: Tue, 23 Apr 2019 16:46:35 +0300
 Subject: [PATCH] SystemUI: Enable and fix QS detail view, adapt layout to 10
@@ -126,7 +126,7 @@ index 00000000000..557cae15030
 +    </shape>
 +</inset>
 diff --git a/packages/SystemUI/res/layout/qs_detail.xml b/packages/SystemUI/res/layout/qs_detail.xml
-index 294bd50fcf8..808d3f8bde7 100644
+index c57429f44c8..1a97b73a8d1 100644
 --- a/packages/SystemUI/res/layout/qs_detail.xml
 +++ b/packages/SystemUI/res/layout/qs_detail.xml
 @@ -19,7 +19,6 @@
@@ -136,7 +136,7 @@ index 294bd50fcf8..808d3f8bde7 100644
 -    android:background="@drawable/qs_detail_background"
      android:clickable="true"
      android:orientation="vertical"
-     android:paddingBottom="8dp"
+     android:paddingBottom="0.01dp"
 @@ -27,35 +26,50 @@
      android:elevation="4dp"
      android:importantForAccessibility="no" >
@@ -210,6 +210,7 @@ index 294bd50fcf8..808d3f8bde7 100644
 +    </com.android.keyguard.AlphaOptimizedLinearLayout>
  
  </com.android.systemui.qs.QSDetail>
+\ No newline at end of file
 diff --git a/packages/SystemUI/res/layout/qs_detail_buttons.xml b/packages/SystemUI/res/layout/qs_detail_buttons.xml
 index 75f43f9a580..f5930469c68 100644
 --- a/packages/SystemUI/res/layout/qs_detail_buttons.xml
@@ -328,7 +329,7 @@ index a4eae270ce5..3458ef4af57 100644
      <dimen name="qs_detail_item_icon_width">32dp</dimen>
      <dimen name="qs_detail_item_icon_marginStart">0dp</dimen>
 diff --git a/packages/SystemUI/res/values/styles.xml b/packages/SystemUI/res/values/styles.xml
-index 6374191c4d7..476c051edac 100644
+index 9dec47a4353..e012303b238 100644
 --- a/packages/SystemUI/res/values/styles.xml
 +++ b/packages/SystemUI/res/values/styles.xml
 @@ -144,6 +144,7 @@
@@ -411,7 +412,7 @@ index 496aa0e572a..a9dadecf88a 100644
              }
              mAnimatingOpen = false;
 diff --git a/packages/SystemUI/src/com/android/systemui/qs/QSPanel.java b/packages/SystemUI/src/com/android/systemui/qs/QSPanel.java
-index be60899113d..9708080ba09 100644
+index f3321d1be67..1619d9978a0 100644
 --- a/packages/SystemUI/src/com/android/systemui/qs/QSPanel.java
 +++ b/packages/SystemUI/src/com/android/systemui/qs/QSPanel.java
 @@ -651,7 +651,8 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
@@ -434,10 +435,10 @@ index be60899113d..9708080ba09 100644
      }
  
 diff --git a/packages/SystemUI/src/com/android/systemui/qs/tiles/CellularTile.java b/packages/SystemUI/src/com/android/systemui/qs/tiles/CellularTile.java
-index ca13fc66cce..cab5db63844 100644
+index 86bbdfb3b1c..98985c05c2f 100644
 --- a/packages/SystemUI/src/com/android/systemui/qs/tiles/CellularTile.java
 +++ b/packages/SystemUI/src/com/android/systemui/qs/tiles/CellularTile.java
-@@ -48,6 +48,7 @@ import com.android.systemui.qs.QSHost;
+@@ -49,6 +49,7 @@ import com.android.systemui.qs.QSHost;
  import com.android.systemui.qs.SignalTileView;
  import com.android.systemui.qs.tileimpl.QSTileImpl;
  import com.android.systemui.statusbar.phone.SystemUIDialog;
@@ -445,7 +446,7 @@ index ca13fc66cce..cab5db63844 100644
  import com.android.systemui.statusbar.policy.KeyguardMonitor;
  import com.android.systemui.statusbar.policy.NetworkController;
  import com.android.systemui.statusbar.policy.NetworkController.IconState;
-@@ -67,16 +68,18 @@ public class CellularTile extends QSTileImpl<SignalState> {
+@@ -68,16 +69,18 @@ public class CellularTile extends QSTileImpl<SignalState> {
      private final ActivityStarter mActivityStarter;
      private final KeyguardMonitor mKeyguardMonitor;
      private final KeyguardCallback mKeyguardCallback = new KeyguardCallback();
@@ -466,7 +467,7 @@ index ca13fc66cce..cab5db63844 100644
          mController.observe(getLifecycle(), mSignalCallback);
      }
  
-@@ -163,10 +166,12 @@ public class CellularTile extends QSTileImpl<SignalState> {
+@@ -164,10 +167,12 @@ public class CellularTile extends QSTileImpl<SignalState> {
  
      @Override
      protected void handleSecondaryClick() {

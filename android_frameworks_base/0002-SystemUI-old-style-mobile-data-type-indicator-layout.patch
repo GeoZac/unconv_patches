@@ -1,4 +1,4 @@
-From 269d951376e7b530ebf42a621f2133d57aec7944 Mon Sep 17 00:00:00 2001
+From c5a2df4cc8c3a9fc9693d24720207c9685d59c09 Mon Sep 17 00:00:00 2001
 From: maxwen <max.weninger@gmail.com>
 Date: Sun, 1 Dec 2019 03:06:50 +0100
 Subject: [PATCH] SystemUI: old style mobile data type indicator layout update
@@ -66,11 +66,11 @@ index 14eab7c3a32..5567d604de3 100644
          </FrameLayout>
      </com.android.keyguard.AlphaOptimizedLinearLayout>
 diff --git a/packages/SystemUI/res/values/aicp_dimens.xml b/packages/SystemUI/res/values/aicp_dimens.xml
-index d3f73e08b18..dd620c22aa9 100644
+index e02b79e9d8b..66514573dd0 100644
 --- a/packages/SystemUI/res/values/aicp_dimens.xml
 +++ b/packages/SystemUI/res/values/aicp_dimens.xml
-@@ -92,8 +92,10 @@
-     <dimen name="right_tri_state_up_top_right_radius">24.0dip</dimen>
+@@ -106,8 +106,10 @@
+     <dimen name="fp_dialog_error_padding_bottom_fingerprint_in_display">72dp</dimen>
  
      <!-- Old mobile signal -->
 -    <dimen name="status_bar_mobile_signal_with_type_width">22dp</dimen>

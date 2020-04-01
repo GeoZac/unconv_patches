@@ -1,4 +1,4 @@
-From 3b04f6d3174b3b28374c1d5124b1c8094a52a50f Mon Sep 17 00:00:00 2001
+From 4c2b2b46c59eb065860e371e9172d27bb7bf018d Mon Sep 17 00:00:00 2001
 From: maxwen <max.weninger@gmail.com>
 Date: Wed, 27 Nov 2019 16:27:40 +0100
 Subject: [PATCH] SystemUI: bring back old style mobile data indicators
@@ -8,21 +8,21 @@ waiting for the next update
 
 Change-Id: Idf6ba3cd97b6fde1f6a5fbb7ee72b3fba71f710b
 ---
- core/java/android/provider/Settings.java      |  11 ++
+ core/java/android/provider/Settings.java      |  18 +++
  .../layout/status_bar_mobile_signal_group.xml |  10 +-
  packages/SystemUI/res/values/aicp_dimens.xml  |   6 +
  .../statusbar/StatusBarMobileView.java        | 131 +++++++++++++++---
  .../statusbar/phone/DemoStatusIcons.java      |   4 +-
  .../phone/StatusBarIconController.java        |  13 +-
- 6 files changed, 150 insertions(+), 25 deletions(-)
+ 6 files changed, 157 insertions(+), 25 deletions(-)
 
 diff --git a/core/java/android/provider/Settings.java b/core/java/android/provider/Settings.java
-index 9b1c88207b0..c84b5533dae 100644
+index 925724ec099..64e1abda2b4 100644
 --- a/core/java/android/provider/Settings.java
 +++ b/core/java/android/provider/Settings.java
-@@ -6363,6 +6363,14 @@ public final class Settings {
-          */
-         public static final String ALERT_SLIDER_NOTIFICATIONS = "alert_slider_notifications";
+@@ -6536,6 +6536,18 @@ public final class Settings {
+          * AICP System Settings end
+          ***************************/
  
 +        /**
 +         * @hide
@@ -32,33 +32,40 @@ index 9b1c88207b0..c84b5533dae 100644
 +        private static final Validator OMNI_USE_OLD_MOBILETYPE_VALIDATOR =
 +                BOOLEAN_VALIDATOR;
 +
-         /***************************
-          * AICP System Settings end
-          ***************************/
-@@ -6611,6 +6619,7 @@ public final class Settings {
-             NAVIGATION_BAR_ARROW_KEYS,
-             BACK_GESTURE_BLOCK_IME,
-             PULSE_AMBIENT_LIGHT_REPEAT_COUNT,
-+            OMNI_USE_OLD_MOBILETYPE,
++        /***************************
++         * unConv additions end
++         ***************************/
++
+         /**
+          * IMPORTANT: If you add a new public settings you also have to add it to
+          * PUBLIC_SETTINGS below. If the new setting is hidden you have to add
+@@ -6797,6 +6809,8 @@ public final class Settings {
+             OFF_GESTURE_HAPTIC_ENABLE,
+             MUSIC_PLAYBACK_GESTURE_ENABLE,
              // AICP Settings end
++            OMNI_USE_OLD_MOBILETYPE,
++            // unConv additions end
          };
  
-@@ -6913,6 +6922,7 @@ public final class Settings {
-             PRIVATE_SETTINGS.add(NAVIGATION_BAR_ARROW_KEYS);
-             PRIVATE_SETTINGS.add(BACK_GESTURE_BLOCK_IME);
-             PRIVATE_SETTINGS.add(PULSE_AMBIENT_LIGHT_REPEAT_COUNT);
+         /**
+@@ -7115,6 +7129,8 @@ public final class Settings {
+             PRIVATE_SETTINGS.add(OFF_GESTURE_HAPTIC_ENABLE);
+             PRIVATE_SETTINGS.add(MUSIC_PLAYBACK_GESTURE_ENABLE);
+             // AICP Settings end
 +            PRIVATE_SETTINGS.add(OMNI_USE_OLD_MOBILETYPE);
-             // AICP Settings end
++            // unConv additions end
          }
  
-@@ -7206,6 +7216,7 @@ public final class Settings {
-                     NAVIGATION_BAR_ARROW_KEYS_VALIDATOR);
-             VALIDATORS.put(BACK_GESTURE_BLOCK_IME, BACK_GESTURE_BLOCK_IME_VALIDATOR);
-             VALIDATORS.put(PULSE_AMBIENT_LIGHT_REPEAT_COUNT, PULSE_AMBIENT_LIGHT_REPEAT_COUNT_VALIDATOR);
+         /**
+@@ -7432,6 +7448,8 @@ public final class Settings {
+             VALIDATORS.put(MUSIC_PLAYBACK_GESTURE_ENABLE, MUSIC_PLAYBACK_GESTURE_ENABLE_VALIDATOR);
+ 
+             // AICP Settings end
 +            VALIDATORS.put(OMNI_USE_OLD_MOBILETYPE, OMNI_USE_OLD_MOBILETYPE_VALIDATOR);
-             // AICP Settings end
++            // unConv additions end
          }
  
+         /**
 diff --git a/packages/SystemUI/res/layout/status_bar_mobile_signal_group.xml b/packages/SystemUI/res/layout/status_bar_mobile_signal_group.xml
 index 976ce9da23b..14eab7c3a32 100644
 --- a/packages/SystemUI/res/layout/status_bar_mobile_signal_group.xml
@@ -94,13 +101,13 @@ index 976ce9da23b..14eab7c3a32 100644
      </com.android.keyguard.AlphaOptimizedLinearLayout>
  </com.android.systemui.statusbar.StatusBarMobileView>
 diff --git a/packages/SystemUI/res/values/aicp_dimens.xml b/packages/SystemUI/res/values/aicp_dimens.xml
-index 55a3baf88ee..d3f73e08b18 100644
+index 0bd4f519098..e02b79e9d8b 100644
 --- a/packages/SystemUI/res/values/aicp_dimens.xml
 +++ b/packages/SystemUI/res/values/aicp_dimens.xml
-@@ -90,4 +90,10 @@
-     <dimen name="right_tri_state_up_bottom_right_radius">0.0dip</dimen>
-     <dimen name="right_tri_state_up_top_left_radius">24.0dip</dimen>
-     <dimen name="right_tri_state_up_top_right_radius">24.0dip</dimen>
+@@ -104,4 +104,10 @@
+     <!-- Custom padding size on biometric dialog when fingerprint in display is active -->
+     <dimen name="fp_dialog_error_padding_top_fingerprint_in_display">@dimen/fp_dialog_error_padding_top</dimen>
+     <dimen name="fp_dialog_error_padding_bottom_fingerprint_in_display">72dp</dimen>
 +
 +    <!-- Old mobile signal -->
 +    <dimen name="status_bar_mobile_signal_with_type_width">22dp</dimen>

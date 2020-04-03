@@ -1,4 +1,4 @@
-From 678751c3256974432927f6bd7d7b1645782218ce Mon Sep 17 00:00:00 2001
+From 6a5e1f7a8a3f5470d781dd86e6391bd28c1dd2a2 Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Sun, 22 Mar 2020 05:40:48 +0530
 Subject: [PATCH] APK optimisations
@@ -12,10 +12,10 @@ Give custom name to output
  1 file changed, 13 insertions(+)
 
 diff --git a/app/build.gradle b/app/build.gradle
-index cf7289a8d..5c0efd6d4 100644
+index 356880892..4a909ed85 100644
 --- a/app/build.gradle
 +++ b/app/build.gradle
-@@ -14,6 +14,11 @@ android {
+@@ -15,6 +15,11 @@ android {
          enabled = true
      }
  
@@ -27,7 +27,7 @@ index cf7289a8d..5c0efd6d4 100644
      defaultConfig {
          minSdkVersion versions.minSdk
          targetSdkVersion versions.targetSdk
-@@ -77,10 +82,12 @@ android {
+@@ -78,10 +83,12 @@ android {
              versionCode versions.code
              versionName versions.name
  
@@ -40,15 +40,15 @@ index cf7289a8d..5c0efd6d4 100644
          }
          amazon {
              applicationId "com.uwetrottmann.seriesguide.amzn"
-@@ -111,6 +118,7 @@ android {
+@@ -112,6 +119,7 @@ android {
  
              multiDexEnabled false
              minifyEnabled true
 +            zipAlignEnabled true
              proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
  
-             if(rootProject.file('keystore.properties').exists()) {
-@@ -275,3 +283,8 @@ def propertyOrEmpty(String name) {
+             if (rootProject.file('keystore.properties').exists()) {
+@@ -281,3 +289,8 @@ def propertyOrEmpty(String name) {
  def propertyOrNull(String name) {
      return rootProject.hasProperty(name) ? "\"${rootProject.property(name)}\"" : "null"
  }

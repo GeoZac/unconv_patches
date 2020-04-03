@@ -1,4 +1,4 @@
-From c6f5b6063e657b6ef3a042b1c098f6d2a99ac061 Mon Sep 17 00:00:00 2001
+From 2bbaf187e53d32fbe80420e9f87cf488ce0adf53 Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Tue, 24 Mar 2020 14:12:00 +0530
 Subject: [PATCH] Minor theme improvements
@@ -7,35 +7,27 @@ Color StatusBar and NavigationBars in most of the cases (both Day and night)
 Disable AllCaps in some places
 Tweak some colors
 ---
- app/src/main/res/values-night/themes.xml | 18 +++++++++++++++---
+ app/src/main/res/values-night/themes.xml | 10 ++++++++--
  app/src/main/res/values/colors.xml       |  6 +++---
  app/src/main/res/values/styles.xml       |  5 +++--
- app/src/main/res/values/themes.xml       | 20 +++++++++++++++-----
- 4 files changed, 36 insertions(+), 13 deletions(-)
+ app/src/main/res/values/themes.xml       | 15 ++++++++++++---
+ 4 files changed, 26 insertions(+), 10 deletions(-)
 
 diff --git a/app/src/main/res/values-night/themes.xml b/app/src/main/res/values-night/themes.xml
-index f5b2a04f6..a01e9ce47 100644
+index fbd6b7a04..62417160e 100644
 --- a/app/src/main/res/values-night/themes.xml
 +++ b/app/src/main/res/values-night/themes.xml
-@@ -1,8 +1,20 @@
+@@ -1,7 +1,13 @@
  <?xml version="1.0" encoding="utf-8"?>
  <resources>
  
 -    <style name="Theme.SeriesGuide.DayNight" parent="Theme.SeriesGuide.Dark" />
--    <style name="Theme.SeriesGuide.DayNight.Drawer" parent="Theme.SeriesGuide.Dark.Drawer" />
 -    <style name="Theme.SeriesGuide.DayNight.Immersive" parent="Theme.SeriesGuide.Dark.Immersive" />
-+    <style name="Theme.SeriesGuide.DayNight" parent="Theme.SeriesGuide.Dark">
++    <style name="Theme.SeriesGuide.DayNight" parent="Theme.SeriesGuide.Dark" >
 +        <item name="android:navigationBarColor">@color/sg_color_background_dark</item>
 +        <item name="android:statusBarColor">@color/sg_background_app_bar_dark</item>
 +    </style>
-+
-+    <style name="Theme.SeriesGuide.DayNight.Drawer" parent="Theme.SeriesGuide.Dark.Drawer">
-+        <item name="backgroundColor">@color/sg_color_background_dark</item>
-+        <item name="android:navigationBarColor">@color/sg_color_background_dark</item>
-+        <item name="android:statusBarColor">@color/sg_background_app_bar_dark</item>
-+    </style>
-+
-+    <style name="Theme.SeriesGuide.DayNight.Immersive" parent="Theme.SeriesGuide.Dark.Immersive">
++    <style name="Theme.SeriesGuide.DayNight.Immersive" parent="Theme.SeriesGuide.Dark.Immersive" >
 +        <item name="android:navigationBarColor">@color/sg_color_background_dark</item>
 +        <item name="android:statusBarColor">@color/sg_background_app_bar_dark</item>
 +    </style>
@@ -67,7 +59,7 @@ index 7408d1998..5d4ed5b3c 100644
      <color name="background_inverse">#ffebebeb</color>
      <color name="background_black">#ff000000</color>
 diff --git a/app/src/main/res/values/styles.xml b/app/src/main/res/values/styles.xml
-index 1975a1d6a..4c54f4777 100644
+index b6ae1c4b2..ad698d948 100644
 --- a/app/src/main/res/values/styles.xml
 +++ b/app/src/main/res/values/styles.xml
 @@ -115,7 +115,7 @@
@@ -97,7 +89,7 @@ index 1975a1d6a..4c54f4777 100644
          <item name="android:ellipsize">end</item>
          <item name="android:maxLines">1</item>
 diff --git a/app/src/main/res/values/themes.xml b/app/src/main/res/values/themes.xml
-index d419db56d..09a8e024f 100644
+index 462f86002..a3720c443 100644
 --- a/app/src/main/res/values/themes.xml
 +++ b/app/src/main/res/values/themes.xml
 @@ -10,6 +10,8 @@
@@ -157,18 +149,3 @@ index d419db56d..09a8e024f 100644
  
          <!-- dialogTheme is used by AppCompatDialogFragment. -->
          <item name="dialogTheme">@style/ThemeOverlay.MaterialComponents.Dialog</item>
-@@ -125,11 +134,12 @@
-     <style name="Theme.SeriesGuide.DayNight.Drawer" parent="Theme.SeriesGuide.Light.Drawer" />
-     <style name="Theme.SeriesGuide.Dark.Drawer">
-         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
--        <item name="android:statusBarColor">@android:color/transparent</item>
-+        <item name="android:statusBarColor">@color/sg_color_primary_900</item>
-     </style>
-     <style name="Theme.SeriesGuide.Light.Drawer">
-+        <item name="backgroundColor">@color/sg_color_background</item>
-         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
--        <item name="android:statusBarColor">@android:color/transparent</item>
-+        <item name="android:statusBarColor">@color/sg_color_primary_900</item>
-     </style>
- 
-     <!-- Immersive -->

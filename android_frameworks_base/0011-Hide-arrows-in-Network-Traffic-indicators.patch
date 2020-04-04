@@ -1,0 +1,45 @@
+From d642d5294256580b44153fd0adb89c418be089d7 Mon Sep 17 00:00:00 2001
+From: Nico60 <ndhouailly@gmail.com>
+Date: Sat, 4 Apr 2020 20:47:49 +0530
+Subject: [PATCH] Hide arrows in Network Traffic indicators
+
+I don't need no switch for this, disable it completely.
+---
+ .../android/systemui/statusbar/policy/NetworkTraffic.java   | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/policy/NetworkTraffic.java b/packages/SystemUI/src/com/android/systemui/statusbar/policy/NetworkTraffic.java
+index c5b0f739620..948d9c39179 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/policy/NetworkTraffic.java
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/policy/NetworkTraffic.java
+@@ -54,6 +54,7 @@ public class NetworkTraffic extends TextView {
+     private long lastUpdateTime;
+     private int txtSize;
+     private int txtImgPadding;
++    private boolean mHideArrow;
+     private int mAutoHideThreshold;
+     protected int mTintColor;
+     protected boolean mTrafficVisible = false;
+@@ -266,6 +267,7 @@ public class NetworkTraffic extends TextView {
+         mAutoHideThreshold = Settings.System.getIntForUser(resolver,
+                 Settings.System.NETWORK_TRAFFIC_AUTOHIDE_THRESHOLD, 1,
+                 UserHandle.USER_CURRENT);
++        mHideArrow = false; // always and forver
+     }
+ 
+     protected String getSystemSettingKey() {
+@@ -280,12 +282,12 @@ public class NetworkTraffic extends TextView {
+ 
+     protected void updateTrafficDrawable() {
+         int intTrafficDrawable;
+-        if (mIsEnabled) {
++        if (mIsEnabled && mHideArrow) {
+             intTrafficDrawable = R.drawable.stat_sys_network_traffic_updown;
+         } else {
+             intTrafficDrawable = 0;
+         }
+-        if (intTrafficDrawable != 0) {
++        if (intTrafficDrawable != 0 && mHideArrow) {
+             Drawable d = getContext().getDrawable(intTrafficDrawable);
+             d.setColorFilter(mTintColor, Mode.MULTIPLY);
+             setCompoundDrawablePadding(txtImgPadding);

@@ -1,0 +1,79 @@
+From 1923171714fe1a8b71141bbcc696ab9b6b59a17d Mon Sep 17 00:00:00 2001
+From: George Zacharia <george.zcharia@gmail.com>
+Date: Sat, 4 Apr 2020 17:41:34 +0530
+Subject: [PATCH] Style draft tag with html
+
+Do it both in the main conversation screen and the widget
+Modify a method to handle the new changes
+---
+ .../QKSMS/feature/conversations/ConversationsAdapter.kt     | 4 +++-
+ .../java/com/moez/QKSMS/feature/widget/WidgetAdapter.kt     | 6 ++++--
+ presentation/src/main/res/values/strings.xml                | 2 +-
+ 3 files changed, 8 insertions(+), 4 deletions(-)
+
+diff --git a/presentation/src/main/java/com/moez/QKSMS/feature/conversations/ConversationsAdapter.kt b/presentation/src/main/java/com/moez/QKSMS/feature/conversations/ConversationsAdapter.kt
+index 516687d37..3ecd3dab7 100644
+--- a/presentation/src/main/java/com/moez/QKSMS/feature/conversations/ConversationsAdapter.kt
++++ b/presentation/src/main/java/com/moez/QKSMS/feature/conversations/ConversationsAdapter.kt
+@@ -25,6 +25,7 @@ import android.graphics.Typeface
+ import android.view.LayoutInflater
+ import android.view.View
+ import android.view.ViewGroup
++import androidx.core.text.HtmlCompat
+ import androidx.core.view.isVisible
+ import com.moez.QKSMS.R
+ import com.moez.QKSMS.common.Navigator
+@@ -105,7 +106,8 @@ class ConversationsAdapter @Inject constructor(
+         holder.binding.title.text = conversation.getTitle()
+         holder.binding.date.text = conversation.date.takeIf { it > 0 }?.let(dateFormatter::getConversationTimestamp)
+         holder.binding.snippet.text = when {
+-            conversation.draft.isNotEmpty() -> context.getString(R.string.main_draft, conversation.draft)
++            conversation.draft.isNotEmpty() -> HtmlCompat.fromHtml(
++                    context.getString(R.string.main_draft, conversation.draft), HtmlCompat.FROM_HTML_MODE_LEGACY)
+             conversation.me -> context.getString(R.string.main_sender_you, conversation.snippet)
+             else -> conversation.snippet
+         }
+diff --git a/presentation/src/main/java/com/moez/QKSMS/feature/widget/WidgetAdapter.kt b/presentation/src/main/java/com/moez/QKSMS/feature/widget/WidgetAdapter.kt
+index f8011ef8a..3988165b7 100644
+--- a/presentation/src/main/java/com/moez/QKSMS/feature/widget/WidgetAdapter.kt
++++ b/presentation/src/main/java/com/moez/QKSMS/feature/widget/WidgetAdapter.kt
+@@ -26,6 +26,7 @@ import android.text.SpannableStringBuilder
+ import android.view.View
+ import android.widget.RemoteViews
+ import android.widget.RemoteViewsService
++import androidx.core.text.HtmlCompat
+ import androidx.core.text.bold
+ import com.moez.QKSMS.R
+ import com.moez.QKSMS.common.util.Colors
+@@ -148,7 +149,8 @@ class WidgetAdapter(intent: Intent) : RemoteViewsService.RemoteViewsFactory {
+ 
+         // Snippet
+         val snippet = when {
+-            conversation.draft.isNotEmpty() -> context.getString(R.string.main_draft, conversation.draft)
++            conversation.draft.isNotEmpty() -> HtmlCompat.fromHtml(
++                    context.getString(R.string.main_draft, conversation.draft), HtmlCompat.FROM_HTML_MODE_LEGACY)
+             conversation.me -> context.getString(R.string.main_sender_you, conversation.snippet)
+             else -> conversation.snippet
+         }
+@@ -172,7 +174,7 @@ class WidgetAdapter(intent: Intent) : RemoteViewsService.RemoteViewsFactory {
+         return view
+     }
+ 
+-    private fun boldText(text: String?, shouldBold: Boolean): CharSequence? = when {
++    private fun boldText(text: CharSequence?, shouldBold: Boolean): CharSequence? = when {
+         shouldBold -> SpannableStringBuilder()
+                 .bold { append(text) }
+         else -> text
+diff --git a/presentation/src/main/res/values/strings.xml b/presentation/src/main/res/values/strings.xml
+index b1db3b497..70a18b753 100644
+--- a/presentation/src/main/res/values/strings.xml
++++ b/presentation/src/main/res/values/strings.xml
+@@ -55,7 +55,7 @@
+     <string name="main_menu_block">Block</string>
+     <string name="main_syncing">Syncing messages…</string>
+     <string name="main_sender_you">You: %s</string>
+-    <string name="main_draft">Draft: %s</string>
++    <string name="main_draft">&lt;b>Draft&lt;/b>: %s</string>
+     <string name="main_message_results_title">Results in messages</string>
+     <string name="main_message_results">%d messages</string>
+     <string name="inbox_empty_text">Your conversations will appear here</string>

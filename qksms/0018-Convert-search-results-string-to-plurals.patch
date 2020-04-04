@@ -1,0 +1,41 @@
+From b03290ae91c4ac17f4a92519bd61f6b60d27b7db Mon Sep 17 00:00:00 2001
+From: George Zacharia <george.zcharia@gmail.com>
+Date: Sat, 4 Apr 2020 17:46:04 +0530
+Subject: [PATCH] Convert search results string to plurals
+
+Was wierd seeing "1 messages", the change should be reflected in translations also, but I'm only not including translation from 5664ca7f0336dc7ca9ad6f144d123829791bcce7
+---
+ .../main/java/com/moez/QKSMS/feature/main/SearchAdapter.kt   | 3 ++-
+ presentation/src/main/res/values/strings.xml                 | 5 ++++-
+ 2 files changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/presentation/src/main/java/com/moez/QKSMS/feature/main/SearchAdapter.kt b/presentation/src/main/java/com/moez/QKSMS/feature/main/SearchAdapter.kt
+index e59dde89e..acc986891 100644
+--- a/presentation/src/main/java/com/moez/QKSMS/feature/main/SearchAdapter.kt
++++ b/presentation/src/main/java/com/moez/QKSMS/feature/main/SearchAdapter.kt
+@@ -84,7 +84,8 @@ class SearchAdapter @Inject constructor(
+ 
+             false -> {
+                 holder.binding.date.setVisible(false)
+-                holder.binding.snippet.text = context.getString(R.string.main_message_results, result.messages)
++                holder.binding.snippet.text = context.resources.getQuantityString(
++                        R.plurals.main_message_results, result.messages, result.messages)
+             }
+         }
+     }
+diff --git a/presentation/src/main/res/values/strings.xml b/presentation/src/main/res/values/strings.xml
+index 70a18b753..ce98489f2 100644
+--- a/presentation/src/main/res/values/strings.xml
++++ b/presentation/src/main/res/values/strings.xml
+@@ -57,7 +57,10 @@
+     <string name="main_sender_you">You: %s</string>
+     <string name="main_draft">&lt;b>Draft&lt;/b>: %s</string>
+     <string name="main_message_results_title">Results in messages</string>
+-    <string name="main_message_results">%d messages</string>
++    <plurals name="main_message_results">
++        <item quantity="one">%d message</item>
++        <item quantity="other">%d messages</item>
++    </plurals>
+     <string name="inbox_empty_text">Your conversations will appear here</string>
+     <string name="inbox_search_empty_text">No results</string>
+     <string name="archived_empty_text">Your archived conversations will appear here</string>

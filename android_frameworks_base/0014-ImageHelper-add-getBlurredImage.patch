@@ -1,0 +1,59 @@
+From 8d5c32aa0c2442d5305ee24d87e7f59e7f592386 Mon Sep 17 00:00:00 2001
+From: Dil3mm4 <dil3mm4.dev@gmail.com>
+Date: Tue, 19 Mar 2019 01:26:28 -0300
+Subject: [PATCH] ImageHelper: add getBlurredImage
+
+Bootleggers edit: Modify to use less amount of blur radius, and add a method to put a custom radius
+
+Change-Id: I25b6524265832462ca14cd7a110cb5f02362a767
+Signed-off-by: Anirudh Gupta <anirudhgupta109@gmail.com>
+---
+ .../internal/util/aicp/ImageHelper.java       | 27 ++++++++++++++++++-
+ 1 file changed, 26 insertions(+), 1 deletion(-)
+
+diff --git a/core/java/com/android/internal/util/aicp/ImageHelper.java b/core/java/com/android/internal/util/aicp/ImageHelper.java
+index 28c04ec0bef..9ce63f4db8c 100644
+--- a/core/java/com/android/internal/util/aicp/ImageHelper.java
++++ b/core/java/com/android/internal/util/aicp/ImageHelper.java
+@@ -159,7 +159,16 @@ public class ImageHelper {
+         int height = Math.round(image.getHeight() * BITMAP_SCALE);
+ 
+         Bitmap inputBitmap = Bitmap.createScaledBitmap(image, width, height, false);
+-        Bitmap outputBitmap = Bitmap.createBitmap(inputBitmap);
++
++        try {
++            inputBitmap = RGB565toARGB888(image);
++        } catch (Exception e) {
++            e.printStackTrace();
++        }
++
++        Bitmap outputBitmap = Bitmap.createBitmap(
++                image.getWidth(), image.getHeight(),
++                Bitmap.Config.ARGB_8888);
+ 
+         RenderScript rs = RenderScript.create(context);
+         ScriptIntrinsicBlur theIntrinsic = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
+@@ -169,7 +178,23 @@ public class ImageHelper {
+         theIntrinsic.setInput(tmpIn);
+         theIntrinsic.forEach(tmpOut);
+         tmpOut.copyTo(outputBitmap);
++        rs.destroy();
+         return outputBitmap;
+    }
+ 
++   private static Bitmap RGB565toARGB888(Bitmap img) throws Exception {
++        int numPixels = img.getWidth() * img.getHeight();
++        int[] pixels = new int[numPixels];
++
++        //Get JPEG pixels.  Each int is the color values for one pixel.
++        img.getPixels(pixels, 0, img.getWidth(), 0, 0, img.getWidth(), img.getHeight());
++
++        //Create a Bitmap of the appropriate format.
++        Bitmap result = Bitmap.createBitmap(img.getWidth(), img.getHeight(), Bitmap.Config.ARGB_8888);
++
++        //Set RGB pixels.
++        result.setPixels(pixels, 0, result.getWidth(), 0, 0, result.getWidth(), result.getHeight());
++        return result;
++    }
++
+ }

@@ -1,0 +1,78 @@
+From f0bfbbf4563ba9305a754cbaf112e89dfaef813b Mon Sep 17 00:00:00 2001
+From: ElDainosor <eldainosor@gmail.com>
+Date: Mon, 27 Apr 2020 20:07:28 +0530
+Subject: [PATCH] AE: Add lockscreen filters
+
+Change-Id: Ibbfd0ba8b737f47a6bb78e95ed41a56bb879b199
+---
+ res/values/arrays.xml  | 20 ++++++++++++++++++++
+ res/values/strings.xml |  9 +++++++++
+ res/xml/lockscreen.xml |  8 ++++++++
+ 3 files changed, 37 insertions(+)
+
+diff --git a/res/values/arrays.xml b/res/values/arrays.xml
+index ab769eb0..991c3050 100644
+--- a/res/values/arrays.xml
++++ b/res/values/arrays.xml
+@@ -1072,4 +1072,24 @@
+         <item>1</item>
+         <item>0</item>
+     </string-array>
++
++    <!-- Lockscreen media art filter -->
++    <string-array name="lockscreen_cover_filter_entries">
++        <item>@string/lockscreen_cover_filter_none</item>
++        <item>@string/lockscreen_cover_filter_grayscale</item>
++        <item>@string/lockscreen_cover_filter_tint</item>
++        <item>@string/lockscreen_cover_filter_blur</item>
++        <item>@string/lockscreen_cover_filter_grayblur</item>
++        <item>@string/lockscreen_cover_filter_gradientblur</item>
++    </string-array>
++
++    <string-array name="lockscreen_cover_filter_values" translatable="false">
++        <item>0</item>
++        <item>1</item>
++        <item>2</item>
++        <item>3</item>
++        <item>4</item>
++        <item>5</item>
++    </string-array>
++
+ </resources>
+diff --git a/res/values/strings.xml b/res/values/strings.xml
+index 3bc90b4d..dd7aa849 100644
+--- a/res/values/strings.xml
++++ b/res/values/strings.xml
+@@ -1559,4 +1559,13 @@
+     <string name="ringtone_focus_mode_title">Ringtone audio focus</string>
+     <string name="ringtone_focus_mode_dynamic">Headset only if music is active</string>
+     <string name="ringtone_focus_mode_stock">Both speaker and headset</string>
++
++    <!-- Lockscreen cover art filter -->
++    <string name="lockscreen_cover_filter_title">Lockscreen album art filter</string>
++    <string name="lockscreen_cover_filter_none">None</string>
++    <string name="lockscreen_cover_filter_grayscale">Grayscale</string>
++    <string name="lockscreen_cover_filter_tint">Accent tinted</string>
++    <string name="lockscreen_cover_filter_blur">Blur</string>
++    <string name="lockscreen_cover_filter_grayblur">Grayscale and blurred</string>
++    <string name="lockscreen_cover_filter_gradientblur">Gradient Blur</string>
+ </resources>
+diff --git a/res/xml/lockscreen.xml b/res/xml/lockscreen.xml
+index 2dff9d5f..44cd8575 100644
+--- a/res/xml/lockscreen.xml
++++ b/res/xml/lockscreen.xml
+@@ -87,6 +87,14 @@
+         android:summary="@string/media_art_summary"
+         android:defaultValue="false" />
+ 
++    <com.aicp.gear.preference.SystemSettingListPreference
++        android:key="lockscreen_album_art_filter"	
++        android:title="@string/lockscreen_cover_filter_title"
++        android:entries="@array/lockscreen_cover_filter_entries"
++        android:entryValues="@array/lockscreen_cover_filter_values"
++        android:dependency="lockscreen_media_metadata"
++        android:defaultValue="5" />
++
+     <com.aicp.gear.preference.SystemSettingSeekBarPreference
+         android:key="lockscreen_media_blur"
+         android:title="@string/lockscreen_media_blur_title"

@@ -1,0 +1,47 @@
+From 1fb7ad164eee6eccb4b533743b063bad8eff251b Mon Sep 17 00:00:00 2001
+From: George Zacharia <george.zcharia@gmail.com>
+Date: Sun, 3 May 2020 22:19:46 +0530
+Subject: [PATCH] Show versionCode in App Install Dialog
+
+Change-Id: I74e5616525c2db7778a3862fff1acc778742cd95
+---
+ packages/PackageInstaller/res/values/aicp_strings.xml         | 4 ++--
+ .../android/packageinstaller/PackageInstallerActivity.java    | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/packages/PackageInstaller/res/values/aicp_strings.xml b/packages/PackageInstaller/res/values/aicp_strings.xml
+index bb99ab0c2e3..35a09e27adf 100644
+--- a/packages/PackageInstaller/res/values/aicp_strings.xml
++++ b/packages/PackageInstaller/res/values/aicp_strings.xml
+@@ -16,7 +16,7 @@
+ 
+ <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+     <!-- Message for updating an existing app [CHAR LIMIT=NONE] -->
+-    <string name="old_version_number">Installed version: <xliff:g id="old_version">%1$s</xliff:g></string>
++    <string name="old_version_number">Installed version: <xliff:g id="old_version">%1$s</xliff:g> (%2$s)</string>
+     <!-- Message for updating an existing system app [CHAR LIMIT=NONE] -->
+-    <string name="new_version_number">To be installed: <xliff:g id="new_version">%1$s</xliff:g></string>
++    <string name="new_version_number">To be installed: <xliff:g id="new_version">%1$s</xliff:g> (%2$s)</string>
+ </resources>
+diff --git a/packages/PackageInstaller/src/com/android/packageinstaller/PackageInstallerActivity.java b/packages/PackageInstaller/src/com/android/packageinstaller/PackageInstallerActivity.java
+index f0be2c19ebc..102ced93bdb 100644
+--- a/packages/PackageInstaller/src/com/android/packageinstaller/PackageInstallerActivity.java
++++ b/packages/PackageInstaller/src/com/android/packageinstaller/PackageInstallerActivity.java
+@@ -132,7 +132,7 @@ public class PackageInstallerActivity extends AlertActivity {
+                     : requireViewById(R.id.install_confirm_question_update);
+             oldVersionView = requireViewById(R.id.installed_app_version);
+             ((TextView)oldVersionView).setText(
+-                    getString(R.string.old_version_number, oldInfo.versionName));
++                    getString(R.string.old_version_number, oldInfo.versionName, oldInfo.versionCode));
+             oldVersionView.setVisibility(View.VISIBLE);
+         } else {
+             // This is a new application with no permissions.
+@@ -140,7 +140,7 @@ public class PackageInstallerActivity extends AlertActivity {
+         }
+         newVersionView = requireViewById(R.id.updating_app_version);
+         ((TextView)newVersionView).setText(
+-                getString(R.string.new_version_number, mPkgInfo.versionName));
++                getString(R.string.new_version_number, mPkgInfo.versionName, mPkgInfo.versionCode));
+         viewToEnable.setVisibility(View.VISIBLE);
+         newVersionView.setVisibility(View.VISIBLE);
+ 

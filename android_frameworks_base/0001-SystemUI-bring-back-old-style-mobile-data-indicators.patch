@@ -1,4 +1,4 @@
-From 4c2b2b46c59eb065860e371e9172d27bb7bf018d Mon Sep 17 00:00:00 2001
+From 9746944a4c5d77857cc5f7ee862c2a51d6e85ee8 Mon Sep 17 00:00:00 2001
 From: maxwen <max.weninger@gmail.com>
 Date: Wed, 27 Nov 2019 16:27:40 +0100
 Subject: [PATCH] SystemUI: bring back old style mobile data indicators
@@ -10,17 +10,17 @@ Change-Id: Idf6ba3cd97b6fde1f6a5fbb7ee72b3fba71f710b
 ---
  core/java/android/provider/Settings.java      |  18 +++
  .../layout/status_bar_mobile_signal_group.xml |  10 +-
- packages/SystemUI/res/values/aicp_dimens.xml  |   6 +
+ packages/SystemUI/res/values/aicp_dimens.xml  |   5 +
  .../statusbar/StatusBarMobileView.java        | 131 +++++++++++++++---
  .../statusbar/phone/DemoStatusIcons.java      |   4 +-
  .../phone/StatusBarIconController.java        |  13 +-
- 6 files changed, 157 insertions(+), 25 deletions(-)
+ 6 files changed, 156 insertions(+), 25 deletions(-)
 
 diff --git a/core/java/android/provider/Settings.java b/core/java/android/provider/Settings.java
-index 925724ec099..64e1abda2b4 100644
+index 248fa7248c0..0f3821fd3b1 100644
 --- a/core/java/android/provider/Settings.java
 +++ b/core/java/android/provider/Settings.java
-@@ -6536,6 +6536,18 @@ public final class Settings {
+@@ -6951,6 +6951,18 @@ public final class Settings {
           * AICP System Settings end
           ***************************/
  
@@ -39,27 +39,27 @@ index 925724ec099..64e1abda2b4 100644
          /**
           * IMPORTANT: If you add a new public settings you also have to add it to
           * PUBLIC_SETTINGS below. If the new setting is hidden you have to add
-@@ -6797,6 +6809,8 @@ public final class Settings {
-             OFF_GESTURE_HAPTIC_ENABLE,
-             MUSIC_PLAYBACK_GESTURE_ENABLE,
+@@ -7217,6 +7229,8 @@ public final class Settings {
+             ADAPTIVE_PLAYBACK_ENABLED,
+             NOTIFICATION_HEADERS,
              // AICP Settings end
 +            OMNI_USE_OLD_MOBILETYPE,
 +            // unConv additions end
          };
  
          /**
-@@ -7115,6 +7129,8 @@ public final class Settings {
-             PRIVATE_SETTINGS.add(OFF_GESTURE_HAPTIC_ENABLE);
-             PRIVATE_SETTINGS.add(MUSIC_PLAYBACK_GESTURE_ENABLE);
+@@ -7563,6 +7577,8 @@ public final class Settings {
+             PRIVATE_SETTINGS.add(DISPLAY_PICTURE_ADJUSTMENT);
+             PRIVATE_SETTINGS.add(LIVE_DISPLAY_HINTED);
              // AICP Settings end
 +            PRIVATE_SETTINGS.add(OMNI_USE_OLD_MOBILETYPE);
 +            // unConv additions end
          }
  
          /**
-@@ -7432,6 +7448,8 @@ public final class Settings {
-             VALIDATORS.put(MUSIC_PLAYBACK_GESTURE_ENABLE, MUSIC_PLAYBACK_GESTURE_ENABLE_VALIDATOR);
- 
+@@ -7896,6 +7912,8 @@ public final class Settings {
+             VALIDATORS.put(LIVE_DISPLAY_HINTED, LIVE_DISPLAY_HINTED_VALIDATOR);
+             VALIDATORS.put(NOTIFICATION_HEADERS, NOTIFICATION_HEADERS_VALIDATOR);
              // AICP Settings end
 +            VALIDATORS.put(OMNI_USE_OLD_MOBILETYPE, OMNI_USE_OLD_MOBILETYPE_VALIDATOR);
 +            // unConv additions end
@@ -101,19 +101,18 @@ index 976ce9da23b..14eab7c3a32 100644
      </com.android.keyguard.AlphaOptimizedLinearLayout>
  </com.android.systemui.statusbar.StatusBarMobileView>
 diff --git a/packages/SystemUI/res/values/aicp_dimens.xml b/packages/SystemUI/res/values/aicp_dimens.xml
-index 0bd4f519098..e02b79e9d8b 100644
+index a00ab2e1515..0ab66047dd1 100644
 --- a/packages/SystemUI/res/values/aicp_dimens.xml
 +++ b/packages/SystemUI/res/values/aicp_dimens.xml
-@@ -104,4 +104,10 @@
-     <!-- Custom padding size on biometric dialog when fingerprint in display is active -->
-     <dimen name="fp_dialog_error_padding_top_fingerprint_in_display">@dimen/fp_dialog_error_padding_top</dimen>
-     <dimen name="fp_dialog_error_padding_bottom_fingerprint_in_display">72dp</dimen>
+@@ -110,4 +110,9 @@
+     <dimen name="config_customCutoutTopHeight">0.0px</dimen>
+     <dimen name="config_customCutoutBottomWidth">0.0px</dimen>
+     <dimen name="config_customCutoutBottomHeight">0.0px</dimen>
 +
 +    <!-- Old mobile signal -->
 +    <dimen name="status_bar_mobile_signal_with_type_width">22dp</dimen>
 +    <dimen name="status_bar_mobile_signal_width">16dp</dimen>
 +    <dimen name="status_bar_mobile_type_height">10dp</dimen>
-+
  </resources>
 diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/StatusBarMobileView.java b/packages/SystemUI/src/com/android/systemui/statusbar/StatusBarMobileView.java
 index bcf414bbcfb..6445dfcde3d 100644

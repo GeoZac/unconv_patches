@@ -1,4 +1,4 @@
-From c5a2df4cc8c3a9fc9693d24720207c9685d59c09 Mon Sep 17 00:00:00 2001
+From 516e22c5f1c335dcdcedfb0c4859cde24eb95b42 Mon Sep 17 00:00:00 2001
 From: maxwen <max.weninger@gmail.com>
 Date: Sun, 1 Dec 2019 03:06:50 +0100
 Subject: [PATCH] SystemUI: old style mobile data type indicator layout update
@@ -7,9 +7,9 @@ Change-Id: Iaa0112f97b72c66d6a7cbba63072416eb0740088
 ---
  .../res/drawable/stat_sys_roaming.xml         |  4 +-
  .../layout/status_bar_mobile_signal_group.xml | 15 +++--
- packages/SystemUI/res/values/aicp_dimens.xml  |  6 +-
+ packages/SystemUI/res/values/aicp_dimens.xml  |  7 ++-
  .../statusbar/StatusBarMobileView.java        | 55 +++++++++++--------
- 4 files changed, 50 insertions(+), 30 deletions(-)
+ 4 files changed, 51 insertions(+), 30 deletions(-)
 
 diff --git a/packages/SystemUI/res/drawable/stat_sys_roaming.xml b/packages/SystemUI/res/drawable/stat_sys_roaming.xml
 index 0dd9f5a39f9..d7151c67176 100644
@@ -66,11 +66,11 @@ index 14eab7c3a32..5567d604de3 100644
          </FrameLayout>
      </com.android.keyguard.AlphaOptimizedLinearLayout>
 diff --git a/packages/SystemUI/res/values/aicp_dimens.xml b/packages/SystemUI/res/values/aicp_dimens.xml
-index e02b79e9d8b..66514573dd0 100644
+index 0ab66047dd1..5ee5cb3c440 100644
 --- a/packages/SystemUI/res/values/aicp_dimens.xml
 +++ b/packages/SystemUI/res/values/aicp_dimens.xml
-@@ -106,8 +106,10 @@
-     <dimen name="fp_dialog_error_padding_bottom_fingerprint_in_display">72dp</dimen>
+@@ -112,7 +112,10 @@
+     <dimen name="config_customCutoutBottomHeight">0.0px</dimen>
  
      <!-- Old mobile signal -->
 -    <dimen name="status_bar_mobile_signal_with_type_width">22dp</dimen>
@@ -80,7 +80,7 @@ index e02b79e9d8b..66514573dd0 100644
 +    <dimen name="status_bar_mobile_type_height">8dp</dimen>
 +    <dimen name="status_bar_mobile_type_padding">2dp</dimen>
 +    <dimen name="status_bar_mobile_type_padding_limit">10dp</dimen>
- 
++
  </resources>
 diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/StatusBarMobileView.java b/packages/SystemUI/src/com/android/systemui/statusbar/StatusBarMobileView.java
 index 6445dfcde3d..bf3f6517ec1 100644

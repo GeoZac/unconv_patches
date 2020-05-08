@@ -1,4 +1,4 @@
-From e63247330d0c07d8c61102b860ff68b11b16352c Mon Sep 17 00:00:00 2001
+From 2464078e80b2dbb4644c591fb4705828e9ff8369 Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Sat, 21 Mar 2020 18:58:41 +0530
 Subject: [PATCH] Workaround an issue with WeatherTile
@@ -37,10 +37,10 @@ index fc23bf7d103..3ed0c662d46 100644
          }
          if (mRes == null) {
 diff --git a/packages/SystemUI/src/com/android/systemui/qs/tiles/WeatherTile.java b/packages/SystemUI/src/com/android/systemui/qs/tiles/WeatherTile.java
-index 13fa42d7e68..84167250575 100644
+index 77871114275..622807db2bb 100644
 --- a/packages/SystemUI/src/com/android/systemui/qs/tiles/WeatherTile.java
 +++ b/packages/SystemUI/src/com/android/systemui/qs/tiles/WeatherTile.java
-@@ -227,7 +227,7 @@ public class WeatherTile extends QSTileImpl<BooleanState> implements OmniJawsCli
+@@ -230,7 +230,7 @@ public class WeatherTile extends QSTileImpl<BooleanState> implements OmniJawsCli
                  mWeatherClient.queryWeather();
                  mWeatherData = mWeatherClient.getWeatherInfo();
                  if (mWeatherData != null) {

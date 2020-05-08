@@ -1,4 +1,4 @@
-From 43cba116072e0a1f0ac0568c8cfb36e2bb5b4455 Mon Sep 17 00:00:00 2001
+From 28300088f2507a2d85326ebb34c98df7e2165c88 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?eray=20or=C3=A7unus?= <erayorcunus@gmail.com>
 Date: Tue, 23 Apr 2019 16:46:35 +0300
 Subject: [PATCH] SystemUI: Enable and fix QS detail view, adapt layout to 10
@@ -74,7 +74,11 @@ Date:   Wed Nov 6 15:01:32 2019 -0600
 
     Change-Id: I4932a3e023a40e362e81fd74f2921e9cb472ebf3
 
-Change-Id: I5ecb419fbf699be33494d0a9cc215914d90004bd
+unConv edits:
+The QS Details needs to changed to account for QS  header image
+Some extra margin in DND detail to make views stand out
+
+Change-Id: I9e7b624f910baf49c4693924b3f888aa0ad6e0b7
 ---
  .../res/drawable/qs_detail_toolbar.xml        | 23 ++++++
  packages/SystemUI/res/layout/qs_detail.xml    | 60 ++++++++------
@@ -82,9 +86,11 @@ Change-Id: I5ecb419fbf699be33494d0a9cc215914d90004bd
  .../SystemUI/res/layout/qs_detail_header.xml  |  8 +-
  .../SystemUI/res/layout/qs_detail_item.xml    |  4 +-
  .../SystemUI/res/layout/qs_detail_items.xml   |  1 +
+ .../SystemUI/res/layout/zen_mode_panel.xml    |  1 +
  .../SystemUI/res/values-sw410dp/dimens.xml    |  2 -
  packages/SystemUI/res/values/dimens.xml       |  2 +-
  packages/SystemUI/res/values/styles.xml       | 10 ++-
+ .../android/systemui/qs/QSContainerImpl.java  |  4 +
  .../src/com/android/systemui/qs/QSDetail.java | 11 ++-
  .../src/com/android/systemui/qs/QSPanel.java  |  5 +-
  .../systemui/qs/tiles/CellularTile.java       | 13 +++-
@@ -93,7 +99,7 @@ Change-Id: I5ecb419fbf699be33494d0a9cc215914d90004bd
  .../statusbar/policy/ZenModeController.java   |  3 +-
  .../policy/ZenModeControllerImpl.java         |  6 ++
  .../android/systemui/volume/ZenModePanel.java |  9 ++-
- 17 files changed, 166 insertions(+), 82 deletions(-)
+ 19 files changed, 171 insertions(+), 82 deletions(-)
  create mode 100644 packages/SystemUI/res/drawable/qs_detail_toolbar.xml
 
 diff --git a/packages/SystemUI/res/drawable/qs_detail_toolbar.xml b/packages/SystemUI/res/drawable/qs_detail_toolbar.xml
@@ -126,7 +132,7 @@ index 00000000000..557cae15030
 +    </shape>
 +</inset>
 diff --git a/packages/SystemUI/res/layout/qs_detail.xml b/packages/SystemUI/res/layout/qs_detail.xml
-index c57429f44c8..1a97b73a8d1 100644
+index 294bd50fcf8..808d3f8bde7 100644
 --- a/packages/SystemUI/res/layout/qs_detail.xml
 +++ b/packages/SystemUI/res/layout/qs_detail.xml
 @@ -19,7 +19,6 @@
@@ -136,7 +142,7 @@ index c57429f44c8..1a97b73a8d1 100644
 -    android:background="@drawable/qs_detail_background"
      android:clickable="true"
      android:orientation="vertical"
-     android:paddingBottom="0.01dp"
+     android:paddingBottom="8dp"
 @@ -27,35 +26,50 @@
      android:elevation="4dp"
      android:importantForAccessibility="no" >
@@ -210,7 +216,6 @@ index c57429f44c8..1a97b73a8d1 100644
 +    </com.android.keyguard.AlphaOptimizedLinearLayout>
  
  </com.android.systemui.qs.QSDetail>
-\ No newline at end of file
 diff --git a/packages/SystemUI/res/layout/qs_detail_buttons.xml b/packages/SystemUI/res/layout/qs_detail_buttons.xml
 index 75f43f9a580..f5930469c68 100644
 --- a/packages/SystemUI/res/layout/qs_detail_buttons.xml
@@ -302,6 +307,18 @@ index 60cba67cf3d..51efe6c89ba 100644
      android:paddingStart="@dimen/qs_detail_padding_start"
      android:paddingEnd="16dp">
  
+diff --git a/packages/SystemUI/res/layout/zen_mode_panel.xml b/packages/SystemUI/res/layout/zen_mode_panel.xml
+index 58624135b85..bc95cd2e4d9 100644
+--- a/packages/SystemUI/res/layout/zen_mode_panel.xml
++++ b/packages/SystemUI/res/layout/zen_mode_panel.xml
+@@ -36,6 +36,7 @@
+             android:layout_height="wrap_content"
+             android:layout_marginStart="16dp"
+             android:layout_marginEnd="16dp"
++            android:layout_marginTop="8dp"
+             android:layout_marginBottom="8dp" />
+ 
+         <RelativeLayout
 diff --git a/packages/SystemUI/res/values-sw410dp/dimens.xml b/packages/SystemUI/res/values-sw410dp/dimens.xml
 index 6780dca130b..6036b962bdc 100644
 --- a/packages/SystemUI/res/values-sw410dp/dimens.xml
@@ -316,7 +333,7 @@ index 6780dca130b..6036b962bdc 100644
      <dimen name="global_actions_grid_vertical_padding">8dp</dimen>
      <dimen name="global_actions_grid_horizontal_padding">4dp</dimen>
 diff --git a/packages/SystemUI/res/values/dimens.xml b/packages/SystemUI/res/values/dimens.xml
-index a4eae270ce5..3458ef4af57 100644
+index e565c4da765..454c426ea98 100644
 --- a/packages/SystemUI/res/values/dimens.xml
 +++ b/packages/SystemUI/res/values/dimens.xml
 @@ -496,7 +496,7 @@
@@ -365,6 +382,21 @@ index 9dec47a4353..e012303b238 100644
      </style>
  
      <style name="TextAppearance.QS.DetailButton.White">
+diff --git a/packages/SystemUI/src/com/android/systemui/qs/QSContainerImpl.java b/packages/SystemUI/src/com/android/systemui/qs/QSContainerImpl.java
+index 4a6fb2971a4..930ac50c57d 100644
+--- a/packages/SystemUI/src/com/android/systemui/qs/QSContainerImpl.java
++++ b/packages/SystemUI/src/com/android/systemui/qs/QSContainerImpl.java
+@@ -198,6 +198,10 @@ public class QSContainerImpl extends FrameLayout implements
+         ((LayoutParams) mQSPanel.getLayoutParams()).topMargin = topMargin;
+         mQSPanel.setLayoutParams(mQSPanel.getLayoutParams());
+ 
++        // Update top margin for QSDetail as well
++        ((LayoutParams) mQSDetail.getLayoutParams()).topMargin = topMargin;
++        mQSDetail.setLayoutParams(mQSDetail.getLayoutParams());
++
+         ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) mStatusBarBackground.getLayoutParams();
+         lp.height = topMargin;
+         lp.setMargins(statusBarSideMargin, 0, statusBarSideMargin, 0);
 diff --git a/packages/SystemUI/src/com/android/systemui/qs/QSDetail.java b/packages/SystemUI/src/com/android/systemui/qs/QSDetail.java
 index 496aa0e572a..a9dadecf88a 100644
 --- a/packages/SystemUI/src/com/android/systemui/qs/QSDetail.java
@@ -412,10 +444,10 @@ index 496aa0e572a..a9dadecf88a 100644
              }
              mAnimatingOpen = false;
 diff --git a/packages/SystemUI/src/com/android/systemui/qs/QSPanel.java b/packages/SystemUI/src/com/android/systemui/qs/QSPanel.java
-index f3321d1be67..1619d9978a0 100644
+index 4f48bb97ef5..03b27801355 100644
 --- a/packages/SystemUI/src/com/android/systemui/qs/QSPanel.java
 +++ b/packages/SystemUI/src/com/android/systemui/qs/QSPanel.java
-@@ -651,7 +651,8 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
+@@ -658,7 +658,8 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
                      if (!mCustomizePanel.isCustomizing()) {
                          int[] loc = v.getLocationOnScreen();
                          int x = loc[0] + v.getWidth() / 2;
@@ -425,7 +457,7 @@ index f3321d1be67..1619d9978a0 100644
                          mCustomizePanel.show(x, y);
                      }
                  }
-@@ -696,7 +697,7 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
+@@ -703,7 +704,7 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
          }
          r.tile.setDetailListening(show);
          int x = r.tileView.getLeft() + r.tileView.getWidth() / 2;
@@ -435,10 +467,10 @@ index f3321d1be67..1619d9978a0 100644
      }
  
 diff --git a/packages/SystemUI/src/com/android/systemui/qs/tiles/CellularTile.java b/packages/SystemUI/src/com/android/systemui/qs/tiles/CellularTile.java
-index 86bbdfb3b1c..98985c05c2f 100644
+index 4c4fe212986..759ce337028 100644
 --- a/packages/SystemUI/src/com/android/systemui/qs/tiles/CellularTile.java
 +++ b/packages/SystemUI/src/com/android/systemui/qs/tiles/CellularTile.java
-@@ -49,6 +49,7 @@ import com.android.systemui.qs.QSHost;
+@@ -50,6 +50,7 @@ import com.android.systemui.qs.QSHost;
  import com.android.systemui.qs.SignalTileView;
  import com.android.systemui.qs.tileimpl.QSTileImpl;
  import com.android.systemui.statusbar.phone.SystemUIDialog;
@@ -446,7 +478,7 @@ index 86bbdfb3b1c..98985c05c2f 100644
  import com.android.systemui.statusbar.policy.KeyguardMonitor;
  import com.android.systemui.statusbar.policy.NetworkController;
  import com.android.systemui.statusbar.policy.NetworkController.IconState;
-@@ -68,16 +69,18 @@ public class CellularTile extends QSTileImpl<SignalState> {
+@@ -71,16 +72,18 @@ public class CellularTile extends QSTileImpl<SignalState> {
      private final ActivityStarter mActivityStarter;
      private final KeyguardMonitor mKeyguardMonitor;
      private final KeyguardCallback mKeyguardCallback = new KeyguardCallback();
@@ -467,7 +499,7 @@ index 86bbdfb3b1c..98985c05c2f 100644
          mController.observe(getLifecycle(), mSignalCallback);
      }
  
-@@ -164,10 +167,12 @@ public class CellularTile extends QSTileImpl<SignalState> {
+@@ -171,10 +174,12 @@ public class CellularTile extends QSTileImpl<SignalState> {
  
      @Override
      protected void handleSecondaryClick() {

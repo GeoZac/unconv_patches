@@ -1,4 +1,4 @@
-From 4ac7cd2957230bd520cea3b3cdeef0e3dc51659e Mon Sep 17 00:00:00 2001
+From 79dea1a96056427291a190798742b33494d012ac Mon Sep 17 00:00:00 2001
 From: Mike xdnax <mikecoconut5832@gmail.com>
 Date: Thu, 28 Sep 2017 16:47:31 +0200
 Subject: [PATCH] SystemUI: Enable three icon switching within QS DND tile
@@ -38,9 +38,9 @@ Change-Id: If34e225bdc81e944a12ffd764a521de934aca3b3
  .../res/drawable/stat_sys_dnd_priority.xml    | 22 ++++++++++++++++
  .../drawable/stat_sys_dnd_total_silence.xml   | 22 ++++++++++++++++
  .../keyguard/KeyguardSliceProvider.java       | 22 +++++++++++++++-
- .../android/systemui/qs/tiles/DndTile.java    | 15 +++++++++--
+ .../android/systemui/qs/tiles/DndTile.java    | 14 +++++++++-
  .../statusbar/phone/PhoneStatusBarPolicy.java | 12 ++++++++-
- 9 files changed, 143 insertions(+), 11 deletions(-)
+ 9 files changed, 143 insertions(+), 10 deletions(-)
  create mode 100644 packages/SystemUI/res/drawable/ic_qs_dnd_on_priority.xml
  create mode 100644 packages/SystemUI/res/drawable/ic_qs_dnd_on_total_silence.xml
  create mode 100644 packages/SystemUI/res/drawable/stat_sys_dnd_priority.xml
@@ -198,10 +198,10 @@ index 00000000000..4e2f93cb139
 +    android:insetRight="2.5dp"
 +    android:drawable="@drawable/ic_qs_dnd_on_total_silence" />
 diff --git a/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardSliceProvider.java b/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardSliceProvider.java
-index 5b88ccbf473..e04f18cd29c 100644
+index 1cfa8c9351b..ed56eb9280c 100644
 --- a/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardSliceProvider.java
 +++ b/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardSliceProvider.java
-@@ -319,7 +319,7 @@ public class KeyguardSliceProvider extends SliceProvider implements
+@@ -309,7 +309,7 @@ public class KeyguardSliceProvider extends SliceProvider implements
                  .setContentDescription(getContext().getResources()
                          .getString(R.string.accessibility_quick_settings_dnd))
                  .addEndItem(
@@ -210,7 +210,7 @@ index 5b88ccbf473..e04f18cd29c 100644
                      ListBuilder.ICON_IMAGE);
          builder.addRow(dndBuilder);
      }
-@@ -331,6 +331,26 @@ public class KeyguardSliceProvider extends SliceProvider implements
+@@ -321,6 +321,26 @@ public class KeyguardSliceProvider extends SliceProvider implements
          return mZenModeController.getZen() != Settings.Global.ZEN_MODE_OFF;
      }
  
@@ -238,7 +238,7 @@ index 5b88ccbf473..e04f18cd29c 100644
          if (!mWeatherClient.isOmniJawsEnabled()) return;
          if (!mWeatherEnabled || !mShowWeatherSlice || mWeatherInfo == null || mPackageInfo == null) {
 diff --git a/packages/SystemUI/src/com/android/systemui/qs/tiles/DndTile.java b/packages/SystemUI/src/com/android/systemui/qs/tiles/DndTile.java
-index 04b82db6b71..435d4555623 100644
+index 04b82db6b71..84ef5047684 100644
 --- a/packages/SystemUI/src/com/android/systemui/qs/tiles/DndTile.java
 +++ b/packages/SystemUI/src/com/android/systemui/qs/tiles/DndTile.java
 @@ -108,6 +108,11 @@ public class DndTile extends QSTileImpl<BooleanState> {
@@ -253,14 +253,14 @@ index 04b82db6b71..435d4555623 100644
      public static void setVisible(Context context, boolean visible) {
          Prefs.putBoolean(context, Prefs.Key.DND_TILE_VISIBLE, visible);
      }
-@@ -251,30 +256,36 @@ public class DndTile extends QSTileImpl<BooleanState> {
+@@ -251,30 +256,37 @@ public class DndTile extends QSTileImpl<BooleanState> {
          state.value = newValue;
          state.state = state.value ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE;
          state.slash.isSlashed = !state.value;
 -        state.label = getTileLabel();
          state.secondaryLabel = TextUtils.emptyIfNull(ZenModeConfig.getDescription(mContext,
                  zen != Global.ZEN_MODE_OFF, zenConfig, false));
--        state.icon = ResourceIcon.get(com.android.internal.R.drawable.ic_qs_dnd);
+         state.icon = ResourceIcon.get(com.android.internal.R.drawable.ic_qs_dnd);
          checkIfRestrictionEnforcedByAdminOnly(state, UserManager.DISALLOW_ADJUST_VOLUME);
          switch (zen) {
              case Global.ZEN_MODE_IMPORTANT_INTERRUPTIONS:

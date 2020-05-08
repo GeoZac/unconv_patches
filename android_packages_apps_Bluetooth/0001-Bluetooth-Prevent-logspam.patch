@@ -1,0 +1,33 @@
+From 7b0bb4f514e5422ba550b258be24afddc43f33da Mon Sep 17 00:00:00 2001
+From: George Zacharia <george.zcharia@gmail.com>
+Date: Fri, 8 May 2020 07:51:59 +0530
+Subject: [PATCH] Bluetooth: Prevent logspam
+
+The entire mediaqueue was appearing in the logcat, which was sometimes 1000+ lines with shuffle ON.
+
+Prevent this by excluding queue if not DEBUG
+Change-Id: I01964ae8d8e59c57bb7fb322c7270a8bc6816ac4
+---
+ src/com/android/bluetooth/avrcp/MediaPlayerWrapper.java | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
+
+diff --git a/src/com/android/bluetooth/avrcp/MediaPlayerWrapper.java b/src/com/android/bluetooth/avrcp/MediaPlayerWrapper.java
+index 9eba036a..6d7d88cd 100644
+--- a/src/com/android/bluetooth/avrcp/MediaPlayerWrapper.java
++++ b/src/com/android/bluetooth/avrcp/MediaPlayerWrapper.java
+@@ -301,9 +301,12 @@ class MediaPlayerWrapper {
+             Log.e(TAG, "Timeout while waiting for metadata to sync for " + mPackageName);
+             Log.e(TAG, "  └ Current Metadata: " +  Util.toMetadata(getMetadata()));
+             Log.e(TAG, "  └ Current Playstate: " + getPlaybackState());
+-            List<Metadata> current_queue = Util.toMetadataList(getQueue());
+-            for (int i = 0; i < current_queue.size(); i++) {
+-                Log.e(TAG, "  └ QueueItem(" + i + "): " + current_queue.get(i));
++
++            if (DEBUG) {    // No need to spam the logcat
++                List<Metadata> current_queue = Util.toMetadataList(getQueue());
++                for (int i = 0; i < current_queue.size(); i++) {
++                    Log.e(TAG, "  └ QueueItem(" + i + "): " + current_queue.get(i));
++                }
+             }
+ 
+             sendMediaUpdate();

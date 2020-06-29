@@ -1,0 +1,217 @@
+From 58be6566b9ed2b8a009cd9f6c62f1d017fc5a03b Mon Sep 17 00:00:00 2001
+From: Michael W <baddaemon87@gmail.com>
+Date: Sat, 20 Jun 2020 16:44:59 +0200
+Subject: [PATCH] SystemUI: QS Details: Fix layout issues
+
+* Remove bottom padding:
+  * It shifts the content up unnecessarily
+  * It leaves a small white line at the bottom
+* Introduce a new background color for the switch bar: derived from
+  textColorPrimary because that is basically the exact opposite of the
+  background color so it allows us to get a slightly brighter overlay
+* Also change the qs detail's background: use the same color as for the
+  rest of the qs backgrounds - now it doesn't look different from the rest
+  anymore (was a slightly darker shade of white on light theme and a
+  brighter grey on dark. This was more noticeable on a dark theme and is
+  basically also the reason that we noticed the wrong padding
+* For zen tile (dnd), remove all background color references and apply
+  qs_background_primary for the whole panel at once. Applying the
+  color manually is required because the panel is inflated separately
+  and not using the color that is assigned to the original content.
+  Removing all separate references allows to define and change the color
+  in one place
+* In order to make the buttons also look good on dark background,
+  assign a color (similar to the one for the switchbar, see above)
+  manually
+
+The alpha values of 5% and 8% for our newly defined colors were determined
+by trying various values until it looked good on all themes
+
+Test: Open every qs tile on both light and dark themes and see if
+ they look proper
+
+Change-Id: I5be8bf97582e877bdb1af1f3aedc88c00d134c16
+---
+ .../res/color/qs_header_background.xml        | 20 +++++++++++++++++++
+ .../res/color/segmented_button_background.xml | 20 +++++++++++++++++++
+ .../res/drawable/qs_detail_background.xml     |  4 ++--
+ .../res/drawable/qs_detail_toolbar.xml        |  2 +-
+ .../drawable/segmented_buttons_background.xml |  2 +-
+ packages/SystemUI/res/layout/qs_detail.xml    |  1 -
+ .../SystemUI/res/layout/qs_detail_header.xml  |  3 +--
+ .../SystemUI/res/layout/zen_mode_panel.xml    |  9 ++++-----
+ 8 files changed, 49 insertions(+), 12 deletions(-)
+ create mode 100644 packages/SystemUI/res/color/qs_header_background.xml
+ create mode 100644 packages/SystemUI/res/color/segmented_button_background.xml
+
+diff --git a/packages/SystemUI/res/color/qs_header_background.xml b/packages/SystemUI/res/color/qs_header_background.xml
+new file mode 100644
+index 00000000000..8019b8dbb5c
+--- /dev/null
++++ b/packages/SystemUI/res/color/qs_header_background.xml
+@@ -0,0 +1,20 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!-- Copyright (C) 2017 The Android Open Source Project
++
++     Licensed under the Apache License, Version 2.0 (the "License");
++     you may not use this file except in compliance with the License.
++     You may obtain a copy of the License at
++
++          http://www.apache.org/licenses/LICENSE-2.0
++
++     Unless required by applicable law or agreed to in writing, software
++     distributed under the License is distributed on an "AS IS" BASIS,
++     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++     See the License for the specific language governing permissions and
++     limitations under the License.
++-->
++
++<selector xmlns:android="http://schemas.android.com/apk/res/android">
++    <item android:alpha="0.05"
++          android:color="?android:attr/textColorPrimary"/>
++</selector>
+diff --git a/packages/SystemUI/res/color/segmented_button_background.xml b/packages/SystemUI/res/color/segmented_button_background.xml
+new file mode 100644
+index 00000000000..2f7011c5884
+--- /dev/null
++++ b/packages/SystemUI/res/color/segmented_button_background.xml
+@@ -0,0 +1,20 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!-- Copyright (C) 2020 The LineageOS Project
++
++     Licensed under the Apache License, Version 2.0 (the "License");
++     you may not use this file except in compliance with the License.
++     You may obtain a copy of the License at
++
++          http://www.apache.org/licenses/LICENSE-2.0
++
++     Unless required by applicable law or agreed to in writing, software
++     distributed under the License is distributed on an "AS IS" BASIS,
++     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++     See the License for the specific language governing permissions and
++     limitations under the License.
++-->
++
++<selector xmlns:android="http://schemas.android.com/apk/res/android">
++    <item android:alpha="0.08"
++          android:color="?android:attr/textColorPrimary"/>
++</selector>
+diff --git a/packages/SystemUI/res/drawable/qs_detail_background.xml b/packages/SystemUI/res/drawable/qs_detail_background.xml
+index 672abf14774..4ba78504765 100644
+--- a/packages/SystemUI/res/drawable/qs_detail_background.xml
++++ b/packages/SystemUI/res/drawable/qs_detail_background.xml
+@@ -25,9 +25,9 @@ Copyright (C) 2014 The Android Open Source Project
+     <item>
+         <inset>
+             <shape>
+-                <solid android:color="?android:attr/colorPrimary"/>
++                <solid android:color="@color/qs_background_dark"/>
+                 <corners android:radius="?android:attr/dialogCornerRadius" />
+             </shape>
+         </inset>
+     </item>
+-</transition>
+\ No newline at end of file
++</transition>
+diff --git a/packages/SystemUI/res/drawable/qs_detail_toolbar.xml b/packages/SystemUI/res/drawable/qs_detail_toolbar.xml
+index 557cae15030..df0b4e13c01 100644
+--- a/packages/SystemUI/res/drawable/qs_detail_toolbar.xml
++++ b/packages/SystemUI/res/drawable/qs_detail_toolbar.xml
+@@ -15,7 +15,7 @@
+ -->
+ <inset xmlns:android="http://schemas.android.com/apk/res/android">
+     <shape>
+-        <solid android:color="?android:attr/colorSecondary"/>
++        <solid android:color="@color/qs_header_background"/>
+         <corners
+             android:topLeftRadius="?android:attr/dialogCornerRadius"
+             android:topRightRadius="?android:attr/dialogCornerRadius" />
+diff --git a/packages/SystemUI/res/drawable/segmented_buttons_background.xml b/packages/SystemUI/res/drawable/segmented_buttons_background.xml
+index 755c917cf20..c9cf30af5d6 100644
+--- a/packages/SystemUI/res/drawable/segmented_buttons_background.xml
++++ b/packages/SystemUI/res/drawable/segmented_buttons_background.xml
+@@ -17,6 +17,6 @@
+ 
+       <corners android:radius="@dimen/borderless_button_radius" />
+ 
+-      <solid android:color="?android:attr/colorPrimaryDark" />
++      <solid android:color="@color/segmented_button_background" />
+ 
+ </shape>
+diff --git a/packages/SystemUI/res/layout/qs_detail.xml b/packages/SystemUI/res/layout/qs_detail.xml
+index ab44c9de297..ca24ac28dd1 100644
+--- a/packages/SystemUI/res/layout/qs_detail.xml
++++ b/packages/SystemUI/res/layout/qs_detail.xml
+@@ -21,7 +21,6 @@
+     android:layout_height="match_parent"
+     android:clickable="true"
+     android:orientation="vertical"
+-    android:paddingBottom="8dp"
+     android:visibility="invisible"
+     android:elevation="4dp"
+     android:importantForAccessibility="no" >
+diff --git a/packages/SystemUI/res/layout/qs_detail_header.xml b/packages/SystemUI/res/layout/qs_detail_header.xml
+index f3feda45547..708f71d022a 100644
+--- a/packages/SystemUI/res/layout/qs_detail_header.xml
++++ b/packages/SystemUI/res/layout/qs_detail_header.xml
+@@ -18,10 +18,8 @@
+     xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+-    android:paddingLeft="@dimen/qs_detail_header_padding"
+     android:paddingTop="@dimen/qs_detail_items_padding_top"
+     android:paddingBottom="@dimen/qs_detail_items_padding_top"
+-    android:paddingEnd="@dimen/qs_panel_padding"
+     android:background="@drawable/qs_detail_toolbar"
+     android:orientation="vertical"
+     android:gravity="center">
+@@ -54,6 +52,7 @@
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:clickable="false"
++            android:paddingEnd="@dimen/qs_detail_header_text_padding"
+             android:textAppearance="@style/TextAppearance.QS.DetailHeader" />
+ 
+     </LinearLayout>
+diff --git a/packages/SystemUI/res/layout/zen_mode_panel.xml b/packages/SystemUI/res/layout/zen_mode_panel.xml
+index bc95cd2e4d9..20b4c861592 100644
+--- a/packages/SystemUI/res/layout/zen_mode_panel.xml
++++ b/packages/SystemUI/res/layout/zen_mode_panel.xml
+@@ -15,17 +15,18 @@
+      limitations under the License.
+ -->
+ <!-- extends LinearLayout -->
+-<com.android.systemui.volume.ZenModePanel xmlns:android="http://schemas.android.com/apk/res/android"
++<com.android.systemui.volume.ZenModePanel
++    xmlns:android="http://schemas.android.com/apk/res/android"
+     android:id="@+id/zen_mode_panel"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
+-    android:clipChildren="false" >
++    android:clipChildren="false"
++    android:background="@drawable/qs_background_primary">
+ 
+     <LinearLayout
+         android:id="@+id/edit_container"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+-        android:background="?android:attr/colorPrimary"
+         android:clipChildren="false"
+         android:orientation="vertical">
+ 
+@@ -130,7 +131,6 @@
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         android:layout_gravity="center"
+-        android:background="?android:attr/colorPrimary"
+         android:gravity="center"
+         android:orientation="vertical">
+ 
+@@ -153,7 +153,6 @@
+         android:id="@+id/auto_rule"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+-        android:background="?android:attr/colorPrimary"
+         android:layout_marginStart="16dp"
+         android:layout_marginEnd="16dp"
+         android:layout_marginTop="16dp"

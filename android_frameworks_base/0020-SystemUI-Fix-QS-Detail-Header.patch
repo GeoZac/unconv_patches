@@ -1,0 +1,47 @@
+From 9569640a8476bfc01027bad55bd77ecbe0ea6d30 Mon Sep 17 00:00:00 2001
+From: Michael W <baddaemon87@gmail.com>
+Date: Tue, 16 Jun 2020 12:13:38 +0200
+Subject: [PATCH] SystemUI: Fix QS Detail Header
+
+* Commit eff2c740e55668a4fdf427e64a8970a751830991 introduced some padding
+  in case of an existing corner cutout (e.g. a camera in the corner or a
+  display), so applies the size of the cutout as padding left/right
+* it tries to keep top/bottom paddings the same, but the values are
+  (at the time of calling - not yet?) correct, so the final result ends
+  up wrong (top: 0, bottom: 22)
+* Apply the padding values that are used in the layout instead if relying
+  on get[...]Padding methods
+* Keep the whole padding untouched in case there is no cutout
+
+Test: QS Detail looks like before r37 merge
+Change-Id: I5ba57deff1784fc4ea16649256965ad42dd78239
+---
+ .../src/com/android/systemui/qs/QSDetail.java      | 14 +++++---------
+ 1 file changed, 5 insertions(+), 9 deletions(-)
+
+diff --git a/packages/SystemUI/src/com/android/systemui/qs/QSDetail.java b/packages/SystemUI/src/com/android/systemui/qs/QSDetail.java
+index b9084667653..c1507faa0da 100644
+--- a/packages/SystemUI/src/com/android/systemui/qs/QSDetail.java
++++ b/packages/SystemUI/src/com/android/systemui/qs/QSDetail.java
+@@ -159,16 +159,12 @@ public class QSDetail extends LinearLayout {
+         DisplayCutout cutout = insets.getDisplayCutout();
+         Pair<Integer, Integer> padding = PhoneStatusBarView.cornerCutoutMargins(
+                 cutout, getDisplay());
+-        if (padding == null) {
+-            mQsDetailHeader.setPaddingRelative(
+-                    getResources().getDimensionPixelSize(R.dimen.qs_detail_header_padding),
+-                    getPaddingTop(),
+-                    getResources().getDimensionPixelSize(R.dimen.qs_detail_header_padding),
+-                    getPaddingBottom()
++        if (padding != null) {
++            mQsDetailHeader.setPadding(padding.first,
++                    getResources().getDimensionPixelSize(R.dimen.qs_detail_items_padding_top),
++                    padding.second,
++                    getResources().getDimensionPixelSize(R.dimen.qs_detail_items_padding_top)
+             );
+-        } else {
+-            mQsDetailHeader.setPadding(padding.first, getPaddingTop(),
+-                    padding.second, getPaddingBottom());
+         }
+         return super.onApplyWindowInsets(insets);
+     }

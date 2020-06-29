@@ -1,4 +1,4 @@
-From 9746944a4c5d77857cc5f7ee862c2a51d6e85ee8 Mon Sep 17 00:00:00 2001
+From 4ef3dd6b258f357c85e4157a2f162f845a612efe Mon Sep 17 00:00:00 2001
 From: maxwen <max.weninger@gmail.com>
 Date: Wed, 27 Nov 2019 16:27:40 +0100
 Subject: [PATCH] SystemUI: bring back old style mobile data indicators
@@ -17,10 +17,10 @@ Change-Id: Idf6ba3cd97b6fde1f6a5fbb7ee72b3fba71f710b
  6 files changed, 156 insertions(+), 25 deletions(-)
 
 diff --git a/core/java/android/provider/Settings.java b/core/java/android/provider/Settings.java
-index 248fa7248c0..0f3821fd3b1 100644
+index 23a36d0a4ef..520ec6f5fa4 100644
 --- a/core/java/android/provider/Settings.java
 +++ b/core/java/android/provider/Settings.java
-@@ -6951,6 +6951,18 @@ public final class Settings {
+@@ -7140,6 +7140,18 @@ public final class Settings {
           * AICP System Settings end
           ***************************/
  
@@ -39,27 +39,27 @@ index 248fa7248c0..0f3821fd3b1 100644
          /**
           * IMPORTANT: If you add a new public settings you also have to add it to
           * PUBLIC_SETTINGS below. If the new setting is hidden you have to add
-@@ -7217,6 +7229,8 @@ public final class Settings {
-             ADAPTIVE_PLAYBACK_ENABLED,
-             NOTIFICATION_HEADERS,
+@@ -7414,6 +7426,8 @@ public final class Settings {
+             GESTURE_NAVBAR_SHOW,
+             QS_DATAUSAGE,
              // AICP Settings end
 +            OMNI_USE_OLD_MOBILETYPE,
 +            // unConv additions end
          };
  
          /**
-@@ -7563,6 +7577,8 @@ public final class Settings {
-             PRIVATE_SETTINGS.add(DISPLAY_PICTURE_ADJUSTMENT);
-             PRIVATE_SETTINGS.add(LIVE_DISPLAY_HINTED);
+@@ -7768,6 +7782,8 @@ public final class Settings {
+             PRIVATE_SETTINGS.add(GESTURE_NAVBAR_SHOW);
+             PRIVATE_SETTINGS.add(QS_DATAUSAGE);
              // AICP Settings end
 +            PRIVATE_SETTINGS.add(OMNI_USE_OLD_MOBILETYPE);
 +            // unConv additions end
          }
  
          /**
-@@ -7896,6 +7912,8 @@ public final class Settings {
-             VALIDATORS.put(LIVE_DISPLAY_HINTED, LIVE_DISPLAY_HINTED_VALIDATOR);
-             VALIDATORS.put(NOTIFICATION_HEADERS, NOTIFICATION_HEADERS_VALIDATOR);
+@@ -8111,6 +8127,8 @@ public final class Settings {
+             VALIDATORS.put(GESTURE_NAVBAR_SHOW,GESTURE_NAVBAR_SHOW_VALIDATOR);
+             VALIDATORS.put(QS_DATAUSAGE, QS_DATAUSAGE_VALIDATOR);
              // AICP Settings end
 +            VALIDATORS.put(OMNI_USE_OLD_MOBILETYPE, OMNI_USE_OLD_MOBILETYPE_VALIDATOR);
 +            // unConv additions end
@@ -101,13 +101,13 @@ index 976ce9da23b..14eab7c3a32 100644
      </com.android.keyguard.AlphaOptimizedLinearLayout>
  </com.android.systemui.statusbar.StatusBarMobileView>
 diff --git a/packages/SystemUI/res/values/aicp_dimens.xml b/packages/SystemUI/res/values/aicp_dimens.xml
-index a00ab2e1515..0ab66047dd1 100644
+index 3035c50d935..1c4431a3ee0 100644
 --- a/packages/SystemUI/res/values/aicp_dimens.xml
 +++ b/packages/SystemUI/res/values/aicp_dimens.xml
-@@ -110,4 +110,9 @@
-     <dimen name="config_customCutoutTopHeight">0.0px</dimen>
-     <dimen name="config_customCutoutBottomWidth">0.0px</dimen>
-     <dimen name="config_customCutoutBottomHeight">0.0px</dimen>
+@@ -127,4 +127,9 @@
+     <dimen name="right_edgeLightNotificationWidth">125px</dimen>
+ 
+     <dimen name="data_usage_padding_start">4dp</dimen>
 +
 +    <!-- Old mobile signal -->
 +    <dimen name="status_bar_mobile_signal_with_type_width">22dp</dimen>

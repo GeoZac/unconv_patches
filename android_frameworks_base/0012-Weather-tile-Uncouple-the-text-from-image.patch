@@ -1,4 +1,4 @@
-From 734e0711ab63c77053cef48b2b25991ce0cc0750 Mon Sep 17 00:00:00 2001
+From 47ee18edf995a9929d3f92d2ab128ca525d4641d Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Sun, 12 Apr 2020 00:25:09 +0530
 Subject: [PATCH] Weather tile: Uncouple the text from image

@@ -1,4 +1,4 @@
-From 79dea1a96056427291a190798742b33494d012ac Mon Sep 17 00:00:00 2001
+From 4f0c69388628a6a6b2ce532f7c23909e22e9f90b Mon Sep 17 00:00:00 2001
 From: Mike xdnax <mikecoconut5832@gmail.com>
 Date: Thu, 28 Sep 2017 16:47:31 +0200
 Subject: [PATCH] SystemUI: Enable three icon switching within QS DND tile
@@ -198,7 +198,7 @@ index 00000000000..4e2f93cb139
 +    android:insetRight="2.5dp"
 +    android:drawable="@drawable/ic_qs_dnd_on_total_silence" />
 diff --git a/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardSliceProvider.java b/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardSliceProvider.java
-index 1cfa8c9351b..ed56eb9280c 100644
+index 2e24269543c..04a7c489c8a 100644
 --- a/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardSliceProvider.java
 +++ b/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardSliceProvider.java
 @@ -309,7 +309,7 @@ public class KeyguardSliceProvider extends SliceProvider implements

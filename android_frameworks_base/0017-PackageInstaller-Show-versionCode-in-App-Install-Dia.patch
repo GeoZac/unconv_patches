@@ -1,7 +1,7 @@
-From 1fb7ad164eee6eccb4b533743b063bad8eff251b Mon Sep 17 00:00:00 2001
+From 451af3fbf8e5babd95b3c52d58981f2675f438cc Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Sun, 3 May 2020 22:19:46 +0530
-Subject: [PATCH] Show versionCode in App Install Dialog
+Subject: [PATCH] PackageInstaller: Show versionCode in App Install Dialog
 
 Change-Id: I74e5616525c2db7778a3862fff1acc778742cd95
 ---

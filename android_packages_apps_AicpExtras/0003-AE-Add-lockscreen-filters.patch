@@ -1,4 +1,4 @@
-From f0bfbbf4563ba9305a754cbaf112e89dfaef813b Mon Sep 17 00:00:00 2001
+From 449c1a59daa977832de557c9c66541298fc376f2 Mon Sep 17 00:00:00 2001
 From: ElDainosor <eldainosor@gmail.com>
 Date: Mon, 27 Apr 2020 20:07:28 +0530
 Subject: [PATCH] AE: Add lockscreen filters
@@ -11,12 +11,12 @@ Change-Id: Ibbfd0ba8b737f47a6bb78e95ed41a56bb879b199
  3 files changed, 37 insertions(+)
 
 diff --git a/res/values/arrays.xml b/res/values/arrays.xml
-index ab769eb0..991c3050 100644
+index 2187a614..fce35ffc 100644
 --- a/res/values/arrays.xml
 +++ b/res/values/arrays.xml
-@@ -1072,4 +1072,24 @@
+@@ -1152,4 +1152,24 @@
          <item>1</item>
-         <item>0</item>
+         <item>2</item>
      </string-array>
 +
 +    <!-- Lockscreen media art filter -->
@@ -40,13 +40,13 @@ index ab769eb0..991c3050 100644
 +
  </resources>
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index 3bc90b4d..dd7aa849 100644
+index ef0bf954..77bfc7c8 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
-@@ -1559,4 +1559,13 @@
-     <string name="ringtone_focus_mode_title">Ringtone audio focus</string>
-     <string name="ringtone_focus_mode_dynamic">Headset only if music is active</string>
-     <string name="ringtone_focus_mode_stock">Both speaker and headset</string>
+@@ -1605,4 +1605,13 @@
+     <!-- QS Battery toggle -->
+     <string name="qs_header_battery_title">Battery info</string>
+     <string name="qs_header_battery_summary">Enable for percentage, disable for time estimate.</string>
 +
 +    <!-- Lockscreen cover art filter -->
 +    <string name="lockscreen_cover_filter_title">Lockscreen album art filter</string>

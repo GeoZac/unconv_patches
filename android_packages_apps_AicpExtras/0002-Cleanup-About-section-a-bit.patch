@@ -1,4 +1,4 @@
-From 763680374fa80b4a1305346cfedda0e583272e56 Mon Sep 17 00:00:00 2001
+From c6bef597f2122bbed3eef93ecd75d8cca67e740e Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Sun, 22 Mar 2020 12:52:35 +0530
 Subject: [PATCH] Cleanup About section a bit
@@ -14,10 +14,10 @@ Change-Id: Id09705b2666f23b0ac0c7579f6d11f455648f7d8
  3 files changed, 7 insertions(+), 3 deletions(-)
 
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index 75c41d1e..0a1fd0df 100644
+index 3cc386f9..ef0bf954 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
-@@ -631,6 +631,7 @@
+@@ -648,6 +648,7 @@
      <string name="aicp_ota_summary">Check for AICP updates</string>
      <string name="stats_title">Statistics</string>
      <string name="stats_summary">Opt in/out for anonymous stats</string>

@@ -1,4 +1,4 @@
-From 0f385c596bc62209da55dc15171098f9ab0b96e7 Mon Sep 17 00:00:00 2001
+From 915a1bd2b6aefbf73fa4d91f9dd6b3d0d37532db Mon Sep 17 00:00:00 2001
 From: Alex <du.alexcruz@gmail.com>
 Date: Tue, 5 Feb 2019 17:17:09 -0600
 Subject: [PATCH] Ensure the dialog matches other dialogs
@@ -13,10 +13,10 @@ Change-Id: I172fc3cba036dded75585ba444272855b4a912b9
  3 files changed, 36 insertions(+), 3 deletions(-)
 
 diff --git a/src/com/aicp/extras/fragments/QuickSettings.java b/src/com/aicp/extras/fragments/QuickSettings.java
-index 78f488fb..3412d17e 100644
+index 1d844de3..97497064 100644
 --- a/src/com/aicp/extras/fragments/QuickSettings.java
 +++ b/src/com/aicp/extras/fragments/QuickSettings.java
-@@ -33,7 +33,9 @@ import androidx.preference.Preference.OnPreferenceChangeListener;
+@@ -37,7 +37,9 @@ import androidx.preference.Preference.OnPreferenceChangeListener;
  import androidx.preference.SwitchPreference;
  import android.text.Spannable;
  import android.text.TextUtils;
@@ -26,7 +26,7 @@ index 78f488fb..3412d17e 100644
  
  import com.aicp.extras.BaseSettingsFragment;
  import com.aicp.extras.R;
-@@ -113,11 +115,20 @@ public class QuickSettings extends BaseSettingsFragment
+@@ -271,11 +273,20 @@ public class QuickSettings extends BaseSettingsFragment
              alert.setTitle(R.string.footer_text_label_title);
              alert.setMessage(R.string.footer_text_label_explain);
  

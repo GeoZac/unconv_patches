@@ -1,0 +1,42 @@
+From 0cc68dbed9d7b9320d49121c10014265197aaf05 Mon Sep 17 00:00:00 2001
+From: Vachounet <vachounet@live.fr>
+Date: Thu, 13 Sep 2018 11:00:00 -0700
+Subject: [PATCH] AE: allow switch to pre P mobile icon style [2/2]
+
+Change-Id: I83c6d5fc157ba6d28da33a883a8b7f8c3971f41a
+Signed-off-by: Josh Fox (XlxFoXxlX) <joshfox87@gmail.com>
+---
+ res/values/strings.xml | 4 ++++
+ res/xml/status_bar.xml | 6 ++++++
+ 2 files changed, 10 insertions(+)
+
+diff --git a/res/values/strings.xml b/res/values/strings.xml
+index 77bfc7c8..858660f9 100644
+--- a/res/values/strings.xml
++++ b/res/values/strings.xml
+@@ -1614,4 +1614,8 @@
+     <string name="lockscreen_cover_filter_blur">Blur</string>
+     <string name="lockscreen_cover_filter_grayblur">Grayscale and blurred</string>
+     <string name="lockscreen_cover_filter_gradientblur">Gradient Blur</string>
++    
++    <!-- Old Style Mobile -->
++    <string name="use_old_mobiletype_title">Use old mobile signal</string>
++    <string name="use_old_mobiletype_summary">Use the mobile icons from oreo and before\nRequires SystemUI restart</string>
+ </resources>
+diff --git a/res/xml/status_bar.xml b/res/xml/status_bar.xml
+index 6650b627..abbd304f 100644
+--- a/res/xml/status_bar.xml
++++ b/res/xml/status_bar.xml
+@@ -111,6 +111,12 @@
+             android:summary="@string/statusbar_location_icon_summary"
+             android:defaultValue="true"/>
+ -->
++        <com.aicp.gear.preference.SystemSettingSwitchPreference
++            android:key="use_old_mobiletype"
++            android:title="@string/use_old_mobiletype_title"
++            android:summary="@string/use_old_mobiletype_summary"
++            android:defaultValue="false" />
++
+     </PreferenceCategory>
+ 
+     <PreferenceCategory

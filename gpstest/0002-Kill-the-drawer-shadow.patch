@@ -1,0 +1,22 @@
+From 1ea621f9f8e3ef4912b9f4af26ef8860d5411732 Mon Sep 17 00:00:00 2001
+From: George Zacharia <george.zcharia@gmail.com>
+Date: Sat, 15 Aug 2020 14:22:07 +0530
+Subject: [PATCH] Kill the drawer shadow
+
+---
+ .../main/java/com/android/gpstest/NavigationDrawerFragment.java | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/GPSTest/src/main/java/com/android/gpstest/NavigationDrawerFragment.java b/GPSTest/src/main/java/com/android/gpstest/NavigationDrawerFragment.java
+index 20fcd131..c55a1df7 100644
+--- a/GPSTest/src/main/java/com/android/gpstest/NavigationDrawerFragment.java
++++ b/GPSTest/src/main/java/com/android/gpstest/NavigationDrawerFragment.java
+@@ -223,7 +223,7 @@ public class NavigationDrawerFragment extends Fragment {
+         }
+ 
+         // set a custom shadow that overlays the main content when the drawer opens
+-        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
++        //mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+         ScrimInsetsScrollView navDrawer = mDrawerLayout.findViewById(R.id.navdrawer);
+         if (selfItem == NAVDRAWER_ITEM_INVALID) {
+             // do not show a nav drawer

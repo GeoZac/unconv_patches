@@ -1,4 +1,4 @@
-From c083794a2b66da95f2a978c2bdc2c457ed499286 Mon Sep 17 00:00:00 2001
+From 538e9372d67f6163530a1bf822d5db04569ea858 Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Tue, 9 Jun 2020 08:09:02 +0530
 Subject: [PATCH] DefaultPermissionGrantPolicy: No need to dump the entire
@@ -11,10 +11,10 @@ Change-Id: Ica270065684af4bb199190e46e25267611b4e12e
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/services/core/java/com/android/server/pm/permission/DefaultPermissionGrantPolicy.java b/services/core/java/com/android/server/pm/permission/DefaultPermissionGrantPolicy.java
-index 7d367de0c2d..9af7916133b 100644
+index 5d97e05ba26..0526d3748e0 100644
 --- a/services/core/java/com/android/server/pm/permission/DefaultPermissionGrantPolicy.java
 +++ b/services/core/java/com/android/server/pm/permission/DefaultPermissionGrantPolicy.java
-@@ -1412,7 +1412,7 @@ public final class DefaultPermissionGrantPolicy {
+@@ -1421,7 +1421,7 @@ public final class DefaultPermissionGrantPolicy {
              return mContext.getPackageManager().getPackageInfo(pkg,
                      DEFAULT_PACKAGE_INFO_QUERY_FLAGS | extraFlags);
          } catch (NameNotFoundException e) {

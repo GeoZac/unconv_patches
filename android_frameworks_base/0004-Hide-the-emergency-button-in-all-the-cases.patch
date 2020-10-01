@@ -1,4 +1,4 @@
-From e2b4608e58128e5de9488a094aa56bb071c2671d Mon Sep 17 00:00:00 2001
+From a8e633902107b7041b4762ce10ab44a0fc4002f6 Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Tue, 17 Mar 2020 09:44:18 +0530
 Subject: [PATCH] Hide the emergency button in all the cases

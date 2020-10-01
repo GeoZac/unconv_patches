@@ -1,12 +1,11 @@
-From f66e3cd7ac194505507947badb24b4dedabd5384 Mon Sep 17 00:00:00 2001
+From 0618d9cd86948b4197800187b58a5d1daa2b5549 Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Sat, 11 Apr 2020 07:58:04 +0530
 Subject: [PATCH] Remove some dead code
 
 These doesn't seem to be used anywhere else
 The mShowCurrent is initialised as true and mWithBackgroundColor values isn't assigned anywhere.
-Change-Id: I62572192eaa1f7971e8a6b6f52e4e2a6b9ab87fe
-Change-Id: I1a90e9dd61f8bb7398dfaa2a48bfb6720c1dfc75
+Change-Id: I096c90e9d3ebe561595adc572e150adde4bba417
 ---
  .../systemui/omni/DetailedWeatherView.java    | 41 +++----------------
  1 file changed, 6 insertions(+), 35 deletions(-)

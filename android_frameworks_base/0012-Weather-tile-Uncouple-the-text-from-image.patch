@@ -1,4 +1,4 @@
-From 47ee18edf995a9929d3f92d2ab128ca525d4641d Mon Sep 17 00:00:00 2001
+From 674e4dddedab26592542e751c8413c2f551b4d52 Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Sun, 12 Apr 2020 00:25:09 +0530
 Subject: [PATCH] Weather tile: Uncouple the text from image
@@ -6,8 +6,8 @@ Subject: [PATCH] Weather tile: Uncouple the text from image
 The temperature string was overlayed into the weather condition image, I have not researched fully why it was done so.
 
 Let's just uncouple the text and the image and set the text to a separate Textview
-Change-Id: I7d712e92d8285c889efe8fc44d609feb3700716c
-Change-Id: I7144cdaf06cbe7298cb69b496028ef68bed7cc0c
+
+Change-Id: I9a71fe19f2a61bba85ffe84b33ed6f26bb02cb42
 ---
  .../res/layout/detailed_weather_view.xml      | 54 ++++++++++++++
  .../systemui/omni/DetailedWeatherView.java    | 74 ++++++++++---------

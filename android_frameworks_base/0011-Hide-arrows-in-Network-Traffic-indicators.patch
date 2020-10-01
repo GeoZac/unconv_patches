@@ -1,4 +1,4 @@
-From 66c5e74b25bfad38d2e897225d85c333dfaab5f8 Mon Sep 17 00:00:00 2001
+From 6b06b019033078c338f0f923d5c1ded1c8be649c Mon Sep 17 00:00:00 2001
 From: Nico60 <ndhouailly@gmail.com>
 Date: Sat, 4 Apr 2020 20:47:49 +0530
 Subject: [PATCH] Hide arrows in Network Traffic indicators

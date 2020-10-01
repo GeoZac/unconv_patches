@@ -1,4 +1,4 @@
-From 7243f31a3c03cce232ebaab7e62aba43ea6de9a3 Mon Sep 17 00:00:00 2001
+From bf48dcfeed5d4c934c16bc646ad91d7987eddc2b Mon Sep 17 00:00:00 2001
 From: maxwen <max.weninger@gmail.com>
 Date: Sun, 1 Dec 2019 03:06:50 +0100
 Subject: [PATCH] SystemUI: old style mobile data type indicator layout update
@@ -83,7 +83,7 @@ index 1c4431a3ee0..97011e0e046 100644
 +
  </resources>
 diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/StatusBarMobileView.java b/packages/SystemUI/src/com/android/systemui/statusbar/StatusBarMobileView.java
-index 6445dfcde3d..bf3f6517ec1 100644
+index feac32bdcdb..f80924b1e52 100644
 --- a/packages/SystemUI/src/com/android/systemui/statusbar/StatusBarMobileView.java
 +++ b/packages/SystemUI/src/com/android/systemui/statusbar/StatusBarMobileView.java
 @@ -63,6 +63,7 @@ public class StatusBarMobileView extends FrameLayout implements DarkReceiver,
@@ -102,7 +102,7 @@ index 6445dfcde3d..bf3f6517ec1 100644
  
          mMobileDrawable = new SignalDrawable(getContext());
          mMobile.setImageDrawable(mMobileDrawable);
-@@ -164,27 +166,28 @@ public class StatusBarMobileView extends FrameLayout implements DarkReceiver,
+@@ -169,27 +171,28 @@ public class StatusBarMobileView extends FrameLayout implements DarkReceiver,
          if (mState.typeId > 0) {
              if (mOldStyleType) {
                  mMobileType.setVisibility(View.GONE);
@@ -138,7 +138,7 @@ index 6445dfcde3d..bf3f6517ec1 100644
          mMobileRoamingSpace.setVisibility(mState.roaming || showRoamingSpace ? View.VISIBLE : View.GONE);
          mIn.setVisibility(mState.activityIn ? View.VISIBLE : View.GONE);
          mOut.setVisibility(mState.activityOut ? View.VISIBLE : View.GONE);
-@@ -205,7 +208,12 @@ public class StatusBarMobileView extends FrameLayout implements DarkReceiver,
+@@ -210,7 +213,12 @@ public class StatusBarMobileView extends FrameLayout implements DarkReceiver,
                          R.dimen.status_bar_mobile_signal_width);
          } else {
              p.width = mContext.getResources().getDimensionPixelSize(
@@ -152,7 +152,7 @@ index 6445dfcde3d..bf3f6517ec1 100644
          }
          mMobileSignalType.setLayoutParams(p);
      }
-@@ -227,28 +235,29 @@ public class StatusBarMobileView extends FrameLayout implements DarkReceiver,
+@@ -235,28 +243,29 @@ public class StatusBarMobileView extends FrameLayout implements DarkReceiver,
              if (state.typeId != 0) {
                  if (oldStyleType) {
                      mMobileType.setVisibility(View.GONE);
@@ -189,7 +189,7 @@ index 6445dfcde3d..bf3f6517ec1 100644
          mMobileRoamingSpace.setVisibility(showRoamingSpace || state.roaming ? View.VISIBLE : View.GONE);
          mIn.setVisibility(state.activityIn ? View.VISIBLE : View.GONE);
          mOut.setVisibility(state.activityOut ? View.VISIBLE : View.GONE);
-@@ -283,6 +292,7 @@ public class StatusBarMobileView extends FrameLayout implements DarkReceiver,
+@@ -291,6 +300,7 @@ public class StatusBarMobileView extends FrameLayout implements DarkReceiver,
          mIn.setImageTintList(color);
          mOut.setImageTintList(color);
          mMobileType.setImageTintList(color);
@@ -197,7 +197,7 @@ index 6445dfcde3d..bf3f6517ec1 100644
          mMobileRoaming.setImageTintList(color);
          mVolte.setImageTintList(color);
          mDotView.setDecorColor(tint);
-@@ -311,6 +321,7 @@ public class StatusBarMobileView extends FrameLayout implements DarkReceiver,
+@@ -319,6 +329,7 @@ public class StatusBarMobileView extends FrameLayout implements DarkReceiver,
          mMobileType.setImageTintList(list);
          mMobileRoaming.setImageTintList(list);
          mVolte.setImageTintList(list);
@@ -205,7 +205,7 @@ index 6445dfcde3d..bf3f6517ec1 100644
          mDotView.setDecorColor(color);
      }
  
-@@ -371,28 +382,28 @@ public class StatusBarMobileView extends FrameLayout implements DarkReceiver,
+@@ -379,28 +390,28 @@ public class StatusBarMobileView extends FrameLayout implements DarkReceiver,
              if (mState.typeId != 0) {
                  if (oldStyleType) {
                      mMobileType.setVisibility(View.GONE);

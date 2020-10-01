@@ -1,4 +1,4 @@
-From 4ef3dd6b258f357c85e4157a2f162f845a612efe Mon Sep 17 00:00:00 2001
+From b145dda41413659e1814ec237b2070d53d48b705 Mon Sep 17 00:00:00 2001
 From: maxwen <max.weninger@gmail.com>
 Date: Wed, 27 Nov 2019 16:27:40 +0100
 Subject: [PATCH] SystemUI: bring back old style mobile data indicators
@@ -11,16 +11,16 @@ Change-Id: Idf6ba3cd97b6fde1f6a5fbb7ee72b3fba71f710b
  core/java/android/provider/Settings.java      |  18 +++
  .../layout/status_bar_mobile_signal_group.xml |  10 +-
  packages/SystemUI/res/values/aicp_dimens.xml  |   5 +
- .../statusbar/StatusBarMobileView.java        | 131 +++++++++++++++---
+ .../statusbar/StatusBarMobileView.java        | 130 +++++++++++++++---
  .../statusbar/phone/DemoStatusIcons.java      |   4 +-
  .../phone/StatusBarIconController.java        |  13 +-
- 6 files changed, 156 insertions(+), 25 deletions(-)
+ 6 files changed, 155 insertions(+), 25 deletions(-)
 
 diff --git a/core/java/android/provider/Settings.java b/core/java/android/provider/Settings.java
-index 23a36d0a4ef..520ec6f5fa4 100644
+index 1330d1dad08..b2182f20097 100644
 --- a/core/java/android/provider/Settings.java
 +++ b/core/java/android/provider/Settings.java
-@@ -7140,6 +7140,18 @@ public final class Settings {
+@@ -7264,6 +7264,18 @@ public final class Settings {
           * AICP System Settings end
           ***************************/
  
@@ -39,27 +39,27 @@ index 23a36d0a4ef..520ec6f5fa4 100644
          /**
           * IMPORTANT: If you add a new public settings you also have to add it to
           * PUBLIC_SETTINGS below. If the new setting is hidden you have to add
-@@ -7414,6 +7426,8 @@ public final class Settings {
-             GESTURE_NAVBAR_SHOW,
+@@ -7541,6 +7553,8 @@ public final class Settings {
              QS_DATAUSAGE,
+             AUTO_BRIGHTNESS_MIN_VALUE,
              // AICP Settings end
 +            OMNI_USE_OLD_MOBILETYPE,
 +            // unConv additions end
          };
  
          /**
-@@ -7768,6 +7782,8 @@ public final class Settings {
-             PRIVATE_SETTINGS.add(GESTURE_NAVBAR_SHOW);
-             PRIVATE_SETTINGS.add(QS_DATAUSAGE);
+@@ -7899,6 +7913,8 @@ public final class Settings {
+             PRIVATE_SETTINGS.add(SHOW_VOWIFI_ICON);
+             PRIVATE_SETTINGS.add(AUTO_BRIGHTNESS_MIN_VALUE);
              // AICP Settings end
 +            PRIVATE_SETTINGS.add(OMNI_USE_OLD_MOBILETYPE);
 +            // unConv additions end
          }
  
          /**
-@@ -8111,6 +8127,8 @@ public final class Settings {
-             VALIDATORS.put(GESTURE_NAVBAR_SHOW,GESTURE_NAVBAR_SHOW_VALIDATOR);
-             VALIDATORS.put(QS_DATAUSAGE, QS_DATAUSAGE_VALIDATOR);
+@@ -8246,6 +8262,8 @@ public final class Settings {
+             VALIDATORS.put(SHOW_VOWIFI_ICON, SHOW_VOWIFI_ICON_VALIDATOR);
+             VALIDATORS.put(AUTO_BRIGHTNESS_MIN_VALUE, AUTO_BRIGHTNESS_MIN_VALUE_VALIDATOR);
              // AICP Settings end
 +            VALIDATORS.put(OMNI_USE_OLD_MOBILETYPE, OMNI_USE_OLD_MOBILETYPE_VALIDATOR);
 +            // unConv additions end
@@ -115,7 +115,7 @@ index 3035c50d935..1c4431a3ee0 100644
 +    <dimen name="status_bar_mobile_type_height">10dp</dimen>
  </resources>
 diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/StatusBarMobileView.java b/packages/SystemUI/src/com/android/systemui/statusbar/StatusBarMobileView.java
-index bcf414bbcfb..6445dfcde3d 100644
+index 2b72f47748d..feac32bdcdb 100644
 --- a/packages/SystemUI/src/com/android/systemui/statusbar/StatusBarMobileView.java
 +++ b/packages/SystemUI/src/com/android/systemui/statusbar/StatusBarMobileView.java
 @@ -30,6 +30,7 @@ import android.util.AttributeSet;
@@ -169,11 +169,9 @@ index bcf414bbcfb..6445dfcde3d 100644
          }
  
          if (requestLayout) {
-@@ -155,16 +160,32 @@ public class StatusBarMobileView extends FrameLayout implements DarkReceiver,
-             mMobileGroup.setVisibility(View.VISIBLE);
+@@ -162,15 +167,30 @@ public class StatusBarMobileView extends FrameLayout implements DarkReceiver,
          }
-         mMobileDrawable.setLevel(mState.strengthId);
-+        boolean showRoamingSpace = false;
+         boolean showRoamingSpace = false;
          if (mState.typeId > 0) {
 -            mMobileType.setContentDescription(mState.typeContentDescription);
 -            mMobileType.setImageResource(mState.typeId);
@@ -208,7 +206,7 @@ index bcf414bbcfb..6445dfcde3d 100644
          mIn.setVisibility(mState.activityIn ? View.VISIBLE : View.GONE);
          mOut.setVisibility(mState.activityOut ? View.VISIBLE : View.GONE);
          mInoutContainer.setVisibility((mState.activityIn || mState.activityOut)
-@@ -177,7 +198,19 @@ public class StatusBarMobileView extends FrameLayout implements DarkReceiver,
+@@ -183,7 +203,19 @@ public class StatusBarMobileView extends FrameLayout implements DarkReceiver,
          }
      }
  
@@ -229,9 +227,9 @@ index bcf414bbcfb..6445dfcde3d 100644
          boolean needsLayout = false;
  
          setContentDescription(state.contentDescription);
-@@ -188,19 +221,35 @@ public class StatusBarMobileView extends FrameLayout implements DarkReceiver,
-         if (mState.strengthId != state.strengthId) {
-             mMobileDrawable.setLevel(state.strengthId);
+@@ -197,19 +229,35 @@ public class StatusBarMobileView extends FrameLayout implements DarkReceiver,
+         } else {
+             mMobile.setVisibility(View.GONE);
          }
 -        if (mState.typeId != state.typeId) {
 +        boolean showRoamingSpace = false;
@@ -272,7 +270,7 @@ index bcf414bbcfb..6445dfcde3d 100644
          mIn.setVisibility(state.activityIn ? View.VISIBLE : View.GONE);
          mOut.setVisibility(state.activityOut ? View.VISIBLE : View.GONE);
          mInoutContainer.setVisibility((state.activityIn || state.activityOut)
-@@ -217,9 +266,11 @@ public class StatusBarMobileView extends FrameLayout implements DarkReceiver,
+@@ -226,9 +274,11 @@ public class StatusBarMobileView extends FrameLayout implements DarkReceiver,
  
          needsLayout |= state.roaming != mState.roaming
                  || state.activityIn != mState.activityIn
@@ -285,7 +283,7 @@ index bcf414bbcfb..6445dfcde3d 100644
          return needsLayout;
      }
  
-@@ -311,4 +362,48 @@ public class StatusBarMobileView extends FrameLayout implements DarkReceiver,
+@@ -320,4 +370,48 @@ public class StatusBarMobileView extends FrameLayout implements DarkReceiver,
      public String toString() {
          return "StatusBarMobileView(slot=" + mSlot + " state=" + mState + ")";
      }

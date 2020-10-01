@@ -1,4 +1,4 @@
-From 58be6566b9ed2b8a009cd9f6c62f1d017fc5a03b Mon Sep 17 00:00:00 2001
+From 8b6b357f87ea0faa22924666a9a8e309e98eb905 Mon Sep 17 00:00:00 2001
 From: Michael W <baddaemon87@gmail.com>
 Date: Sat, 20 Jun 2020 16:44:59 +0200
 Subject: [PATCH] SystemUI: QS Details: Fix layout issues

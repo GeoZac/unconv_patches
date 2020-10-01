@@ -1,4 +1,4 @@
-From 7bf854c919fd0dba61d9dc00f42e01c7b7fa535e Mon Sep 17 00:00:00 2001
+From 97d3ac26e91d09f891a3e6712db16cf053818245 Mon Sep 17 00:00:00 2001
 From: El Dainosor <eldainosor@gmail.com>
 Date: Sat, 9 Nov 2019 20:04:52 +0000
 Subject: [PATCH] base: Add Lockscreen cover art filter
@@ -22,10 +22,10 @@ Signed-off-by: Anirudh Gupta <anirudhgupta109@gmail.com>
  5 files changed, 56 insertions(+), 4 deletions(-)
 
 diff --git a/core/java/android/provider/Settings.java b/core/java/android/provider/Settings.java
-index 520ec6f5fa4..8a9f6b71e22 100644
+index b2182f20097..6579561a7c5 100644
 --- a/core/java/android/provider/Settings.java
 +++ b/core/java/android/provider/Settings.java
-@@ -7148,6 +7148,19 @@ public final class Settings {
+@@ -7272,6 +7272,19 @@ public final class Settings {
          private static final Validator OMNI_USE_OLD_MOBILETYPE_VALIDATOR =
                  BOOLEAN_VALIDATOR;
  
@@ -91,7 +91,7 @@ index 4657789afd5..33cea23dfbc 100644
 +
  </resources>
 diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/NotificationMediaManager.java b/packages/SystemUI/src/com/android/systemui/statusbar/NotificationMediaManager.java
-index e56f53b57f6..64132d33eaf 100644
+index 868ff7d97d2..2e8b3cc83e9 100644
 --- a/packages/SystemUI/src/com/android/systemui/statusbar/NotificationMediaManager.java
 +++ b/packages/SystemUI/src/com/android/systemui/statusbar/NotificationMediaManager.java
 @@ -56,6 +56,7 @@ import android.widget.ImageView;
@@ -110,7 +110,7 @@ index e56f53b57f6..64132d33eaf 100644
      private final DeviceConfig.OnPropertiesChangedListener mPropertiesChangedListener =
              new DeviceConfig.OnPropertiesChangedListener() {
          @Override
-@@ -744,7 +746,22 @@ public class NotificationMediaManager implements Dumpable {
+@@ -769,7 +771,22 @@ public class NotificationMediaManager implements Dumpable {
      };
  
      private Bitmap processArtwork(Bitmap artwork) {
@@ -134,7 +134,7 @@ index e56f53b57f6..64132d33eaf 100644
      }
  
      @MainThread
-@@ -852,7 +869,8 @@ public class NotificationMediaManager implements Dumpable {
+@@ -879,7 +896,8 @@ public class NotificationMediaManager implements Dumpable {
          return level;
      }
  
@@ -145,10 +145,10 @@ index e56f53b57f6..64132d33eaf 100644
      }
  }
 diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/phone/StatusBar.java b/packages/SystemUI/src/com/android/systemui/statusbar/phone/StatusBar.java
-index a6acdac3acc..2811b946ea6 100644
+index dd7b5551725..566b057ff1a 100644
 --- a/packages/SystemUI/src/com/android/systemui/statusbar/phone/StatusBar.java
 +++ b/packages/SystemUI/src/com/android/systemui/statusbar/phone/StatusBar.java
-@@ -765,6 +765,9 @@ public class StatusBar extends SystemUI implements DemoMode,
+@@ -766,6 +766,9 @@ public class StatusBar extends SystemUI implements DemoMode,
              resolver.registerContentObserver(Settings.System.getUriFor(
                      Settings.System.LOCKSCREEN_MEDIA_METADATA),
                      false, this, UserHandle.USER_ALL);
@@ -158,7 +158,7 @@ index a6acdac3acc..2811b946ea6 100644
              resolver.registerContentObserver(Settings.Secure.getUriFor(
                      Settings.Secure.FP_SWIPE_TO_DISMISS_NOTIFICATIONS),
                      false, this, UserHandle.USER_ALL);
-@@ -5593,7 +5596,9 @@ public class StatusBar extends SystemUI implements DemoMode,
+@@ -5603,7 +5606,9 @@ public class StatusBar extends SystemUI implements DemoMode,
      private void setLockscreenMediaArt() {
          boolean lockscreenMediaMetadata = Settings.System.getIntForUser(mContext.getContentResolver(),
                          Settings.System.LOCKSCREEN_MEDIA_METADATA, 0, UserHandle.USER_CURRENT) == 1;

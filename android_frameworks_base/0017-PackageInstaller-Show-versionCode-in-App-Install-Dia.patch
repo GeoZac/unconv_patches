@@ -1,4 +1,4 @@
-From 6e7636c759ab702f9c9ae5d405a08a034afbdcd0 Mon Sep 17 00:00:00 2001
+From c3b6e48a2bb892cbef4a0104ecada4fd3db85d26 Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Sun, 3 May 2020 22:19:46 +0530
 Subject: [PATCH] PackageInstaller: Show versionCode in App Install Dialog

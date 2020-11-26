@@ -1,4 +1,4 @@
-From 1e8c8cc1e382dc704de5c632b8e887e1d1413cb6 Mon Sep 17 00:00:00 2001
+From fa9a177fc2364587f495ac267a8626b96d9dbefa Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Sat, 21 Mar 2020 18:58:41 +0530
 Subject: [PATCH] Workaround an issue with WeatherTile

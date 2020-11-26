@@ -1,4 +1,4 @@
-From 42088ed8f440de43f205ed432cfd070e66813ec3 Mon Sep 17 00:00:00 2001
+From 1a508c7adeadb88ffb90e0ec2fadc8c0a8227a25 Mon Sep 17 00:00:00 2001
 From: ElDainosor <eldainosor@gmail.com>
 Date: Wed, 3 Apr 2019 00:07:24 -0300
 Subject: [PATCH] base: Optimize toGrayscale function

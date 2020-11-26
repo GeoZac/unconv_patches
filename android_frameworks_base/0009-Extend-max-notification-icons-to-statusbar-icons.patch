@@ -1,4 +1,4 @@
-From 9db35caeb2e02f9ae8d5cf185ffb83967d71798a Mon Sep 17 00:00:00 2001
+From f435224fe27c8ef8d6367be3b4264f7fef431a47 Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Sat, 4 Apr 2020 12:48:46 +0530
 Subject: [PATCH] Extend max notification icons to statusbar icons

@@ -1,4 +1,4 @@
-From bf48dcfeed5d4c934c16bc646ad91d7987eddc2b Mon Sep 17 00:00:00 2001
+From c87163a4e829a1722abae5422afe9c2c328023ae Mon Sep 17 00:00:00 2001
 From: maxwen <max.weninger@gmail.com>
 Date: Sun, 1 Dec 2019 03:06:50 +0100
 Subject: [PATCH] SystemUI: old style mobile data type indicator layout update

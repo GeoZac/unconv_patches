@@ -1,4 +1,4 @@
-From 97d3ac26e91d09f891a3e6712db16cf053818245 Mon Sep 17 00:00:00 2001
+From 83bc51f84a3a63a44db259ec8d0fd60f02b4b83b Mon Sep 17 00:00:00 2001
 From: El Dainosor <eldainosor@gmail.com>
 Date: Sat, 9 Nov 2019 20:04:52 +0000
 Subject: [PATCH] base: Add Lockscreen cover art filter

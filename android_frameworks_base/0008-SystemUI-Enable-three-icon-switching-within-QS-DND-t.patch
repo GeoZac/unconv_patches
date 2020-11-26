@@ -1,4 +1,4 @@
-From dc17cb917ae9830bc82d66724ea65a515b1c99a8 Mon Sep 17 00:00:00 2001
+From 7321dd192675c4b36dd8e7b7f8a9278f649afb15 Mon Sep 17 00:00:00 2001
 From: Mike xdnax <mikecoconut5832@gmail.com>
 Date: Thu, 28 Sep 2017 16:47:31 +0200
 Subject: [PATCH] SystemUI: Enable three icon switching within QS DND tile

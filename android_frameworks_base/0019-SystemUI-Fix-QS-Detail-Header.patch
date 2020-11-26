@@ -1,4 +1,4 @@
-From ffd61560d15f6db49d28af189147d31414196f29 Mon Sep 17 00:00:00 2001
+From 201310a65b14b37dbcf387edbd2bd1212143ef16 Mon Sep 17 00:00:00 2001
 From: Michael W <baddaemon87@gmail.com>
 Date: Tue, 16 Jun 2020 12:13:38 +0200
 Subject: [PATCH] SystemUI: Fix QS Detail Header

@@ -1,4 +1,4 @@
-From efd53fa7b9011db01918ed0d1d5c3591dd1903c4 Mon Sep 17 00:00:00 2001
+From 74e963b1d35237d495fcba98a2e7646929784825 Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Sat, 4 Apr 2020 20:29:40 +0530
 Subject: [PATCH] Stylise weatherData string

@@ -1,4 +1,4 @@
-From b5ebed0e547595ec27a83798313d47b603811b1b Mon Sep 17 00:00:00 2001
+From aa0e34ac58a0356a0a7c3222b31d87f2be1f6b45 Mon Sep 17 00:00:00 2001
 From: Dil3mm4 <dil3mm4.dev@gmail.com>
 Date: Tue, 19 Mar 2019 01:26:28 -0300
 Subject: [PATCH] ImageHelper: add getBlurredImage

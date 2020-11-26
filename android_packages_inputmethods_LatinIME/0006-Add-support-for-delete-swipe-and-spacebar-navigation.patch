@@ -1,0 +1,53 @@
+From 989e43209879c2d1d38a641bc3675c98bd5f7652 Mon Sep 17 00:00:00 2001
+From: dslul <danielelaudani@protonmail.com>
+Date: Sat, 18 Jan 2020 16:26:22 +0100
+Subject: [PATCH] Add support for delete swipe and spacebar navigation.
+
+This is taken from simplekeyboard; the spacebar logic is the old one, to avoid a bug in some applications when moving the cursor at the beginning of the text.
+
+Change-Id: I35f97c461d87a4c99120d02865e53dc9519b55e1
+---
+ java/res/values/cm_strings.xml                                | 4 ++++
+ java/res/values/strings.xml                                   | 4 ----
+ java/src/com/android/inputmethod/keyboard/PointerTracker.java | 2 +-
+ 3 files changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/java/res/values/cm_strings.xml b/java/res/values/cm_strings.xml
+index 8152b79b6..9c10b8baa 100644
+--- a/java/res/values/cm_strings.xml
++++ b/java/res/values/cm_strings.xml
+@@ -32,4 +32,8 @@ disposition rather than other common dispositions for Latin languages. [CHAR LIM
+     <!-- Title of the settings for setting keyboard height -->
+     <string name="prefs_keyboard_height_scale">Keyboard height scale</string>
+     <string name="show_number_row">Show separate number row</string>
++    <string name="delete_swipe">Delete swipe</string>
++    <string name="space_trackpad">Space bar trackpad</string>
++    <string name="delete_swipe_summary">Perform a swipe from the delete key to select and remove bigger portions of text at once</string>
++    <string name="space_trackpad_summary">Swipe on the spacebar to move the cursor</string>
+ </resources>
+diff --git a/java/res/values/strings.xml b/java/res/values/strings.xml
+index 9e17bd52c..6b985cec9 100644
+--- a/java/res/values/strings.xml
++++ b/java/res/values/strings.xml
+@@ -577,8 +577,4 @@ Tip: You can download and remove dictionaries by going to &lt;b>Languages&#160;&
+          This resource is copied from packages/apps/Settings/res/values/strings.xml -->
+     <!-- This resource is corresponding to msgid="5433275485499039199" -->
+     <string name="user_dict_fast_scroll_alphabet">\u0020ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
+-    <string name="delete_swipe">Delete swipe</string>
+-    <string name="space_trackpad">Space bar trackpad</string>
+-    <string name="delete_swipe_summary">Perform a swipe from the delete key to select and remove bigger portions of text at once</string>
+-    <string name="space_trackpad_summary">Swipe on the spacebar to move the cursor</string>
+ </resources>
+diff --git a/java/src/com/android/inputmethod/keyboard/PointerTracker.java b/java/src/com/android/inputmethod/keyboard/PointerTracker.java
+index ff2f72df1..1c238201b 100644
+--- a/java/src/com/android/inputmethod/keyboard/PointerTracker.java
++++ b/java/src/com/android/inputmethod/keyboard/PointerTracker.java
+@@ -906,7 +906,7 @@ public final class PointerTracker implements PointerTrackerQueue.Element,
+ 
+         if (oldKey != null && oldKey.getCode() == Constants.CODE_SPACE && Settings.getInstance().getCurrent().mSpaceTrackpadEnabled) {
+             //Pointer slider
+-            int steps = (x - mStartX) / sPointerStep;
++            int steps = (x - mStartX) / sPointerStep / (mCursorMoved ? 2 : 1);
+             final int longpressTimeout = Settings.getInstance().getCurrent().mKeyLongpressTimeout / MULTIPLIER_FOR_LONG_PRESS_TIMEOUT_IN_SLIDING_INPUT;
+             if (steps != 0 && mStartTime + longpressTimeout < System.currentTimeMillis()) {
+                 mCursorMoved = true;

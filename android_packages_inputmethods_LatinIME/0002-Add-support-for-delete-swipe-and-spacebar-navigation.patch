@@ -1,0 +1,352 @@
+From 5698a83e0a5abccaba40eb1bfb85b71c402b2c92 Mon Sep 17 00:00:00 2001
+From: dslul <danielelaudani@protonmail.com>
+Date: Sat, 18 Jan 2020 16:26:22 +0100
+Subject: [PATCH] Add support for delete swipe and spacebar navigation.
+
+This is taken from simplekeyboard; the spacebar logic is the old one, to avoid a bug in some applications when moving the cursor at the beginning of the text.
+---
+ java/res/values/strings.xml                   |  4 ++
+ java/res/xml/prefs_screen_advanced.xml        | 10 ++++
+ .../keyboard/KeyboardActionListener.java      |  9 +++
+ .../inputmethod/keyboard/PointerTracker.java  | 56 ++++++++++++++++++-
+ .../android/inputmethod/latin/LatinIME.java   | 45 +++++++++++++--
+ .../latin/RichInputConnection.java            |  4 +-
+ .../latin/inputlogic/InputLogic.java          |  2 +-
+ .../inputmethod/latin/settings/Settings.java  | 10 ++++
+ .../latin/settings/SettingsValues.java        |  4 ++
+ 9 files changed, 132 insertions(+), 12 deletions(-)
+
+diff --git a/java/res/values/strings.xml b/java/res/values/strings.xml
+index 6b985cec9..9e17bd52c 100644
+--- a/java/res/values/strings.xml
++++ b/java/res/values/strings.xml
+@@ -577,4 +577,8 @@ Tip: You can download and remove dictionaries by going to &lt;b>Languages&#160;&
+          This resource is copied from packages/apps/Settings/res/values/strings.xml -->
+     <!-- This resource is corresponding to msgid="5433275485499039199" -->
+     <string name="user_dict_fast_scroll_alphabet">\u0020ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
++    <string name="delete_swipe">Delete swipe</string>
++    <string name="space_trackpad">Space bar trackpad</string>
++    <string name="delete_swipe_summary">Perform a swipe from the delete key to select and remove bigger portions of text at once</string>
++    <string name="space_trackpad_summary">Swipe on the spacebar to move the cursor</string>
+ </resources>
+diff --git a/java/res/xml/prefs_screen_advanced.xml b/java/res/xml/prefs_screen_advanced.xml
+index 1aae14e86..47376792f 100644
+--- a/java/res/xml/prefs_screen_advanced.xml
++++ b/java/res/xml/prefs_screen_advanced.xml
+@@ -53,6 +53,16 @@
+         android:title="@string/prefs_keyboard_height_scale"
+         latin:minValue="50"
+         latin:maxValue="120" /> <!-- percentage -->
++    <CheckBoxPreference
++        android:key="pref_space_trackpad"
++        android:title="@string/space_trackpad"
++        android:summary="@string/space_trackpad_summary"
++        android:defaultValue="true" />
++    <CheckBoxPreference
++        android:key="pref_delete_swipe"
++        android:title="@string/delete_swipe"
++        android:summary="@string/delete_swipe_summary"
++        android:defaultValue="true" />
+     <PreferenceScreen
+         android:fragment="com.android.inputmethod.latin.settings.DebugSettingsFragment"
+         android:key="screen_debug"
+diff --git a/java/src/com/android/inputmethod/keyboard/KeyboardActionListener.java b/java/src/com/android/inputmethod/keyboard/KeyboardActionListener.java
+index cdd632bc8..651fad84a 100644
+--- a/java/src/com/android/inputmethod/keyboard/KeyboardActionListener.java
++++ b/java/src/com/android/inputmethod/keyboard/KeyboardActionListener.java
+@@ -100,6 +100,9 @@ public interface KeyboardActionListener {
+      * @return true if the request has been consumed, false otherwise.
+      */
+     public boolean onCustomRequest(int requestCode);
++    public void onMovePointer(int steps);
++    public void onMoveDeletePointer(int steps);
++    public void onUpWithDeletePointerActive();
+ 
+     public static final KeyboardActionListener EMPTY_LISTENER = new Adapter();
+ 
+@@ -128,5 +131,11 @@ public interface KeyboardActionListener {
+         public boolean onCustomRequest(int requestCode) {
+             return false;
+         }
++        @Override
++        public void onMovePointer(int steps) {}
++        @Override
++        public void onMoveDeletePointer(int steps) {}
++        @Override
++        public void onUpWithDeletePointerActive() {}
+     }
+ }
+diff --git a/java/src/com/android/inputmethod/keyboard/PointerTracker.java b/java/src/com/android/inputmethod/keyboard/PointerTracker.java
+index 05680c5ac..ff2f72df1 100644
+--- a/java/src/com/android/inputmethod/keyboard/PointerTracker.java
++++ b/java/src/com/android/inputmethod/keyboard/PointerTracker.java
+@@ -85,6 +85,7 @@ public final class PointerTracker implements PointerTrackerQueue.Element,
+ 
+     // Parameters for pointer handling.
+     private static PointerTrackerParams sParams;
++    private static int sPointerStep = (int)(10.0 * Resources.getSystem().getDisplayMetrics().density);
+     private static GestureStrokeRecognitionParams sGestureStrokeRecognitionParams;
+     private static GestureStrokeDrawingParams sGestureStrokeDrawingParams;
+     private static boolean sNeedsPhantomSuddenMoveEventHack;
+@@ -127,6 +128,10 @@ public final class PointerTracker implements PointerTrackerQueue.Element,
+     // Last pointer position.
+     private int mLastX;
+     private int mLastY;
++    private int mStartX;
++    private int mStartY;
++    private long mStartTime;
++    private boolean mCursorMoved = false;
+ 
+     // true if keyboard layout has been changed.
+     private boolean mKeyboardLayoutHasBeenChanged;
+@@ -696,6 +701,9 @@ public final class PointerTracker implements PointerTrackerQueue.Element,
+             startRepeatKey(key);
+             startLongPressTimer(key);
+             setPressedKeyGraphics(key, eventTime);
++            mStartX = x;
++            mStartY = y;
++            mStartTime = System.currentTimeMillis();
+         }
+     }
+ 
+@@ -894,10 +902,35 @@ public final class PointerTracker implements PointerTrackerQueue.Element,
+     }
+ 
+     private void onMoveEventInternal(final int x, final int y, final long eventTime) {
+-        final int lastX = mLastX;
+-        final int lastY = mLastY;
+         final Key oldKey = mCurrentKey;
++
++        if (oldKey != null && oldKey.getCode() == Constants.CODE_SPACE && Settings.getInstance().getCurrent().mSpaceTrackpadEnabled) {
++            //Pointer slider
++            int steps = (x - mStartX) / sPointerStep;
++            final int longpressTimeout = Settings.getInstance().getCurrent().mKeyLongpressTimeout / MULTIPLIER_FOR_LONG_PRESS_TIMEOUT_IN_SLIDING_INPUT;
++            if (steps != 0 && mStartTime + longpressTimeout < System.currentTimeMillis()) {
++                mCursorMoved = true;
++                mStartX += steps * sPointerStep;
++                sListener.onMovePointer(steps);
++            }
++            return;
++        }
++
++        if (oldKey != null && oldKey.getCode() == Constants.CODE_DELETE && Settings.getInstance().getCurrent().mDeleteSwipeEnabled) {
++            //Delete slider
++            int steps = (x - mStartX) / sPointerStep;
++            if (steps != 0) {
++                sTimerProxy.cancelKeyTimersOf(this);
++                mCursorMoved = true;
++                mStartX += steps * sPointerStep;
++                sListener.onMoveDeletePointer(steps);
++            }
++            return;
++        }
++
+         final Key newKey = onMoveKey(x, y);
++        final int lastX = mLastX;
++        final int lastY = mLastY;
+ 
+         if (sGestureEnabler.shouldHandleGesture()) {
+             // Register move event on gesture tracker.
+@@ -971,6 +1004,10 @@ public final class PointerTracker implements PointerTrackerQueue.Element,
+         // Release the last pressed key.
+         setReleasedKeyGraphics(currentKey, true /* withAnimation */);
+ 
++        if(mCursorMoved && currentKey.getCode() == Constants.CODE_DELETE) {
++            sListener.onUpWithDeletePointerActive();
++        }
++
+         if (isShowingMoreKeysPanel()) {
+             if (!mIsTrackingForActionDisabled) {
+                 final int translatedX = mMoreKeysPanel.translateX(x);
+@@ -981,6 +1018,11 @@ public final class PointerTracker implements PointerTrackerQueue.Element,
+             return;
+         }
+ 
++        if (mCursorMoved) {
++            mCursorMoved = false;
++            return;
++        }
++
+         if (sInGesture) {
+             if (currentKey != null) {
+                 callListenerOnRelease(currentKey, currentKey.getCode(), true /* withSliding */);
+@@ -1023,6 +1065,9 @@ public final class PointerTracker implements PointerTrackerQueue.Element,
+         if (isShowingMoreKeysPanel()) {
+             return;
+         }
++        if(mCursorMoved) {
++            return;
++        }
+         final Key key = getKey();
+         if (key == null) {
+             return;
+@@ -1037,7 +1082,8 @@ public final class PointerTracker implements PointerTrackerQueue.Element,
+             return;
+         }
+         final int code = key.getCode();
+-        if (code == Constants.CODE_SPACE || code == Constants.CODE_LANGUAGE_SWITCH) {
++        if (/*code == Constants.CODE_SPACE ||*/
++            code == Constants.CODE_LANGUAGE_SWITCH) {
+             // Long pressing the space key invokes IME switcher dialog.
+             if (sListener.onCustomRequest(Constants.CUSTOM_CODE_SHOW_INPUT_METHOD_PICKER)) {
+                 cancelKeyTracking();
+@@ -1148,6 +1194,10 @@ public final class PointerTracker implements PointerTrackerQueue.Element,
+             // We use longer timeout for sliding finger input started from the modifier key.
+             return longpressTimeout * MULTIPLIER_FOR_LONG_PRESS_TIMEOUT_IN_SLIDING_INPUT;
+         }
++        if (code == Constants.CODE_SPACE) {
++            // Cursor can be moved in space
++            return longpressTimeout * MULTIPLIER_FOR_LONG_PRESS_TIMEOUT_IN_SLIDING_INPUT;
++        }
+         return longpressTimeout;
+     }
+ 
+diff --git a/java/src/com/android/inputmethod/latin/LatinIME.java b/java/src/com/android/inputmethod/latin/LatinIME.java
+index 737bd0d3e..562d8b4f8 100644
+--- a/java/src/com/android/inputmethod/latin/LatinIME.java
++++ b/java/src/com/android/inputmethod/latin/LatinIME.java
+@@ -42,6 +42,7 @@ import android.os.IBinder;
+ import android.os.Message;
+ import android.preference.PreferenceManager;
+ import android.text.InputType;
++import android.text.TextUtils;
+ import android.util.Log;
+ import android.util.PrintWriterPrinter;
+ import android.util.Printer;
+@@ -1375,16 +1376,48 @@ public class LatinIME extends InputMethodService implements KeyboardActionListen
+     public boolean onCustomRequest(final int requestCode) {
+         if (isShowingOptionDialog()) return false;
+         switch (requestCode) {
+-        case Constants.CUSTOM_CODE_SHOW_INPUT_METHOD_PICKER:
+-            if (mRichImm.hasMultipleEnabledIMEsOrSubtypes(true /* include aux subtypes */)) {
+-                mRichImm.getInputMethodManager().showInputMethodPicker();
+-                return true;
+-            }
+-            return false;
++            case Constants.CUSTOM_CODE_SHOW_INPUT_METHOD_PICKER:
++                if (mRichImm.hasMultipleEnabledIMEsOrSubtypes(true /* include aux subtypes */)) {
++                    mRichImm.getInputMethodManager().showInputMethodPicker();
++                    return true;
++                }
++                return false;
+         }
+         return false;
+     }
+ 
++    @Override
++    public void onMovePointer(int steps) {
++        if (steps < 0) {
++            int availableCharacters = getCurrentInputConnection().getTextBeforeCursor(64, 0).length();
++            steps = availableCharacters < -steps ? -availableCharacters : steps;
++        }
++        else if (steps > 0) {
++            int availableCharacters = getCurrentInputConnection().getTextAfterCursor(64, 0).length();
++            steps = availableCharacters < steps ? availableCharacters : steps;
++        } else return;
++
++        int newPosition = mInputLogic.mConnection.mExpectedSelStart + steps;
++        getCurrentInputConnection().setSelection(newPosition, newPosition);
++    }
++
++    @Override
++    public void onMoveDeletePointer(int steps) {
++        int end = mInputLogic.mConnection.getExpectedSelectionEnd();
++        int start = mInputLogic.mConnection.getExpectedSelectionStart() + steps;
++        if (start > end)
++            return;
++        mInputLogic.mConnection.setSelection(start, end);
++    }
++
++    @Override
++    public void onUpWithDeletePointerActive() {
++        if (mInputLogic.mConnection.hasSelection()) {
++            mInputLogic.sendDownUpKeyEvent(KeyEvent.KEYCODE_DEL);
++            mInputLogic.finishInput();
++        }
++    }
++
+     private boolean isShowingOptionDialog() {
+         return mOptionsDialog != null && mOptionsDialog.isShowing();
+     }
+diff --git a/java/src/com/android/inputmethod/latin/RichInputConnection.java b/java/src/com/android/inputmethod/latin/RichInputConnection.java
+index a10f2bdb0..8910c7f9d 100644
+--- a/java/src/com/android/inputmethod/latin/RichInputConnection.java
++++ b/java/src/com/android/inputmethod/latin/RichInputConnection.java
+@@ -103,12 +103,12 @@ public final class RichInputConnection implements PrivateCommandPerformer {
+      * It's not really the selection start position: the selection start may not be there yet, and
+      * in some cases, it may never arrive there.
+      */
+-    private int mExpectedSelStart = INVALID_CURSOR_POSITION; // in chars, not code points
++    public int mExpectedSelStart = INVALID_CURSOR_POSITION; // in chars, not code points
+     /**
+      * The expected selection end.  Only differs from mExpectedSelStart if a non-empty selection is
+      * expected.  The same caveats as mExpectedSelStart apply.
+      */
+-    private int mExpectedSelEnd = INVALID_CURSOR_POSITION; // in chars, not code points
++    public int mExpectedSelEnd = INVALID_CURSOR_POSITION; // in chars, not code points
+     /**
+      * This contains the committed text immediately preceding the cursor and the composing
+      * text, if any. It is refreshed when the cursor moves by calling upon the TextView.
+diff --git a/java/src/com/android/inputmethod/latin/inputlogic/InputLogic.java b/java/src/com/android/inputmethod/latin/inputlogic/InputLogic.java
+index 1dd5850f8..57d213f8e 100644
+--- a/java/src/com/android/inputmethod/latin/inputlogic/InputLogic.java
++++ b/java/src/com/android/inputmethod/latin/inputlogic/InputLogic.java
+@@ -1969,7 +1969,7 @@ public final class InputLogic {
+      *
+      * @param keyCode the key code to send inside the key event.
+      */
+-    private void sendDownUpKeyEvent(final int keyCode) {
++    public void sendDownUpKeyEvent(final int keyCode) {
+         final long eventTime = SystemClock.uptimeMillis();
+         mConnection.sendKeyEvent(new KeyEvent(eventTime, eventTime,
+                 KeyEvent.ACTION_DOWN, keyCode, 0, 0, KeyCharacterMap.VIRTUAL_KEYBOARD, 0,
+diff --git a/java/src/com/android/inputmethod/latin/settings/Settings.java b/java/src/com/android/inputmethod/latin/settings/Settings.java
+index 8a1a8a390..f20aeb62f 100644
+--- a/java/src/com/android/inputmethod/latin/settings/Settings.java
++++ b/java/src/com/android/inputmethod/latin/settings/Settings.java
+@@ -83,6 +83,8 @@ public final class Settings implements SharedPreferences.OnSharedPreferenceChang
+             "pref_include_other_imes_in_language_switch_list";
+     public static final String PREF_CUSTOM_INPUT_STYLES = "custom_input_styles";
+     public static final String PREF_ENABLE_SPLIT_KEYBOARD = "pref_split_keyboard";
++    public static final String PREF_SPACE_TRACKPAD = "pref_space_trackpad";
++    public static final String PREF_DELETE_SWIPE = "pref_delete_swipe";
+     // TODO: consolidate key preview dismiss delay with the key preview animation parameters.
+     public static final String PREF_KEY_PREVIEW_POPUP_DISMISS_DELAY =
+             "pref_key_preview_popup_dismiss_delay";
+@@ -357,6 +359,14 @@ public final class Settings implements SharedPreferences.OnSharedPreferenceChang
+         return (percentage != UNDEFINED_PREFERENCE_VALUE_FLOAT) ? percentage : defaultValue;
+     }
+ 
++    public static boolean readSpaceTrackpadEnabled(final SharedPreferences prefs) {
++        return prefs.getBoolean(PREF_SPACE_TRACKPAD, true);
++    }
++
++    public static boolean readDeleteSwipeEnabled(final SharedPreferences prefs) {
++        return prefs.getBoolean(PREF_DELETE_SWIPE, true);
++    }
++
+     public static boolean readUseFullscreenMode(final Resources res) {
+         return res.getBoolean(R.bool.config_use_fullscreen_mode);
+     }
+diff --git a/java/src/com/android/inputmethod/latin/settings/SettingsValues.java b/java/src/com/android/inputmethod/latin/settings/SettingsValues.java
+index 7a276a6a4..ee2659bcf 100644
+--- a/java/src/com/android/inputmethod/latin/settings/SettingsValues.java
++++ b/java/src/com/android/inputmethod/latin/settings/SettingsValues.java
+@@ -73,6 +73,8 @@ public class SettingsValues {
+     public final boolean mUsePersonalizedDicts;
+     public final boolean mUseDoubleSpacePeriod;
+     public final boolean mBlockPotentiallyOffensive;
++    public final boolean mSpaceTrackpadEnabled;
++    public final boolean mDeleteSwipeEnabled;
+     // Use bigrams to predict the next word when there is no input for it yet
+     public final boolean mBigramPredictionEnabled;
+     public final boolean mGestureInputEnabled;
+@@ -221,6 +223,8 @@ public class SettingsValues {
+             new TargetPackageInfoGetterTask(context, mAppWorkarounds)
+                     .execute(mInputAttributes.mTargetApplicationPackageName);
+         }
++        mSpaceTrackpadEnabled = Settings.readSpaceTrackpadEnabled(prefs);
++        mDeleteSwipeEnabled = Settings.readDeleteSwipeEnabled(prefs);
+     }
+ 
+     public boolean isMetricsLoggingEnabled() {

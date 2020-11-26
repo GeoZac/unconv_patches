@@ -1,0 +1,546 @@
+From fbcc76655dae1036add70963888d9d9a36f67393 Mon Sep 17 00:00:00 2001
+From: Raimondas Rimkus <narimantukas@gmail.com>
+Date: Sun, 30 Aug 2020 00:29:59 +0530
+Subject: [PATCH] Add seperate number row
+
+This change is adapted from https://github.com/rkkr/simple-keyboard, is a squash of two commits,
+1. https://github.com/rkkr/simple-keyboard/commit/013840269892d98ffe49b0d1f29b09003e2ed7d5 and
+2. https://github.com/rkkr/simple-keyboard/commit/b2ab7b0619c7743dd63408d49eb22e8ba8ae312c
+
+Only affects QWERTY keyboard for English
+
+Change-Id: Ic358d25d18e6313fb61d4315f05bc59d4894dde5
+---
+ java/res/values/attrs.xml                     |  1 +
+ java/res/values/cm_strings.xml                |  1 +
+ java/res/xml/kbd_qwerty.xml                   | 15 +++-
+ java/res/xml/prefs_screen_advanced.xml        |  4 ++
+ java/res/xml/rowkeys_qwerty0.xml              | 34 +++++++++
+ java/res/xml/rowkeys_qwerty0_left5.xml        | 34 +++++++++
+ java/res/xml/rowkeys_qwerty0_right5.xml       | 34 +++++++++
+ java/res/xml/rowkeys_qwerty1_left5.xml        | 71 ++++++++++++-------
+ java/res/xml/rowkeys_qwerty1_right5.xml       | 68 +++++++++++-------
+ java/res/xml/rows_qwerty.xml                  |  2 -
+ .../inputmethod/keyboard/KeyboardId.java      |  2 +
+ .../keyboard/KeyboardLayoutSet.java           |  6 ++
+ .../keyboard/KeyboardSwitcher.java            |  1 +
+ .../keyboard/internal/KeyboardBuilder.java    | 10 ++-
+ .../settings/AdvancedSettingsFragment.java    |  3 +
+ .../inputmethod/latin/settings/Settings.java  |  6 ++
+ .../latin/settings/SettingsValues.java        |  2 +
+ 17 files changed, 241 insertions(+), 53 deletions(-)
+ create mode 100755 java/res/xml/rowkeys_qwerty0.xml
+ create mode 100755 java/res/xml/rowkeys_qwerty0_left5.xml
+ create mode 100755 java/res/xml/rowkeys_qwerty0_right5.xml
+
+diff --git a/java/res/values/attrs.xml b/java/res/values/attrs.xml
+index 8ff5a87cd..4c5291455 100644
+--- a/java/res/values/attrs.xml
++++ b/java/res/values/attrs.xml
+@@ -521,6 +521,7 @@
+         <attr name="countryCode" format="string" />
+         <!-- Enable split keyboard layout. Disabled by default. -->
+         <attr name="isSplitLayout" format="boolean" />
++        <attr name="showNumberRow" format="boolean" />
+     </declare-styleable>
+ 
+     <declare-styleable name="Keyboard_KeyStyle">
+diff --git a/java/res/values/cm_strings.xml b/java/res/values/cm_strings.xml
+index 3101dd0ad..8152b79b6 100644
+--- a/java/res/values/cm_strings.xml
++++ b/java/res/values/cm_strings.xml
+@@ -31,4 +31,5 @@ disposition rather than other common dispositions for Latin languages. [CHAR LIM
+ 
+     <!-- Title of the settings for setting keyboard height -->
+     <string name="prefs_keyboard_height_scale">Keyboard height scale</string>
++    <string name="show_number_row">Show separate number row</string>
+ </resources>
+diff --git a/java/res/xml/kbd_qwerty.xml b/java/res/xml/kbd_qwerty.xml
+index 2f49b943a..cf5bc6c4f 100644
+--- a/java/res/xml/kbd_qwerty.xml
++++ b/java/res/xml/kbd_qwerty.xml
+@@ -22,5 +22,18 @@
+     xmlns:latin="http://schemas.android.com/apk/res/com.android.inputmethod.latin"
+ >
+     <include
+-        latin:keyboardLayout="@xml/rows_qwerty" />
++        latin:keyboardLayout="@xml/key_styles_common" />
++
++    <switch>
++        <case latin:showNumberRow="true">
++            <include latin:keyboardLayout="@xml/rowkeys_qwerty0" />
++
++            <include
++                latin:keyboardLayout="@xml/rows_qwerty"
++                latin:rowHeight="21.25%p" />
++        </case>
++        <default>
++            <include latin:keyboardLayout="@xml/rows_qwerty" />
++        </default>
++    </switch>
+ </Keyboard>
+diff --git a/java/res/xml/prefs_screen_advanced.xml b/java/res/xml/prefs_screen_advanced.xml
+index 47376792f..f5ddaacad 100644
+--- a/java/res/xml/prefs_screen_advanced.xml
++++ b/java/res/xml/prefs_screen_advanced.xml
+@@ -69,4 +69,8 @@
+         android:title="Debug settings"
+         android:defaultValue="false"
+         android:persistent="true" />
++    <CheckBoxPreference
++        android:key="pref_show_number_row"
++        android:title="@string/show_number_row"
++        android:defaultValue="false" />
+ </PreferenceScreen>
+diff --git a/java/res/xml/rowkeys_qwerty0.xml b/java/res/xml/rowkeys_qwerty0.xml
+new file mode 100755
+index 000000000..1900b6f1a
+--- /dev/null
++++ b/java/res/xml/rowkeys_qwerty0.xml
+@@ -0,0 +1,34 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!--
++/*
++**
++** Copyright 2012, The Android Open Source Project
++**
++** Licensed under the Apache License, Version 2.0 (the "License");
++** you may not use this file except in compliance with the License.
++** You may obtain a copy of the License at
++**
++**     http://www.apache.org/licenses/LICENSE-2.0
++**
++** Unless required by applicable law or agreed to in writing, software
++** distributed under the License is distributed on an "AS IS" BASIS,
++** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++** See the License for the specific language governing permissions and
++** limitations under the License.
++*/
++-->
++
++<merge
++    xmlns:latin="http://schemas.android.com/apk/res/com.android.inputmethod.latin"
++>
++    <Row
++        latin:rowHeight="15%p"
++        >
++        <!-- 1,2,3,4,5 -->
++        <include
++            latin:keyboardLayout="@xml/rowkeys_qwerty0_left5" />
++        <!-- 6,7,6,9,0 -->
++        <include
++            latin:keyboardLayout="@xml/rowkeys_qwerty0_right5" />
++    </Row>
++</merge>
+diff --git a/java/res/xml/rowkeys_qwerty0_left5.xml b/java/res/xml/rowkeys_qwerty0_left5.xml
+new file mode 100755
+index 000000000..426497a8a
+--- /dev/null
++++ b/java/res/xml/rowkeys_qwerty0_left5.xml
+@@ -0,0 +1,34 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!--
++/*
++**
++** Copyright 2014, The Android Open Source Project
++**
++** Licensed under the Apache License, Version 2.0 (the "License");
++** you may not use this file except in compliance with the License.
++** You may obtain a copy of the License at
++**
++**     http://www.apache.org/licenses/LICENSE-2.0
++**
++** Unless required by applicable law or agreed to in writing, software
++** distributed under the License is distributed on an "AS IS" BASIS,
++** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++** See the License for the specific language governing permissions and
++** limitations under the License.
++*/
++-->
++
++<merge
++    xmlns:latin="http://schemas.android.com/apk/res/com.android.inputmethod.latin"
++>
++    <Key
++        latin:keySpec="1" />
++    <Key
++        latin:keySpec="2" />
++    <Key
++        latin:keySpec="3" />
++    <Key
++        latin:keySpec="4" />
++    <Key
++        latin:keySpec="5" />
++</merge>
+diff --git a/java/res/xml/rowkeys_qwerty0_right5.xml b/java/res/xml/rowkeys_qwerty0_right5.xml
+new file mode 100755
+index 000000000..7516775d0
+--- /dev/null
++++ b/java/res/xml/rowkeys_qwerty0_right5.xml
+@@ -0,0 +1,34 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!--
++/*
++**
++** Copyright 2014, The Android Open Source Project
++**
++** Licensed under the Apache License, Version 2.0 (the "License");
++** you may not use this file except in compliance with the License.
++** You may obtain a copy of the License at
++**
++**     http://www.apache.org/licenses/LICENSE-2.0
++**
++** Unless required by applicable law or agreed to in writing, software
++** distributed under the License is distributed on an "AS IS" BASIS,
++** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++** See the License for the specific language governing permissions and
++** limitations under the License.
++*/
++-->
++
++<merge
++    xmlns:latin="http://schemas.android.com/apk/res/com.android.inputmethod.latin"
++>
++    <Key
++        latin:keySpec="6" />
++    <Key
++        latin:keySpec="7" />
++    <Key
++        latin:keySpec="8" />
++    <Key
++        latin:keySpec="9" />
++    <Key
++        latin:keySpec="0" />
++</merge>
+diff --git a/java/res/xml/rowkeys_qwerty1_left5.xml b/java/res/xml/rowkeys_qwerty1_left5.xml
+index ff9f1b2b5..a707d884a 100644
+--- a/java/res/xml/rowkeys_qwerty1_left5.xml
++++ b/java/res/xml/rowkeys_qwerty1_left5.xml
+@@ -21,29 +21,50 @@
+ <merge
+     xmlns:latin="http://schemas.android.com/apk/res/com.android.inputmethod.latin"
+ >
+-    <Key
+-        latin:keySpec="!text/keyspec_q"
+-        latin:keyHintLabel="1"
+-        latin:additionalMoreKeys="1"
+-        latin:moreKeys="!text/morekeys_q" />
+-    <Key
+-        latin:keySpec="!text/keyspec_w"
+-        latin:keyHintLabel="2"
+-        latin:additionalMoreKeys="2"
+-        latin:moreKeys="!text/morekeys_w" />
+-    <Key
+-        latin:keySpec="e"
+-        latin:keyHintLabel="3"
+-        latin:additionalMoreKeys="3"
+-        latin:moreKeys="!text/morekeys_e" />
+-    <Key
+-        latin:keySpec="r"
+-        latin:keyHintLabel="4"
+-        latin:additionalMoreKeys="4"
+-        latin:moreKeys="!text/morekeys_r" />
+-    <Key
+-        latin:keySpec="t"
+-        latin:keyHintLabel="5"
+-        latin:additionalMoreKeys="5"
+-        latin:moreKeys="!text/morekeys_t" />
++    <switch>
++        <case latin:showNumberRow="true">
++            <Key
++                latin:keySpec="!text/keyspec_q"
++                latin:moreKeys="!text/morekeys_q" />
++            <Key
++                latin:keySpec="!text/keyspec_w"
++                latin:moreKeys="!text/morekeys_w" />
++            <Key
++                latin:keySpec="e"
++                latin:moreKeys="!text/morekeys_e" />
++            <Key
++                latin:keySpec="r"
++                latin:moreKeys="!text/morekeys_r" />
++            <Key
++                latin:keySpec="t"
++                latin:moreKeys="!text/morekeys_t" />
++        </case>
++        <default>
++            <Key
++                latin:keySpec="!text/keyspec_q"
++                latin:keyHintLabel="1"
++                latin:additionalMoreKeys="1"
++                latin:moreKeys="!text/morekeys_q" />
++            <Key
++                latin:keySpec="!text/keyspec_w"
++                latin:keyHintLabel="2"
++                latin:additionalMoreKeys="2"
++                latin:moreKeys="!text/morekeys_w" />
++            <Key
++                latin:keySpec="e"
++                latin:keyHintLabel="3"
++                latin:additionalMoreKeys="3"
++                latin:moreKeys="!text/morekeys_e" />
++            <Key
++                latin:keySpec="r"
++                latin:keyHintLabel="4"
++                latin:additionalMoreKeys="4"
++                latin:moreKeys="!text/morekeys_r" />
++            <Key
++                latin:keySpec="t"
++                latin:keyHintLabel="5"
++                latin:additionalMoreKeys="5"
++                latin:moreKeys="!text/morekeys_t" />
++        </default>
++    </switch>
+ </merge>
+diff --git a/java/res/xml/rowkeys_qwerty1_right5.xml b/java/res/xml/rowkeys_qwerty1_right5.xml
+index 2b3cae2e8..fa261416b 100644
+--- a/java/res/xml/rowkeys_qwerty1_right5.xml
++++ b/java/res/xml/rowkeys_qwerty1_right5.xml
+@@ -21,28 +21,48 @@
+ <merge
+     xmlns:latin="http://schemas.android.com/apk/res/com.android.inputmethod.latin"
+ >
+-    <Key
+-        latin:keySpec="!text/keyspec_y"
+-        latin:keyHintLabel="6"
+-        latin:additionalMoreKeys="6"
+-        latin:moreKeys="!text/morekeys_y" />
+-    <Key
+-        latin:keySpec="u"
+-        latin:keyHintLabel="7"
+-        latin:additionalMoreKeys="7"
+-        latin:moreKeys="!text/morekeys_u" />
+-    <Key
+-        latin:keySpec="i"
+-        latin:keyHintLabel="8"
+-        latin:additionalMoreKeys="8"
+-        latin:moreKeys="!text/morekeys_i" />
+-    <Key
+-        latin:keySpec="o"
+-        latin:keyHintLabel="9"
+-        latin:additionalMoreKeys="9"
+-        latin:moreKeys="!text/morekeys_o" />
+-    <Key
+-        latin:keySpec="p"
+-        latin:keyHintLabel="0"
+-        latin:additionalMoreKeys="0" />
++    <switch>
++        <case latin:showNumberRow="true">
++            <Key
++                latin:keySpec="!text/keyspec_y"
++                latin:moreKeys="!text/morekeys_y" />
++            <Key
++                latin:keySpec="u"
++                latin:moreKeys="!text/morekeys_u" />
++            <Key
++                latin:keySpec="i"
++                latin:moreKeys="!text/morekeys_i" />
++            <Key
++                latin:keySpec="o"
++                latin:moreKeys="!text/morekeys_o" />
++            <Key
++                latin:keySpec="p" />
++        </case>
++        <default>
++            <Key
++                latin:keySpec="!text/keyspec_y"
++                latin:keyHintLabel="6"
++                latin:additionalMoreKeys="6"
++                latin:moreKeys="!text/morekeys_y" />
++            <Key
++                latin:keySpec="u"
++                latin:keyHintLabel="7"
++                latin:additionalMoreKeys="7"
++                latin:moreKeys="!text/morekeys_u" />
++            <Key
++                latin:keySpec="i"
++                latin:keyHintLabel="8"
++                latin:additionalMoreKeys="8"
++                latin:moreKeys="!text/morekeys_i" />
++            <Key
++                latin:keySpec="o"
++                latin:keyHintLabel="9"
++                latin:additionalMoreKeys="9"
++                latin:moreKeys="!text/morekeys_o" />
++            <Key
++                latin:keySpec="p"
++                latin:keyHintLabel="0"
++                latin:additionalMoreKeys="0" />
++        </default>
++    </switch>
+ </merge>
+diff --git a/java/res/xml/rows_qwerty.xml b/java/res/xml/rows_qwerty.xml
+index cdd420361..127bfe2b7 100644
+--- a/java/res/xml/rows_qwerty.xml
++++ b/java/res/xml/rows_qwerty.xml
+@@ -21,8 +21,6 @@
+ <merge
+     xmlns:latin="http://schemas.android.com/apk/res/com.android.inputmethod.latin"
+ >
+-    <include
+-        latin:keyboardLayout="@xml/key_styles_common" />
+     <Row
+         latin:keyWidth="10%p"
+     >
+diff --git a/java/src/com/android/inputmethod/keyboard/KeyboardId.java b/java/src/com/android/inputmethod/keyboard/KeyboardId.java
+index 7352f911b..05d2a85ae 100644
+--- a/java/src/com/android/inputmethod/keyboard/KeyboardId.java
++++ b/java/src/com/android/inputmethod/keyboard/KeyboardId.java
+@@ -82,6 +82,7 @@ public final class KeyboardId {
+     public final String mCustomActionLabel;
+     public final boolean mHasShortcutKey;
+     public final boolean mIsSplitLayout;
++    public final boolean mShowNumberRow;
+ 
+     private final int mHashCode;
+ 
+@@ -98,6 +99,7 @@ public final class KeyboardId {
+                 ? mEditorInfo.actionLabel.toString() : null;
+         mHasShortcutKey = params.mVoiceInputKeyEnabled;
+         mIsSplitLayout = params.mIsSplitLayoutEnabled;
++        mShowNumberRow = params.mShowNumberRow;
+ 
+         mHashCode = computeHashCode(this);
+     }
+diff --git a/java/src/com/android/inputmethod/keyboard/KeyboardLayoutSet.java b/java/src/com/android/inputmethod/keyboard/KeyboardLayoutSet.java
+index 26ff051bb..145306fe9 100644
+--- a/java/src/com/android/inputmethod/keyboard/KeyboardLayoutSet.java
++++ b/java/src/com/android/inputmethod/keyboard/KeyboardLayoutSet.java
+@@ -130,6 +130,7 @@ public final class KeyboardLayoutSet {
+         // Indicates if split layout is actually enabled, taking into account
+         // whether the user has enabled it, and the keyboard layout supports it.
+         boolean mIsSplitLayoutEnabled;
++        boolean mShowNumberRow;
+         // Sparse array of KeyboardLayoutSet element parameters indexed by element's id.
+         final SparseArray<ElementParams> mKeyboardLayoutSetElementIdToParamsMap =
+                 new SparseArray<>();
+@@ -362,6 +363,11 @@ public final class KeyboardLayoutSet {
+             return ScriptUtils.SCRIPT_LATIN;
+         }
+ 
++        public Builder setShowNumberRow(final boolean enabled) {
++            mParams.mShowNumberRow = enabled;
++            return this;
++        }
++
+         private static int readScriptIdFromTagFeature(final Resources resources,
+                 final XmlPullParser parser) throws IOException, XmlPullParserException {
+             final TypedArray featureAttr = resources.obtainAttributes(Xml.asAttributeSet(parser),
+diff --git a/java/src/com/android/inputmethod/keyboard/KeyboardSwitcher.java b/java/src/com/android/inputmethod/keyboard/KeyboardSwitcher.java
+index 91295c772..cae892c84 100644
+--- a/java/src/com/android/inputmethod/keyboard/KeyboardSwitcher.java
++++ b/java/src/com/android/inputmethod/keyboard/KeyboardSwitcher.java
+@@ -124,6 +124,7 @@ public final class KeyboardSwitcher implements KeyboardState.SwitchActions {
+         builder.setLanguageSwitchKeyEnabled(mLatinIME.shouldShowLanguageSwitchKey());
+         builder.setSplitLayoutEnabledByUser(ProductionFlags.IS_SPLIT_KEYBOARD_SUPPORTED
+                 && settingsValues.mIsSplitKeyboardEnabled);
++        builder.setShowNumberRow(settingsValues.mShowNumberRow);
+         mKeyboardLayoutSet = builder.build();
+         try {
+             mState.onLoadKeyboard(currentAutoCapsState, currentRecapitalizeState);
+diff --git a/java/src/com/android/inputmethod/keyboard/internal/KeyboardBuilder.java b/java/src/com/android/inputmethod/keyboard/internal/KeyboardBuilder.java
+index 0eabf6cc9..5a7ff86ee 100644
+--- a/java/src/com/android/inputmethod/keyboard/internal/KeyboardBuilder.java
++++ b/java/src/com/android/inputmethod/keyboard/internal/KeyboardBuilder.java
+@@ -528,6 +528,11 @@ public class KeyboardBuilder<KP extends KeyboardParams> {
+         final AttributeSet attr = Xml.asAttributeSet(parser);
+         final TypedArray keyboardAttr = mResources.obtainAttributes(
+                 attr, R.styleable.Keyboard_Include);
++        final TypedArray includeAttr = mResources.obtainAttributes(
++                attr, R.styleable.Keyboard);
++        mParams.mDefaultRowHeight = (int)ResourceUtils.getDimensionOrFraction(includeAttr,
++                R.styleable.Keyboard_rowHeight, mParams.mBaseHeight, mParams.mDefaultRowHeight);
++
+         final TypedArray keyAttr = mResources.obtainAttributes(attr, R.styleable.Keyboard_Key);
+         int keyboardLayout = 0;
+         try {
+@@ -545,6 +550,7 @@ public class KeyboardBuilder<KP extends KeyboardParams> {
+         } finally {
+             keyboardAttr.recycle();
+             keyAttr.recycle();
++            includeAttr.recycle();
+         }
+ 
+         XmlParseUtils.checkEndTag(TAG_INCLUDE, parser);
+@@ -678,13 +684,15 @@ public class KeyboardBuilder<KP extends KeyboardParams> {
+             final boolean countryCodeMatched = matchCountryCodes(caseAttr, locale);
+             final boolean splitLayoutMatched = matchBoolean(caseAttr,
+                     R.styleable.Keyboard_Case_isSplitLayout, id.mIsSplitLayout);
++            final boolean showNumberRowMatched = matchBoolean(caseAttr,
++                    R.styleable.Keyboard_Case_showNumberRow, id.mShowNumberRow);
+             final boolean selected = keyboardLayoutSetMatched && keyboardLayoutSetElementMatched
+                     && keyboardThemeMacthed && modeMatched && navigateNextMatched
+                     && navigatePreviousMatched && passwordInputMatched && clobberSettingsKeyMatched
+                     && hasShortcutKeyMatched  && languageSwitchKeyEnabledMatched
+                     && isMultiLineMatched && imeActionMatched && isIconDefinedMatched
+                     && localeCodeMatched && languageCodeMatched && countryCodeMatched
+-                    && splitLayoutMatched;
++                    && splitLayoutMatched && showNumberRowMatched;
+ 
+             if (DEBUG) {
+                 startTag("<%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s>%s", TAG_CASE,
+diff --git a/java/src/com/android/inputmethod/latin/settings/AdvancedSettingsFragment.java b/java/src/com/android/inputmethod/latin/settings/AdvancedSettingsFragment.java
+index bddb86406..0014f2346 100644
+--- a/java/src/com/android/inputmethod/latin/settings/AdvancedSettingsFragment.java
++++ b/java/src/com/android/inputmethod/latin/settings/AdvancedSettingsFragment.java
+@@ -24,6 +24,7 @@ import android.os.Bundle;
+ import android.preference.ListPreference;
+ import android.preference.Preference;
+ 
++import com.android.inputmethod.keyboard.KeyboardLayoutSet;
+ import com.android.inputmethod.latin.AudioAndHapticFeedbackManager;
+ import com.android.inputmethod.latin.R;
+ import com.android.inputmethod.latin.SystemBroadcastReceiver;
+@@ -115,6 +116,8 @@ public final class AdvancedSettingsFragment extends SubScreenFragment {
+         } else if (key.equals(Settings.PREF_SHOW_SETUP_WIZARD_ICON)) {
+             SystemBroadcastReceiver.toggleAppIcon(getActivity());
+         }
++        if (key.equals(Settings.PREF_SHOW_NUMBER_ROW))
++            KeyboardLayoutSet.onKeyboardThemeChanged();
+         updateListPreferenceSummaryToCurrentValue(Settings.PREF_KEY_PREVIEW_POPUP_DISMISS_DELAY);
+         refreshEnablingsOfKeypressSoundAndVibrationSettings();
+     }
+diff --git a/java/src/com/android/inputmethod/latin/settings/Settings.java b/java/src/com/android/inputmethod/latin/settings/Settings.java
+index f20aeb62f..e2bcc10b7 100644
+--- a/java/src/com/android/inputmethod/latin/settings/Settings.java
++++ b/java/src/com/android/inputmethod/latin/settings/Settings.java
+@@ -124,6 +124,8 @@ public final class Settings implements SharedPreferences.OnSharedPreferenceChang
+     public static final String PREF_EMOJI_CATEGORY_LAST_TYPED_ID = "emoji_category_last_typed_id";
+     public static final String PREF_LAST_SHOWN_EMOJI_CATEGORY_ID = "last_shown_emoji_category_id";
+ 
++    public static final String PREF_SHOW_NUMBER_ROW = "pref_show_number_row";
++
+     private static final float UNDEFINED_PREFERENCE_VALUE_FLOAT = -1.0f;
+     private static final int UNDEFINED_PREFERENCE_VALUE_INT = -1;
+ 
+@@ -270,6 +272,10 @@ public final class Settings implements SharedPreferences.OnSharedPreferenceChang
+                         R.integer.config_key_preview_linger_timeout))));
+     }
+ 
++    public static boolean readShowNumberRow(final SharedPreferences prefs) {
++        return prefs.getBoolean(PREF_SHOW_NUMBER_ROW, false);
++    }
++
+     public static boolean readShowsLanguageSwitchKey(final SharedPreferences prefs) {
+         if (prefs.contains(PREF_SUPPRESS_LANGUAGE_SWITCH_KEY)) {
+             final boolean suppressLanguageSwitchKey = prefs.getBoolean(
+diff --git a/java/src/com/android/inputmethod/latin/settings/SettingsValues.java b/java/src/com/android/inputmethod/latin/settings/SettingsValues.java
+index ee2659bcf..6da1d99ca 100644
+--- a/java/src/com/android/inputmethod/latin/settings/SettingsValues.java
++++ b/java/src/com/android/inputmethod/latin/settings/SettingsValues.java
+@@ -91,6 +91,7 @@ public class SettingsValues {
+     // Use split layout for keyboard.
+     public final boolean mIsSplitKeyboardEnabled;
+     public final int mScreenMetrics;
++    public final boolean mShowNumberRow;
+ 
+     // From the input box
+     @Nonnull
+@@ -225,6 +226,7 @@ public class SettingsValues {
+         }
+         mSpaceTrackpadEnabled = Settings.readSpaceTrackpadEnabled(prefs);
+         mDeleteSwipeEnabled = Settings.readDeleteSwipeEnabled(prefs);
++        mShowNumberRow = Settings.readShowNumberRow(prefs);
+     }
+ 
+     public boolean isMetricsLoggingEnabled() {

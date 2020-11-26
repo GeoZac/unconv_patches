@@ -1,0 +1,24 @@
+From 4b180db75ed27d4506c40592e0e61a1a1e07c21c Mon Sep 17 00:00:00 2001
+From: Jishnu Mohan <jishnu7@gmail.com>
+Date: Tue, 28 Jul 2020 10:51:14 +0530
+Subject: [PATCH] Support suggestions on more input boxes
+
+Change-Id: I0533df4c18ff2ed096b103bea1e69a5c39f88aed
+---
+ java/src/com/android/inputmethod/latin/InputAttributes.java | 3 ---
+ 1 file changed, 3 deletions(-)
+
+diff --git a/java/src/com/android/inputmethod/latin/InputAttributes.java b/java/src/com/android/inputmethod/latin/InputAttributes.java
+index 22a6f18d5..95e2b66c2 100644
+--- a/java/src/com/android/inputmethod/latin/InputAttributes.java
++++ b/java/src/com/android/inputmethod/latin/InputAttributes.java
+@@ -104,9 +104,6 @@ public final class InputAttributes {
+         // TODO: Have a helper method in InputTypeUtils
+         // Make sure that passwords are not displayed in {@link SuggestionStripView}.
+         final boolean shouldSuppressSuggestions = mIsPasswordField
+-                || InputTypeUtils.isEmailVariation(variation)
+-                || InputType.TYPE_TEXT_VARIATION_URI == variation
+-                || InputType.TYPE_TEXT_VARIATION_FILTER == variation
+                 || flagNoSuggestions
+                 || flagAutoComplete;
+         mShouldShowSuggestions = !shouldSuppressSuggestions;

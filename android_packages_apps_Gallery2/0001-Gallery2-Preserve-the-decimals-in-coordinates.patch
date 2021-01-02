@@ -1,0 +1,55 @@
+From 4ab1a38d89f4223cf142cfb057aae113020e147d Mon Sep 17 00:00:00 2001
+From: George Zacharia <george.zcharia@gmail.com>
+Date: Thu, 26 Nov 2020 23:14:46 +0530
+Subject: [PATCH] Gallery2: Preserve the decimals in coordinates
+
+Currently the first index of the Rational variable is extracted and rest is just discarded. This caused the location tag to lose its precision and show incorrect values. This also caused reverse lookup to fail.
+
+Let's just extract the values at three indexes and try to get a location coordinate.
+
+Change-Id: I21d21d2b5c62d0e6cf1a1cf73b62a947513f09d2
+---
+ .../src/com/android/gallery3d/exif/ExifTag.java    | 14 ++++++++++++++
+ src/com/android/gallery3d/data/MediaDetails.java   |  6 ++++--
+ 2 files changed, 18 insertions(+), 2 deletions(-)
+
+diff --git a/gallerycommon/src/com/android/gallery3d/exif/ExifTag.java b/gallerycommon/src/com/android/gallery3d/exif/ExifTag.java
+index c257bcd7e..b3a3c606c 100644
+--- a/gallerycommon/src/com/android/gallery3d/exif/ExifTag.java
++++ b/gallerycommon/src/com/android/gallery3d/exif/ExifTag.java
+@@ -1014,4 +1014,18 @@ public class ExifTag {
+                 + "\noffset: " + mOffset + "\nvalue: " + forceGetValueAsString() + "\n";
+     }
+ 
++    public double getCoordinateAsDouble(String ref) {
++        Rational[] r = getValueAsRationals();
++        double degrees = r[0].toDouble();
++        double minutes = r[1].toDouble();
++        double seconds = r[2].toDouble();
++        double result = degrees + minutes / 60.0 + seconds / 3600.0;
++        if ((ref.contains("S") || ref.contains("W"))) {
++            // TODO Determine cause of the strange characters
++            return -result;
++        }
++
++        return result;
++    }
++
+ }
+diff --git a/src/com/android/gallery3d/data/MediaDetails.java b/src/com/android/gallery3d/data/MediaDetails.java
+index 7f32473af..a469cef28 100755
+--- a/src/com/android/gallery3d/data/MediaDetails.java
++++ b/src/com/android/gallery3d/data/MediaDetails.java
+@@ -174,8 +174,10 @@ public class MediaDetails implements Iterable<Entry<Integer, Object>> {
+         ExifTag latitudeTag = exif.getTag(ExifInterface.TAG_GPS_LATITUDE);
+         ExifTag longitudeTag = exif.getTag(ExifInterface.TAG_GPS_LONGITUDE);
+         if (latitudeTag != null && longitudeTag != null) {
+-            double latitude = latitudeTag.getValueAsRational(0).toDouble();
+-            double longitude = longitudeTag.getValueAsRational(0).toDouble();
++            double latitude = latitudeTag.getCoordinateAsDouble(
++                    exif.getTag(ExifInterface.TAG_GPS_LATITUDE_REF).getValueAsString());
++            double longitude = longitudeTag.getCoordinateAsDouble(
++                    exif.getTag(ExifInterface.TAG_GPS_LONGITUDE_REF).getValueAsString());
+             details.addDetail(MediaDetails.INDEX_LOCATION, new double[] {latitude, longitude});
+         }
+     }

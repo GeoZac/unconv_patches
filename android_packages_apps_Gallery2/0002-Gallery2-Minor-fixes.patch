@@ -1,0 +1,72 @@
+From 6396aec84f2497decf434e5135eb8530691bc40b Mon Sep 17 00:00:00 2001
+From: George Zacharia <george.zcharia@gmail.com>
+Date: Sat, 28 Nov 2020 20:36:50 +0530
+Subject: [PATCH] Gallery2: Minor fixes
+
+Force system font at some places
+Correct a unit
+
+Change-Id: Ic9e4b8340593705c4aea3f4d87a57d2961c87a53
+---
+ res/layout/drawer_list_item.xml | 2 +-
+ res/layout/ingest_date_tile.xml | 6 +++---
+ res/values/dimens.xml           | 2 +-
+ 3 files changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/res/layout/drawer_list_item.xml b/res/layout/drawer_list_item.xml
+index bee765604..3d6e8f348 100644
+--- a/res/layout/drawer_list_item.xml
++++ b/res/layout/drawer_list_item.xml
+@@ -47,7 +47,7 @@
+         android:layout_height="wrap_content"
+         android:textSize="12sp"
+         android:layout_centerVertical="true"
+-        android:fontFamily="sans-serif-medium"
++        android:fontFamily="@*android:string/config_headlineFontFamilyMedium"
+         android:textColor="@color/black"
+         android:alpha="0.87"
+         android:layout_marginStart="64dp"
+diff --git a/res/layout/ingest_date_tile.xml b/res/layout/ingest_date_tile.xml
+index b04221361..7538ffb66 100644
+--- a/res/layout/ingest_date_tile.xml
++++ b/res/layout/ingest_date_tile.xml
+@@ -32,7 +32,7 @@
+             android:includeFontPadding="false"
+             android:textSize="16sp"
+             android:textAllCaps="true"
+-            android:fontFamily="sans-serif"
++            android:fontFamily="@*android:string/config_headlineFontFamilyMedium"
+             android:textColor="@color/ingest_date_tile_text" />
+         <TextView
+             android:id="@+id/date_tile_year"
+@@ -43,7 +43,7 @@
+             android:layout_gravity="top|end"
+             android:includeFontPadding="false"
+             android:textSize="13sp"
+-            android:fontFamily="sans-serif-light"
++            android:fontFamily="@*android:string/config_headlineFontFamily"
+             android:textColor="@color/ingest_date_tile_text" />
+         <TextView
+             android:id="@+id/date_tile_day"
+@@ -58,7 +58,7 @@
+             android:includeFontPadding="false"
+             android:textSize="44sp"
+             android:textStyle="bold"
+-            android:fontFamily="sans-serif"
++            android:fontFamily="@*android:string/config_headlineFontFamilyMedium"
+             android:textColor="@color/ingest_date_tile_text" />
+     </GridLayout>
+ </com.android.gallery3d.ingest.ui.DateTileView>
+diff --git a/res/values/dimens.xml b/res/values/dimens.xml
+index 49aa5d599..3ef146e81 100755
+--- a/res/values/dimens.xml
++++ b/res/values/dimens.xml
+@@ -91,7 +91,7 @@
+     <dimen name="zoom_ring_min">48dp</dimen>
+     <dimen name="switcher_size">72dp</dimen>
+     <dimen name="face_circle_stroke">2dip</dimen>
+-    <dimen name="zoom_font_size">14pt</dimen>
++    <dimen name="zoom_font_size">14sp</dimen>
+     <dimen name="shutter_offset">-22dp</dimen>
+     <dimen name="size_thumbnail">200dip</dimen>
+     <dimen name="size_preview">400dip</dimen>

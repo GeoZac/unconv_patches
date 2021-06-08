@@ -1,4 +1,4 @@
-From 2fb47ae0fbe5f833fb2dc4b76b6a8ee954342740 Mon Sep 17 00:00:00 2001
+From 12324fd6ff0e806d6c246c1ce48685060c9e1c29 Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Fri, 17 Jan 2020 10:10:45 +0530
 Subject: [PATCH] Add a proper FAB
@@ -13,10 +13,10 @@ TODO: Use a extended FAB when Material themes are implemented
  2 files changed, 17 insertions(+), 6 deletions(-)
 
 diff --git a/presentation/src/main/java/com/moez/QKSMS/feature/main/MainActivity.kt b/presentation/src/main/java/com/moez/QKSMS/feature/main/MainActivity.kt
-index ea68d8f43..f1dd03439 100644
+index 362f66a6..a73ecc08 100644
 --- a/presentation/src/main/java/com/moez/QKSMS/feature/main/MainActivity.kt
 +++ b/presentation/src/main/java/com/moez/QKSMS/feature/main/MainActivity.kt
-@@ -36,6 +36,7 @@ import androidx.core.view.isVisible
+@@ -38,6 +38,7 @@ import androidx.lifecycle.Lifecycle
  import androidx.lifecycle.ViewModelProvider
  import androidx.lifecycle.ViewModelProviders
  import androidx.recyclerview.widget.ItemTouchHelper
@@ -24,17 +24,17 @@ index ea68d8f43..f1dd03439 100644
  import com.google.android.material.snackbar.Snackbar
  import com.jakewharton.rxbinding2.view.clicks
  import com.jakewharton.rxbinding2.widget.textChanges
-@@ -244,6 +245,16 @@ class MainActivity : QkThemedActivity(), MainView {
+@@ -259,6 +260,16 @@ class MainActivity : QkThemedActivity(), MainView {
                  conversationsAdapter.updateData(state.page.data)
-                 itemTouchHelper.attachToRecyclerView(binding.recyclerView)
-                 binding.empty.setText(R.string.inbox_empty_text)
+                 itemTouchHelper.attachToRecyclerView(recyclerView)
+                 empty.setText(R.string.inbox_empty_text)
 +
-+                binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
++                recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
 +                    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-+                        if (dy > 0 && binding.compose.visibility == View.VISIBLE) {
-+                            binding.compose.hide()
-+                        } else if (dy < 0 && binding.compose.visibility != View.VISIBLE) {
-+                            binding.compose.show()
++                        if (dy > 0 && compose.visibility == View.VISIBLE) {
++                            compose.hide()
++                        } else if (dy < 0 && compose.visibility != View.VISIBLE) {
++                            compose.show()
 +                        }
 +                    }
 +                })
@@ -42,10 +42,10 @@ index ea68d8f43..f1dd03439 100644
  
              is Searching -> {
 diff --git a/presentation/src/main/res/layout/main_activity.xml b/presentation/src/main/res/layout/main_activity.xml
-index 8dec910d1..b4467e4e7 100644
+index 4b9bebf2..5cb91caf 100644
 --- a/presentation/src/main/res/layout/main_activity.xml
 +++ b/presentation/src/main/res/layout/main_activity.xml
-@@ -89,16 +89,16 @@
+@@ -91,16 +91,16 @@
              app:layout_constraintTop_toBottomOf="@id/toolbar"
              tools:listitem="@layout/conversation_list_item" />
  

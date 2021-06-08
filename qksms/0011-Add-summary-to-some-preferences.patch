@@ -1,4 +1,4 @@
-From e8250862185cb984809e5db4518461643d5d4163 Mon Sep 17 00:00:00 2001
+From 5fdff9ba28271871ff95b2c878a48003e52be8b5 Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Tue, 28 Jan 2020 12:00:46 +0530
 Subject: [PATCH] Add summary to some preferences
@@ -10,7 +10,7 @@ Looks out of context without summaries
  2 files changed, 11 insertions(+)
 
 diff --git a/presentation/src/main/res/layout/settings_controller.xml b/presentation/src/main/res/layout/settings_controller.xml
-index 0ae7a8cf0..4479b6dad 100644
+index 4fe6e9b3..ef22cd21 100644
 --- a/presentation/src/main/res/layout/settings_controller.xml
 +++ b/presentation/src/main/res/layout/settings_controller.xml
 @@ -42,6 +42,7 @@
@@ -62,7 +62,7 @@ index 0ae7a8cf0..4479b6dad 100644
  
          <com.moez.QKSMS.common.widget.PreferenceView
 diff --git a/presentation/src/main/res/values/strings.xml b/presentation/src/main/res/values/strings.xml
-index 12806eaab..b1db3b497 100644
+index a2900e8c..972e57c0 100644
 --- a/presentation/src/main/res/values/strings.xml
 +++ b/presentation/src/main/res/values/strings.xml
 @@ -212,15 +212,20 @@

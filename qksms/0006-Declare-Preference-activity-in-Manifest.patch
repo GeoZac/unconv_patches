@@ -1,4 +1,4 @@
-From 709da3c454bc306677ef277f8e9a34b89e1e4230 Mon Sep 17 00:00:00 2001
+From bf4775e165df3f85a76b01f0104b68d8c19c248f Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Fri, 17 Jan 2020 10:39:07 +0530
 Subject: [PATCH] Declare Preference activity in Manifest
@@ -9,10 +9,10 @@ Enables launching App Settings from App Info screen
  1 file changed, 8 insertions(+), 1 deletion(-)
 
 diff --git a/presentation/src/main/AndroidManifest.xml b/presentation/src/main/AndroidManifest.xml
-index f6937d888..25cc18e30 100644
+index 796dc6a3..ec5f79cb 100644
 --- a/presentation/src/main/AndroidManifest.xml
 +++ b/presentation/src/main/AndroidManifest.xml
-@@ -95,7 +95,14 @@
+@@ -100,7 +100,14 @@
                  android:name="android.service.chooser.chooser_target_service"
                  android:value=".common.util.QkChooserTargetService" />
          </activity>

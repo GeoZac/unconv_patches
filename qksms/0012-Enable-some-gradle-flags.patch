@@ -1,4 +1,4 @@
-From 2b5b145f56bebbfdcbd0f34fb2dfa4ea264221dd Mon Sep 17 00:00:00 2001
+From bb22f7e13cf337d9e7950ae426e41eedc515b3d4 Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Tue, 28 Jan 2020 12:33:44 +0530
 Subject: [PATCH] Enable some gradle flags
@@ -9,7 +9,7 @@ Should help fix the OOM in CI builds
  1 file changed, 3 insertions(+)
 
 diff --git a/gradle.properties b/gradle.properties
-index bb91abfe1..2bdae07d0 100644
+index bb91abfe..2bdae07d 100644
 --- a/gradle.properties
 +++ b/gradle.properties
 @@ -20,3 +20,6 @@ android.enableJetifier=true

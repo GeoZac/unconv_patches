@@ -1,4 +1,4 @@
-From 39128364e73e62cdb68c0de4513fcf35651d872f Mon Sep 17 00:00:00 2001
+From 4ad91b9e3464b46a3053bd5586d43292c5fabd67 Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Fri, 17 Jan 2020 10:04:38 +0530
 Subject: [PATCH] Enable Smart Replies for all
@@ -12,7 +12,7 @@ But I have fixes for it included in ROM framework
  1 file changed, 3 deletions(-)
 
 diff --git a/presentation/src/main/java/com/moez/QKSMS/common/util/NotificationManagerImpl.kt b/presentation/src/main/java/com/moez/QKSMS/common/util/NotificationManagerImpl.kt
-index c70ff96ee..6a449b24d 100644
+index f94eb3d3..bb6fd950 100644
 --- a/presentation/src/main/java/com/moez/QKSMS/common/util/NotificationManagerImpl.kt
 +++ b/presentation/src/main/java/com/moez/QKSMS/common/util/NotificationManagerImpl.kt
 @@ -364,10 +364,7 @@ class NotificationManagerImpl @Inject constructor(

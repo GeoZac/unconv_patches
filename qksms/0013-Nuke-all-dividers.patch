@@ -1,4 +1,4 @@
-From d0cb1a5315bfd5d198cecddbc3176cf8cb4070e9 Mon Sep 17 00:00:00 2001
+From ac52b3dddc1fd2314bd29123ec79b684980c0158 Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Tue, 28 Jan 2020 21:03:43 +0530
 Subject: [PATCH] Nuke all dividers
@@ -28,29 +28,29 @@ For views without ids comment out completely and for view with id visibility is 
  17 files changed, 44 insertions(+), 38 deletions(-)
 
 diff --git a/presentation/src/main/java/com/moez/QKSMS/feature/notificationprefs/NotificationPrefsActivity.kt b/presentation/src/main/java/com/moez/QKSMS/feature/notificationprefs/NotificationPrefsActivity.kt
-index 570ca299d..a0d42f13c 100644
+index 210b5d3f..09b1b92f 100644
 --- a/presentation/src/main/java/com/moez/QKSMS/feature/notificationprefs/NotificationPrefsActivity.kt
 +++ b/presentation/src/main/java/com/moez/QKSMS/feature/notificationprefs/NotificationPrefsActivity.kt
-@@ -104,7 +104,7 @@ class NotificationPrefsActivity : QkThemedActivity(), NotificationPrefsView {
-         binding.vibration.widget<QkSwitch>().isChecked = state.vibrationEnabled
-         binding.ringtone.summary = state.ringtoneName
+@@ -102,7 +102,7 @@ class NotificationPrefsActivity : QkThemedActivity(), NotificationPrefsView {
+         vibration.checkbox.isChecked = state.vibrationEnabled
+         ringtone.summary = state.ringtoneName
  
--        binding.actionsDivider.isVisible = state.threadId == 0L
-+        // binding.actionsDivider.isVisible = state.threadId == 0L
-         binding.actionsTitle.isVisible = state.threadId == 0L
-         binding.action1.isVisible = state.threadId == 0L
-         binding.action1.summary = state.action1Summary
-@@ -113,7 +113,7 @@ class NotificationPrefsActivity : QkThemedActivity(), NotificationPrefsView {
-         binding.action3.isVisible = state.threadId == 0L
-         binding.action3.summary = state.action3Summary
+-        actionsDivider.isVisible = state.threadId == 0L
++        // actionsDivider.isVisible = state.threadId == 0L
+         actionsTitle.isVisible = state.threadId == 0L
+         action1.isVisible = state.threadId == 0L
+         action1.summary = state.action1Summary
+@@ -111,7 +111,7 @@ class NotificationPrefsActivity : QkThemedActivity(), NotificationPrefsView {
+         action3.isVisible = state.threadId == 0L
+         action3.summary = state.action3Summary
  
--        binding.qkreplyDivider.isVisible = state.threadId == 0L
-+        // binding.qkreplyDivider.isVisible = state.threadId == 0L
-         binding.qkreplyTitle.isVisible = state.threadId == 0L
-         binding.qkreply.widget<QkSwitch>().isChecked = state.qkReplyEnabled
-         binding.qkreply.isVisible = state.threadId == 0L
+-        qkreplyDivider.isVisible = state.threadId == 0L
++        // qkreplyDivider.isVisible = state.threadId == 0L
+         qkreplyTitle.isVisible = state.threadId == 0L
+         qkreply.checkbox.isChecked = state.qkReplyEnabled
+         qkreply.isVisible = state.threadId == 0L
 diff --git a/presentation/src/main/res/layout/backup_controller.xml b/presentation/src/main/res/layout/backup_controller.xml
-index 88983dbcc..0ecb94025 100644
+index 88983dbc..0ecb9402 100644
 --- a/presentation/src/main/res/layout/backup_controller.xml
 +++ b/presentation/src/main/res/layout/backup_controller.xml
 @@ -106,7 +106,7 @@
@@ -85,7 +85,7 @@ index 88983dbcc..0ecb94025 100644
              <com.moez.QKSMS.common.widget.QkTextView
                  android:layout_width="match_parent"
 diff --git a/presentation/src/main/res/layout/backup_list_dialog.xml b/presentation/src/main/res/layout/backup_list_dialog.xml
-index cc819e6ad..2cc151eaf 100644
+index cc819e6a..2cc151ea 100644
 --- a/presentation/src/main/res/layout/backup_list_dialog.xml
 +++ b/presentation/src/main/res/layout/backup_list_dialog.xml
 @@ -45,11 +45,11 @@
@@ -103,7 +103,7 @@ index cc819e6ad..2cc151eaf 100644
      <androidx.recyclerview.widget.RecyclerView
          android:id="@+id/files"
 diff --git a/presentation/src/main/res/layout/compose_activity.xml b/presentation/src/main/res/layout/compose_activity.xml
-index c12703402..fbf88142c 100644
+index c1270340..fbf88142 100644
 --- a/presentation/src/main/res/layout/compose_activity.xml
 +++ b/presentation/src/main/res/layout/compose_activity.xml
 @@ -212,6 +212,7 @@
@@ -129,7 +129,7 @@ index c12703402..fbf88142c 100644
      <androidx.constraintlayout.widget.Group
          android:id="@+id/attaching"
 diff --git a/presentation/src/main/res/layout/contacts_activity.xml b/presentation/src/main/res/layout/contacts_activity.xml
-index 3d45ab343..526ca1dcc 100644
+index 8f25ce68..efc9727a 100644
 --- a/presentation/src/main/res/layout/contacts_activity.xml
 +++ b/presentation/src/main/res/layout/contacts_activity.xml
 @@ -97,10 +97,10 @@
@@ -146,7 +146,7 @@ index 3d45ab343..526ca1dcc 100644
  
  </androidx.constraintlayout.widget.ConstraintLayout>
 diff --git a/presentation/src/main/res/layout/container_activity.xml b/presentation/src/main/res/layout/container_activity.xml
-index 1f4c959c3..cc3251198 100644
+index 1f4c959c..cc325119 100644
 --- a/presentation/src/main/res/layout/container_activity.xml
 +++ b/presentation/src/main/res/layout/container_activity.xml
 @@ -41,9 +41,9 @@
@@ -163,7 +163,7 @@ index 1f4c959c3..cc3251198 100644
  </LinearLayout>
 \ No newline at end of file
 diff --git a/presentation/src/main/res/layout/conversation_info_settings.xml b/presentation/src/main/res/layout/conversation_info_settings.xml
-index 9fc371aab..8b6d7ca77 100644
+index 9fc371aa..8b6d7ca7 100644
 --- a/presentation/src/main/res/layout/conversation_info_settings.xml
 +++ b/presentation/src/main/res/layout/conversation_info_settings.xml
 @@ -23,11 +23,11 @@
@@ -194,7 +194,7 @@ index 9fc371aab..8b6d7ca77 100644
  
  </LinearLayout>
 diff --git a/presentation/src/main/res/layout/drawer_view.xml b/presentation/src/main/res/layout/drawer_view.xml
-index 5efa85282..5a13b8070 100644
+index 5efa8528..5a13b807 100644
 --- a/presentation/src/main/res/layout/drawer_view.xml
 +++ b/presentation/src/main/res/layout/drawer_view.xml
 @@ -63,12 +63,12 @@
@@ -228,10 +228,10 @@ index 5efa85282..5a13b8070 100644
          <LinearLayout
              android:id="@+id/settings"
 diff --git a/presentation/src/main/res/layout/main_activity.xml b/presentation/src/main/res/layout/main_activity.xml
-index 0af403330..9a01652f7 100644
+index 607a56ec..d657f6e3 100644
 --- a/presentation/src/main/res/layout/main_activity.xml
 +++ b/presentation/src/main/res/layout/main_activity.xml
-@@ -116,6 +116,7 @@
+@@ -118,6 +118,7 @@
              android:id="@+id/bottom"
              android:layout_width="match_parent"
              android:layout_height="1dp"
@@ -240,7 +240,7 @@ index 0af403330..9a01652f7 100644
              app:layout_constraintBottom_toTopOf="@id/snackbar" />
  
 diff --git a/presentation/src/main/res/layout/notification_prefs_activity.xml b/presentation/src/main/res/layout/notification_prefs_activity.xml
-index 2a6f850c5..6100f9716 100644
+index 2a6f850c..6100f971 100644
 --- a/presentation/src/main/res/layout/notification_prefs_activity.xml
 +++ b/presentation/src/main/res/layout/notification_prefs_activity.xml
 @@ -96,6 +96,7 @@
@@ -275,10 +275,10 @@ index 2a6f850c5..6100f9716 100644
  </androidx.constraintlayout.widget.ConstraintLayout>
 \ No newline at end of file
 diff --git a/presentation/src/main/res/layout/qksms_plus_activity.xml b/presentation/src/main/res/layout/qksms_plus_activity.xml
-index 42a945d23..f2c398f9e 100644
+index eef115dd..bc5cece6 100644
 --- a/presentation/src/main/res/layout/qksms_plus_activity.xml
 +++ b/presentation/src/main/res/layout/qksms_plus_activity.xml
-@@ -157,11 +157,11 @@
+@@ -155,11 +155,11 @@
  
              </LinearLayout>
  
@@ -292,7 +292,7 @@ index 42a945d23..f2c398f9e 100644
  
              <com.moez.QKSMS.common.widget.PreferenceView
                  android:id="@+id/themes"
-@@ -258,10 +258,10 @@
+@@ -256,10 +256,10 @@
  
      </androidx.core.widget.NestedScrollView>
  
@@ -307,12 +307,12 @@ index 42a945d23..f2c398f9e 100644
  </androidx.coordinatorlayout.widget.CoordinatorLayout>
 \ No newline at end of file
 diff --git a/presentation/src/main/res/layout/scheduled_activity.xml b/presentation/src/main/res/layout/scheduled_activity.xml
-index b2edcd045..6c7f851d5 100644
+index 5b5d0058..2d36284c 100644
 --- a/presentation/src/main/res/layout/scheduled_activity.xml
 +++ b/presentation/src/main/res/layout/scheduled_activity.xml
-@@ -155,10 +155,10 @@
-         android:id="@+id/appBarLayout"
-         layout="@layout/collapsing_toolbar" />
+@@ -153,10 +153,10 @@
+ 
+     <include layout="@layout/collapsing_toolbar" />
  
 -    <View
 +    <!--<View
@@ -325,7 +325,7 @@ index b2edcd045..6c7f851d5 100644
  </androidx.coordinatorlayout.widget.CoordinatorLayout>
 \ No newline at end of file
 diff --git a/presentation/src/main/res/layout/search_list_item.xml b/presentation/src/main/res/layout/search_list_item.xml
-index 5177569b7..be2930a1a 100644
+index 5177569b..be2930a1 100644
 --- a/presentation/src/main/res/layout/search_list_item.xml
 +++ b/presentation/src/main/res/layout/search_list_item.xml
 @@ -38,6 +38,7 @@
@@ -337,7 +337,7 @@ index 5177569b7..be2930a1a 100644
          app:layout_constraintTop_toTopOf="parent" />
  
 diff --git a/presentation/src/main/res/layout/settings_controller.xml b/presentation/src/main/res/layout/settings_controller.xml
-index 4479b6dad..fb84961fe 100644
+index ef22cd21..d16ab8b8 100644
 --- a/presentation/src/main/res/layout/settings_controller.xml
 +++ b/presentation/src/main/res/layout/settings_controller.xml
 @@ -104,12 +104,12 @@
@@ -355,7 +355,7 @@ index 4479b6dad..fb84961fe 100644
  
          <com.moez.QKSMS.common.widget.QkTextView
              style="@style/PreferenceCategory"
-@@ -201,12 +201,12 @@
+@@ -209,12 +209,12 @@
              app:title="@string/settings_mms_size_title"
              tools:summary="100KB" />
  
@@ -371,7 +371,7 @@ index 4479b6dad..fb84961fe 100644
          <com.moez.QKSMS.common.widget.PreferenceView
              android:id="@+id/sync"
 diff --git a/presentation/src/main/res/layout/swipe_actions_controller.xml b/presentation/src/main/res/layout/swipe_actions_controller.xml
-index 71a59d4bc..b6161dc32 100644
+index 71a59d4b..b6161dc3 100644
 --- a/presentation/src/main/res/layout/swipe_actions_controller.xml
 +++ b/presentation/src/main/res/layout/swipe_actions_controller.xml
 @@ -145,10 +145,10 @@
@@ -388,7 +388,7 @@ index 71a59d4bc..b6161dc32 100644
          <androidx.constraintlayout.widget.ConstraintLayout
              android:id="@+id/left"
 diff --git a/presentation/src/main/res/layout/theme_palette_list_item.xml b/presentation/src/main/res/layout/theme_palette_list_item.xml
-index 1c8ee0cd3..43da53f6c 100644
+index 1c8ee0cd..43da53f6 100644
 --- a/presentation/src/main/res/layout/theme_palette_list_item.xml
 +++ b/presentation/src/main/res/layout/theme_palette_list_item.xml
 @@ -27,9 +27,9 @@
@@ -405,7 +405,7 @@ index 1c8ee0cd3..43da53f6c 100644
  </LinearLayout>
 \ No newline at end of file
 diff --git a/presentation/src/main/res/layout/theme_picker_hsv.xml b/presentation/src/main/res/layout/theme_picker_hsv.xml
-index 372525624..1c10c8f74 100644
+index 37252562..1c10c8f7 100644
 --- a/presentation/src/main/res/layout/theme_picker_hsv.xml
 +++ b/presentation/src/main/res/layout/theme_picker_hsv.xml
 @@ -98,6 +98,7 @@

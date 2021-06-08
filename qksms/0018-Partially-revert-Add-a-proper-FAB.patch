@@ -1,0 +1,56 @@
+From 49997274ec533ac757fbc3eb60df5adc2b440acf Mon Sep 17 00:00:00 2001
+From: George Zacharia <george.zcharia@gmail.com>
+Date: Fri, 17 Jan 2020 10:10:45 +0530
+Subject: [PATCH] Partially revert "Add a proper FAB"
+
+This reverts commit 9b4ae817edfee9ce4ebca7be5f0caa92da3018cb.  Required since full MaterialComponent themes are not implemented
+
+Switch back to the original ImageView but keep the hiding and reappearing logic adapted to ImageView
+---
+ .../java/com/moez/QKSMS/feature/main/MainActivity.kt |  4 ++--
+ presentation/src/main/res/layout/main_activity.xml   | 12 ++++++------
+ 2 files changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/presentation/src/main/java/com/moez/QKSMS/feature/main/MainActivity.kt b/presentation/src/main/java/com/moez/QKSMS/feature/main/MainActivity.kt
+index a73ecc08..4938611d 100644
+--- a/presentation/src/main/java/com/moez/QKSMS/feature/main/MainActivity.kt
++++ b/presentation/src/main/java/com/moez/QKSMS/feature/main/MainActivity.kt
+@@ -264,9 +264,9 @@ class MainActivity : QkThemedActivity(), MainView {
+                 recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                         if (dy > 0 && compose.visibility == View.VISIBLE) {
+-                            compose.hide()
++                            compose.visibility = View.INVISIBLE
+                         } else if (dy < 0 && compose.visibility != View.VISIBLE) {
+-                            compose.show()
++                            compose.visibility = View.VISIBLE
+                         }
+                     }
+                 })
+diff --git a/presentation/src/main/res/layout/main_activity.xml b/presentation/src/main/res/layout/main_activity.xml
+index d657f6e3..e11a3303 100644
+--- a/presentation/src/main/res/layout/main_activity.xml
++++ b/presentation/src/main/res/layout/main_activity.xml
+@@ -91,16 +91,16 @@
+             app:layout_constraintTop_toBottomOf="@id/toolbar"
+             tools:listitem="@layout/conversation_list_item" />
+ 
+-        <com.google.android.material.floatingactionbutton.FloatingActionButton
++        <ImageView
+             android:id="@+id/compose"
+-            android:layout_width="wrap_content"
+-            android:layout_height="wrap_content"
+-            style="@style/Widget.MaterialComponents.FloatingActionButton"
+-            android:layout_gravity="bottom|end"
++            android:layout_width="56dp"
++            android:layout_height="56dp"
+             android:layout_margin="16dp"
+             android:background="@drawable/circle_ripple"
+             android:contentDescription="@string/main_fab_cd"
+-            app:srcCompat="@drawable/ic_add_black_24dp"
++            android:elevation="8dp"
++            android:padding="16dp"
++            android:src="@drawable/ic_add_black_24dp"
+             android:tint="@color/white"
+             app:layout_constraintBottom_toTopOf="@id/bottom"
+             app:layout_constraintEnd_toEndOf="parent"

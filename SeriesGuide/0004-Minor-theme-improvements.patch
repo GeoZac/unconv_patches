@@ -1,4 +1,4 @@
-From 2bbaf187e53d32fbe80420e9f87cf488ce0adf53 Mon Sep 17 00:00:00 2001
+From 68365d7c353d0c2d61263ec53ef3e4cc41f09570 Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Tue, 24 Mar 2020 14:12:00 +0530
 Subject: [PATCH] Minor theme improvements
@@ -9,12 +9,12 @@ Tweak some colors
 ---
  app/src/main/res/values-night/themes.xml | 10 ++++++++--
  app/src/main/res/values/colors.xml       |  6 +++---
- app/src/main/res/values/styles.xml       |  5 +++--
+ app/src/main/res/values/styles.xml       |  2 +-
  app/src/main/res/values/themes.xml       | 15 ++++++++++++---
- 4 files changed, 26 insertions(+), 10 deletions(-)
+ 4 files changed, 24 insertions(+), 9 deletions(-)
 
 diff --git a/app/src/main/res/values-night/themes.xml b/app/src/main/res/values-night/themes.xml
-index fbd6b7a04..62417160e 100644
+index fbd6b7a04a..62417160e9 100644
 --- a/app/src/main/res/values-night/themes.xml
 +++ b/app/src/main/res/values-night/themes.xml
 @@ -1,7 +1,13 @@
@@ -35,7 +35,7 @@ index fbd6b7a04..62417160e 100644
  </resources>
 \ No newline at end of file
 diff --git a/app/src/main/res/values/colors.xml b/app/src/main/res/values/colors.xml
-index 7408d1998..5d4ed5b3c 100644
+index 4ffd6cc917..43f81f6830 100644
 --- a/app/src/main/res/values/colors.xml
 +++ b/app/src/main/res/values/colors.xml
 @@ -33,7 +33,7 @@
@@ -56,30 +56,13 @@ index 7408d1998..5d4ed5b3c 100644
 +    <color name="widget_default_background">#ff202026</color>
 +    <color name="widget_default_background_light">#80ffffff</color>
  
-     <color name="background_inverse">#ffebebeb</color>
      <color name="background_black">#ff000000</color>
+     <color name="background_snackbar">#ff323232</color>
 diff --git a/app/src/main/res/values/styles.xml b/app/src/main/res/values/styles.xml
-index b6ae1c4b2..ad698d948 100644
+index 15c1065e59..c34f97af93 100644
 --- a/app/src/main/res/values/styles.xml
 +++ b/app/src/main/res/values/styles.xml
-@@ -115,7 +115,7 @@
- 
-     <style name="TextAppearance.Button">
-         <item name="android:textSize">@dimen/text_size_default_sg</item>
--        <item name="android:textAllCaps">true</item>
-+        <item name="android:textAllCaps">false</item>
-         <item name="android:fontFamily">sans-serif-medium</item>
-     </style>
- 
-@@ -172,6 +172,7 @@
- 
-     <style name="TextAppearance.SeriesGuide.Tab" parent="TextAppearance.MaterialComponents.Button">
-         <item name="android:textColor">?attr/colorOnPrimarySurface</item>
-+        <item name="android:textAllCaps">false</item>
-     </style>
- 
-     <style name="TextAppearance.SeriesGuide.Tab.Surface">
-@@ -183,7 +184,7 @@
+@@ -97,7 +97,7 @@
      <!-- Widgets are not part of the app, so app theme attributes can not be used. -->
      <style name="TextAppearance.SeriesGuide.Widget.Title" parent="">
          <item name="android:fontFamily">sans-serif-medium</item>
@@ -89,7 +72,7 @@ index b6ae1c4b2..ad698d948 100644
          <item name="android:ellipsize">end</item>
          <item name="android:maxLines">1</item>
 diff --git a/app/src/main/res/values/themes.xml b/app/src/main/res/values/themes.xml
-index 462f86002..a3720c443 100644
+index 02670a582d..da04d2998a 100644
 --- a/app/src/main/res/values/themes.xml
 +++ b/app/src/main/res/values/themes.xml
 @@ -10,6 +10,8 @@
@@ -120,7 +103,7 @@ index 462f86002..a3720c443 100644
  
          <!-- dialogTheme is used by AppCompatDialogFragment. -->
          <item name="dialogTheme">@style/ThemeOverlay.MaterialComponents.Dialog</item>
-@@ -64,7 +69,8 @@
+@@ -68,7 +73,8 @@
          <!-- All customizations that are SPECIFIC to API-level 21 go here. -->
  
          <!-- Note: nav bar color needs to be opaque! -->
@@ -130,7 +113,7 @@ index 462f86002..a3720c443 100644
  
      </style>
  
-@@ -90,6 +96,9 @@
+@@ -94,6 +100,9 @@
          <item name="colorOnSurface">@color/sg_black</item>
          <item name="colorOnBackground">@color/sg_black</item>
  
@@ -140,7 +123,7 @@ index 462f86002..a3720c443 100644
          <!-- Windows -->
          <item name="android:windowBackground">@color/sg_color_background</item>
          <item name="android:windowContentTransitions">true</item>
-@@ -107,7 +116,7 @@
+@@ -111,7 +120,7 @@
          <item name="sgColorIconInactive">@color/sg_black_38</item>
          <item name="sgColorDivider">@color/sg_black_10</item>
          <item name="sgColorShadow">@color/sg_black_7</item>

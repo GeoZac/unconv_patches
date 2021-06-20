@@ -1,0 +1,172 @@
+From 75d9b8bf7522ffdb74a84aa0377312eaf40bc8f3 Mon Sep 17 00:00:00 2001
+From: George Zacharia <george.zcharia@gmail.com>
+Date: Sun, 22 Nov 2020 20:27:45 +0530
+Subject: [PATCH] Use system fonts
+
+messes with Android 10's fonts selection
+---
+ .../seriesguide/service/NotificationService.java           | 4 ++--
+ app/src/main/res/layout/appwidget_row_light.xml            | 2 --
+ app/src/main/res/layout/appwidget_row_light_large.xml      | 2 --
+ app/src/main/res/layout/appwidget_v11.xml                  | 1 -
+ app/src/main/res/layout/appwidget_v11_compact.xml          | 1 -
+ app/src/main/res/layout/appwidget_v11_light.xml            | 1 -
+ app/src/main/res/layout/appwidget_v11_light_compact.xml    | 1 -
+ app/src/main/res/values/styles.xml                         | 7 -------
+ 8 files changed, 2 insertions(+), 17 deletions(-)
+
+diff --git a/app/src/main/java/com/battlelancer/seriesguide/service/NotificationService.java b/app/src/main/java/com/battlelancer/seriesguide/service/NotificationService.java
+index d6ddb0a7ba..40871772f2 100644
+--- a/app/src/main/java/com/battlelancer/seriesguide/service/NotificationService.java
++++ b/app/src/main/java/com/battlelancer/seriesguide/service/NotificationService.java
+@@ -415,7 +415,7 @@ public class NotificationService {
+ 
+                 final SpannableStringBuilder bigText = new SpannableStringBuilder();
+                 bigText.append(episodeTitle);
+-                bigText.setSpan(new StyleSpan(Typeface.BOLD), 0, bigText.length(), 0);
++                bigText.setSpan(new StyleSpan(Typeface.NORMAL), 0, bigText.length(), 0);
+                 if (!TextUtils.isEmpty(episodeSummary)) {
+                     bigText.append("\n").append(episodeSummary);
+                 }
+@@ -467,7 +467,7 @@ public class NotificationService {
+                         episode.getEpisodenumber()
+                 );
+                 lineText.append(title);
+-                lineText.setSpan(new StyleSpan(Typeface.BOLD), 0, lineText.length(), 0);
++                lineText.setSpan(new StyleSpan(Typeface.NORMAL), 0, lineText.length(), 0);
+ 
+                 lineText.append(" ");
+ 
+diff --git a/app/src/main/res/layout/appwidget_row_light.xml b/app/src/main/res/layout/appwidget_row_light.xml
+index 64c6814124..7234d04c32 100644
+--- a/app/src/main/res/layout/appwidget_row_light.xml
++++ b/app/src/main/res/layout/appwidget_row_light.xml
+@@ -73,7 +73,6 @@
+             android:layout_alignParentRight="true"
+             android:layout_marginLeft="1sp"
+             android:ellipsize="start"
+-            android:fontFamily="sans-serif-condensed"
+             android:maxWidth="180dp"
+             android:textColor="@color/sg_black_54"
+             android:textSize="@dimen/widget_text_size"
+@@ -85,7 +84,6 @@
+             android:layout_height="wrap_content"
+             android:layout_alignParentRight="true"
+             android:layout_below="@+id/widgetNetwork"
+-            android:fontFamily="sans-serif-condensed"
+             android:maxLines="1"
+             android:textColor="@color/sg_black_54"
+             android:textSize="@dimen/widget_text_size"
+diff --git a/app/src/main/res/layout/appwidget_row_light_large.xml b/app/src/main/res/layout/appwidget_row_light_large.xml
+index 11b3d1cde8..92e88555ee 100644
+--- a/app/src/main/res/layout/appwidget_row_light_large.xml
++++ b/app/src/main/res/layout/appwidget_row_light_large.xml
+@@ -73,7 +73,6 @@
+             android:layout_alignParentRight="true"
+             android:layout_marginLeft="1sp"
+             android:ellipsize="start"
+-            android:fontFamily="sans-serif-condensed"
+             android:maxWidth="180dp"
+             android:textColor="@color/sg_black_54"
+             android:textSize="@dimen/widget_text_size_large"
+@@ -85,7 +84,6 @@
+             android:layout_height="wrap_content"
+             android:layout_alignParentRight="true"
+             android:layout_below="@+id/widgetNetwork"
+-            android:fontFamily="sans-serif-condensed"
+             android:maxLines="1"
+             android:textColor="@color/sg_black_54"
+             android:textSize="@dimen/widget_text_size_large"
+diff --git a/app/src/main/res/layout/appwidget_v11.xml b/app/src/main/res/layout/appwidget_v11.xml
+index d6a20ded30..62861ba9fa 100644
+--- a/app/src/main/res/layout/appwidget_v11.xml
++++ b/app/src/main/res/layout/appwidget_v11.xml
+@@ -80,7 +80,6 @@
+             android:id="@+id/empty_view"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+-            android:fontFamily="sans-serif-light"
+             android:gravity="center"
+             android:text="@string/no_nextepisode"
+             android:textColor="@color/sg_white"
+diff --git a/app/src/main/res/layout/appwidget_v11_compact.xml b/app/src/main/res/layout/appwidget_v11_compact.xml
+index ab6e2ad70b..09aee990db 100644
+--- a/app/src/main/res/layout/appwidget_v11_compact.xml
++++ b/app/src/main/res/layout/appwidget_v11_compact.xml
+@@ -30,7 +30,6 @@
+             android:layout_width="0dp"
+             android:layout_height="match_parent"
+             android:layout_weight="1"
+-            android:fontFamily="sans-serif-light"
+             android:gravity="center"
+             android:text="@string/no_nextepisode"
+             tools:ignore="UnusedAttribute" />
+diff --git a/app/src/main/res/layout/appwidget_v11_light.xml b/app/src/main/res/layout/appwidget_v11_light.xml
+index 693365239d..f914c39164 100644
+--- a/app/src/main/res/layout/appwidget_v11_light.xml
++++ b/app/src/main/res/layout/appwidget_v11_light.xml
+@@ -79,7 +79,6 @@
+             android:id="@+id/empty_view"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+-            android:fontFamily="sans-serif-light"
+             android:gravity="center"
+             android:text="@string/no_nextepisode"
+             android:textColor="@color/sg_black_87"
+diff --git a/app/src/main/res/layout/appwidget_v11_light_compact.xml b/app/src/main/res/layout/appwidget_v11_light_compact.xml
+index b38ae0fd02..32d8322a89 100644
+--- a/app/src/main/res/layout/appwidget_v11_light_compact.xml
++++ b/app/src/main/res/layout/appwidget_v11_light_compact.xml
+@@ -31,7 +31,6 @@
+             android:layout_width="0dp"
+             android:layout_height="match_parent"
+             android:layout_weight="1"
+-            android:fontFamily="sans-serif-light"
+             android:gravity="center"
+             android:text="@string/no_nextepisode"
+             android:textColor="@color/sg_black_87"
+diff --git a/app/src/main/res/values/styles.xml b/app/src/main/res/values/styles.xml
+index c34f97af93..68aab2063f 100644
+--- a/app/src/main/res/values/styles.xml
++++ b/app/src/main/res/values/styles.xml
+@@ -22,8 +22,6 @@
+         <item name="android:fontFamily">sans-serif-condensed</item>
+     </style>
+     <style name="TextAppearance.SeriesGuide.Body2.Bold">
+-        <item name="fontFamily">sans-serif-medium</item>
+-        <item name="android:fontFamily">sans-serif-medium</item>
+     </style>
+     <style name="TextAppearance.SeriesGuide.Body2.Bold.Accent">
+         <item name="android:textColor">@color/sg_text_color_accent</item>
+@@ -71,8 +69,6 @@
+ 
+     <style name="TextAppearance.SeriesGuide.Subtitle1" parent="TextAppearance.MaterialComponents.Subtitle1" />
+     <style name="TextAppearance.SeriesGuide.Subtitle1.Bold">
+-        <item name="fontFamily">sans-serif-medium</item>
+-        <item name="android:fontFamily">sans-serif-medium</item>
+     </style>
+     <style name="TextAppearance.SeriesGuide.Subtitle1.Dim">
+         <item name="android:textColor">?attr/sgTextColorSecondaryDim</item>
+@@ -96,7 +92,6 @@
+ 
+     <!-- Widgets are not part of the app, so app theme attributes can not be used. -->
+     <style name="TextAppearance.SeriesGuide.Widget.Title" parent="">
+-        <item name="android:fontFamily">sans-serif-medium</item>
+         <item name="android:textAllCaps">false</item>
+         <item name="android:textSize">18sp</item>
+         <item name="android:ellipsize">end</item>
+@@ -125,14 +120,12 @@
+     <style name="Widget.SeriesGuide.Button.Borderless.Default">
+         <item name="android:textAllCaps">false</item>
+         <item name="android:gravity">center_vertical|start</item>
+-        <item name="android:fontFamily" tools:ignore="NewApi">sans-serif</item>
+         <item name="android:drawablePadding">@dimen/default_padding</item>
+     </style>
+ 
+     <style name="Widget.SeriesGuide.Button.Borderless.Sheet">
+         <item name="android:textAllCaps">false</item>
+         <item name="android:gravity">center_vertical|start</item>
+-        <item name="android:fontFamily" tools:ignore="NewApi">sans-serif</item>
+         <item name="android:textAppearance">@style/TextAppearance.SeriesGuide.Subtitle1</item>
+         <item name="android:paddingLeft">@dimen/large_padding</item>
+         <item name="android:paddingRight">@dimen/large_padding</item>

@@ -1,0 +1,89 @@
+From 12f4c9999a2720ec970ca7cf3e5145730fc63a8e Mon Sep 17 00:00:00 2001
+From: George Zacharia <george.zcharia@gmail.com>
+Date: Sat, 28 Nov 2020 08:13:38 +0530
+Subject: [PATCH] Neuter Countly SDK
+
+---
+ app/src/main/java/com/battlelancer/seriesguide/SgApp.kt   | 4 ++--
+ .../com/battlelancer/seriesguide/ui/BaseTopActivity.java  | 4 ++--
+ .../main/java/com/battlelancer/seriesguide/util/Errors.kt | 8 ++++----
+ 3 files changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/app/src/main/java/com/battlelancer/seriesguide/SgApp.kt b/app/src/main/java/com/battlelancer/seriesguide/SgApp.kt
+index 0818eaa781..5285f1c14d 100644
+--- a/app/src/main/java/com/battlelancer/seriesguide/SgApp.kt
++++ b/app/src/main/java/com/battlelancer/seriesguide/SgApp.kt
+@@ -183,9 +183,9 @@ class SgApp : Application() {
+         val isSendErrors = AppSettings.isSendErrorReports(this)
+         Timber.d("Turning error reporting %s", if (isSendErrors) "ON" else "OFF")
+         Errors.getReporter()?.setCrashlyticsCollectionEnabled(isSendErrors)
+-        if (isSendErrors) {
++        /* if (isSendErrors) {
+             Errors.setUpCounter(this)
+-        }
++        }  */
+ 
+         if (AppSettings.isUserDebugModeEnabled(this)) {
+             // debug drawer logging
+diff --git a/app/src/main/java/com/battlelancer/seriesguide/ui/BaseTopActivity.java b/app/src/main/java/com/battlelancer/seriesguide/ui/BaseTopActivity.java
+index a5ad4d7d93..2cf8263e99 100644
+--- a/app/src/main/java/com/battlelancer/seriesguide/ui/BaseTopActivity.java
++++ b/app/src/main/java/com/battlelancer/seriesguide/ui/BaseTopActivity.java
+@@ -142,7 +142,7 @@ public abstract class BaseTopActivity extends BaseMessageActivity {
+         }
+ 
+         // Trigger session start only for top activities.
+-        Errors.onSessionStart();
++        // Errors.onSessionStart();
+     }
+ 
+     @Override
+@@ -180,7 +180,7 @@ public abstract class BaseTopActivity extends BaseMessageActivity {
+ 
+         // Trigger session stop only for top activities so errors are sent frequently
+         // (when all are stopped).
+-        Errors.onSessionStop();
++        // Errors.onSessionStop();
+     }
+ 
+     @Override
+diff --git a/app/src/main/java/com/battlelancer/seriesguide/util/Errors.kt b/app/src/main/java/com/battlelancer/seriesguide/util/Errors.kt
+index 48336064a5..606c4e6671 100644
+--- a/app/src/main/java/com/battlelancer/seriesguide/util/Errors.kt
++++ b/app/src/main/java/com/battlelancer/seriesguide/util/Errors.kt
+@@ -47,7 +47,7 @@ class Errors {
+             }
+         }
+ 
+-        fun setUpCounter(application: Application) {
++        /* fun setUpCounter(application: Application) {
+             appVersion = Utils.getVersion(application.applicationContext)
+ 
+             @Suppress("SENSELESS_COMPARISON")
+@@ -84,7 +84,7 @@ class Errors {
+         @JvmStatic
+         fun onSessionStop() {
+             getCounter()?.onStop()
+-        }
++        } */
+ 
+         /**
+          * Logs the exception and if it should be, reports it. Adds action as key to report.
+@@ -200,7 +200,7 @@ class Errors {
+ //            getReporter()?.setCustomKey("action", action)
+ //            getReporter()?.recordException(throwable)
+ 
+-            getCounter()?.also {
++            /* getCounter()?.also {
+                 // Do not add response code to event key to avoid creating multiple events.
+                 // Instead add prefix message with it, can use segmentation and time to filter.
+                 val messageOrCodeOnly = when {
+@@ -217,7 +217,7 @@ class Errors {
+                         "device" to Build.MODEL
+                     )
+                 )
+-            }
++            } */
+         }
+ 
+         /**

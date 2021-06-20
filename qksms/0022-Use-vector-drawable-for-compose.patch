@@ -1,0 +1,73 @@
+From bbf27081a48d07bc17a0810ee58faa3a95a3de15 Mon Sep 17 00:00:00 2001
+From: George Zacharia <george.zcharia@gmail.com>
+Date: Wed, 28 Oct 2020 17:58:14 +0530
+Subject: [PATCH] Use vector drawable for compose
+
+---
+ .../src/main/res/drawable/ic_shortcut_compose.xml |  14 ++++++++++++++
+ .../res/mipmap-xxxhdpi/ic_shortcut_compose.png    | Bin 928 -> 0 bytes
+ presentation/src/main/res/xml/shortcuts.xml       |   2 +-
+ 3 files changed, 15 insertions(+), 1 deletion(-)
+ create mode 100644 presentation/src/main/res/drawable/ic_shortcut_compose.xml
+ delete mode 100755 presentation/src/main/res/mipmap-xxxhdpi/ic_shortcut_compose.png
+
+diff --git a/presentation/src/main/res/drawable/ic_shortcut_compose.xml b/presentation/src/main/res/drawable/ic_shortcut_compose.xml
+new file mode 100644
+index 00000000..d622a6d6
+--- /dev/null
++++ b/presentation/src/main/res/drawable/ic_shortcut_compose.xml
+@@ -0,0 +1,14 @@
++<?xml version="1.0" encoding="utf-8"?>
++<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
++    <item>
++        <!-- drawable/circle_card_icon.xml -->
++        <shape android:shape="oval">
++            <solid android:color="@color/tools_theme"/>
++            <size
++                android:width="24dp"
++                android:height="24dp"
++                />
++        </shape>
++    </item>
++    <item android:drawable="@drawable/ic_add_black_24dp" />
++</layer-list>
+\ No newline at end of file
+diff --git a/presentation/src/main/res/mipmap-xxxhdpi/ic_shortcut_compose.png b/presentation/src/main/res/mipmap-xxxhdpi/ic_shortcut_compose.png
+deleted file mode 100755
+index 52a0483d8c1fd63c102daad1a0377c4d7bb80962..0000000000000000000000000000000000000000
+GIT binary patch
+literal 0
+HcmV?d00001
+
+literal 928
+zcmeAS@N?(olHy`uVBq!ia0vp^4Is?H3?#oinD`S&RRs8ixB}^~bO#K}w|#!_cM8yM
+zwUQveU<TIy&(GUA-(SD9HB9PEkDJ2@uiGk$`!#=USh>JY^xolYXLG^$ICcf=7zPHW
+zjh-%!Ar-fdTo2DXY#`uz(fw;$>1kWh%A5cBgb(~He3YUQ<vd?Bra_{JL;Zce{KvXe
+zi%nDxo19u+`{&~~KK)fjGnDR$_&P>9PR?xVY0}By37PS4!X>Y&7t`}49(NeKeC$x&
+z%9^enrSo*hqRCeUy)&$=UQ6A{)~T4Dbi{U2#cAu@$1LY=HF8Tt?J#5%7m~2J@g&A)
+z-@%;J6RfSO&kRk)!=%qlc(Y?iEK~OKKCWHDI-!!GDWYrE%wO>&lb8FdgQ+v?Ma{*F
+z-mo}c3Jg_0({wZN=D7#<rdO~2aQEc*`jaVqskxxpe#V@*Cv4kUzo;DW)!my}=xlUh
+zw&KBjL))&8r*|xMzb$Al`eoGt{`Ftph+em<y7utY#Cx&-W5P>5RyvAn&$jk3ZdiMm
+zV+ZSr<_*gnR2#Bqdj}XR9Bb{=xWL)LbFPYO3e%0pZyXxK4m>Pk(qxTdeEE|{it7r~
+z4U098_!uvB%?n&0KH*`sYhx0F_U!W=X%3m2d$QSB%vN`#9WZW~z;w3Z!ZXz?JP)L7
+zU1u@c#%WyQsc`h2nC8$6;#d2KWU~33(7eQRLNM^#%Z^PPFO!*rTKai84jyOwu)5mV
+zqfwx3Va5#CaN%8&1y4H^_Wl<<I#r`XAm{#iOUHw^%<SKP<UU}}xR3MWeF6K94~r%C
+z_k4IQQ9t2<ztNw-F8k9zkFn&R{qRgA|NO^>M|r|mVh*?~FFBNKWwYYR;wYOn#~xQ@
+zC49UrdGmv_c1_N4e!a8akBh9s^m?^d_rA}~;5Oi?;$Y|B_&|c6-)O7z&PiHljy<li
+zxo|>xuEmv8$$Lu=KKs9&ear0j+h^VMMNb{CV_}c`_&`;h@$7LOTXied?yG-#UYUN^
+z-u-dc{ji(fJ8bql{uG%I$GRn+@nfXJ-+NELzx1k`&-AG}<bV9RU;l-!{10!J&YwQn
+TRm1|A+!;Jw{an^LB{Ts5Kd0Qg
+
+diff --git a/presentation/src/main/res/xml/shortcuts.xml b/presentation/src/main/res/xml/shortcuts.xml
+index ef0901fc..35892b3b 100644
+--- a/presentation/src/main/res/xml/shortcuts.xml
++++ b/presentation/src/main/res/xml/shortcuts.xml
+@@ -21,7 +21,7 @@
+ 
+     <shortcut
+         android:enabled="true"
+-        android:icon="@mipmap/ic_shortcut_compose"
++        android:icon="@drawable/ic_shortcut_compose"
+         android:shortcutDisabledMessage="@string/shortcut_compose_disabled_message"
+         android:shortcutId="compose"
+         android:shortcutLongLabel="@string/shortcut_compose_long_label"

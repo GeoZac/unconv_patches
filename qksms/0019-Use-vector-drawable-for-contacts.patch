@@ -1,0 +1,84 @@
+From 006c0e07b11d65cb589f4b1e2ba05288a843f6bb Mon Sep 17 00:00:00 2001
+From: George Zacharia <george.zcharia@gmail.com>
+Date: Wed, 28 Oct 2020 17:59:26 +0530
+Subject: [PATCH] Use vector drawable for contacts
+
+---
+ .../main/res/drawable/ic_person_white_24dp.xml |   5 +++++
+ .../main/res/drawable/ic_shortcut_person.xml   |  17 +++++++++++++++++
+ .../res/mipmap-xxxhdpi/ic_shortcut_person.png  | Bin 1357 -> 0 bytes
+ 3 files changed, 22 insertions(+)
+ create mode 100644 presentation/src/main/res/drawable/ic_person_white_24dp.xml
+ create mode 100644 presentation/src/main/res/drawable/ic_shortcut_person.xml
+ delete mode 100755 presentation/src/main/res/mipmap-xxxhdpi/ic_shortcut_person.png
+
+diff --git a/presentation/src/main/res/drawable/ic_person_white_24dp.xml b/presentation/src/main/res/drawable/ic_person_white_24dp.xml
+new file mode 100644
+index 00000000..d7366bda
+--- /dev/null
++++ b/presentation/src/main/res/drawable/ic_person_white_24dp.xml
+@@ -0,0 +1,5 @@
++<vector android:height="24dp" android:tint="#FFFFFF"
++    android:viewportHeight="24.0" android:viewportWidth="24.0"
++    android:width="24dp" xmlns:android="http://schemas.android.com/apk/res/android">
++    <path android:fillColor="#FF000000" android:pathData="M12,12c2.21,0 4,-1.79 4,-4s-1.79,-4 -4,-4 -4,1.79 -4,4 1.79,4 4,4zM12,14c-2.67,0 -8,1.34 -8,4v2h16v-2c0,-2.66 -5.33,-4 -8,-4z"/>
++</vector>
+diff --git a/presentation/src/main/res/drawable/ic_shortcut_person.xml b/presentation/src/main/res/drawable/ic_shortcut_person.xml
+new file mode 100644
+index 00000000..66961978
+--- /dev/null
++++ b/presentation/src/main/res/drawable/ic_shortcut_person.xml
+@@ -0,0 +1,17 @@
++<?xml version="1.0" encoding="utf-8"?>
++<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
++    <item>
++        <!-- drawable/circle_card_icon.xml -->
++        <shape xmlns:android="http://schemas.android.com/apk/res/android"
++            android:shape="oval">
++            <solid android:color="#0097A7"/>
++            <padding android:bottom="2dp" android:top="2dp"
++                android:left="2dp" android:right="2dp"/>
++            <size
++                android:width="24dp"
++                android:height="24dp"
++                />
++        </shape>
++    </item>
++    <item android:drawable="@drawable/ic_person_white_24dp" />
++</layer-list>
+\ No newline at end of file
+diff --git a/presentation/src/main/res/mipmap-xxxhdpi/ic_shortcut_person.png b/presentation/src/main/res/mipmap-xxxhdpi/ic_shortcut_person.png
+deleted file mode 100755
+index 1968a04710ef103f6a3dbe4cff095cea16e3874b..0000000000000000000000000000000000000000
+GIT binary patch
+literal 0
+HcmV?d00001
+
+literal 1357
+zcmchX`#aMM0LH(wgSj?KCS6?S?BS%MOz||0+?BIr)sa&(lbxlIl3XH}xlAl^WUUO5
+z$-@fe-YlHiFywZIa!Ia_xh`be(LZsX=l#5&pWk2J6s(7{hN_+_000`UE)JeMj{OM)
+zywhuAk2iNTggxu!xMSeeyZ<?IxqMS9WsOb(rL_a%WuT-+vMn86TAf&1@0ee_E9e8t
+z8@{c7pOtLn4t~Da++kYHg;X?_f0-&69;fz-tZQ1e*iD2Mp$_}Q;>PB?iRtR`>9^zG
+zo(+w;HuC&hgt~7&7=zSOcBUckczRp_6w_CeRGh@qgT2-6c6#l@#)h3AOsSW=w%Dva
+zEuZI@c{i?}(Au45FbDu(nX7}HSGcHQ0Mr|20Hus8+9~d4SM|~9#aoLpEpkAz&t!>#
+z50E_nx9FU$IHyKZSFXw|A&*{botNgDb?|;DH$|*PS!Tfw)pB>G=A>ofrz+!e=5p~A
+zk3I;Nnoc0^`{jmr>Qpcn`3l^M^$xr)kk$vW-76~;O_2+hDz$~^B*@5s-d<;8Mvqdw
+zlVt=GpQE6)2d?_DD|w+KZZ1!2)U18D(+Cua_}$4+#h)iwPIp*zUcv9r3~BR|tE#Z_
+z4!BTXmc7IUIuVW+qV~6kcv~37hfK+|c}!iI1_q(l$p!N=?Wlp?TlO}@N#nyRL}OC^
+zGg?p8_JI6kMNWUhLlbq5vl$Zi8tMq2u!qZYM=aCcV=#Zgqvg(Ics`A+xxI>R<}d^?
+zNWA}d;r7=NYx!0eht4~VpheBCWw@hV5VQ1nPs^gPtaBi~k4-Ui!!6J2VAkSP9WWWz
+z3->r-t}}j|m$zONs?p|5QX|$%P7+CvAJJk%dalCFGueh4!6E?~6aHktK*<nyM%Dfl
+zWVV^hYTiS#cwPe@FD*U<sh21lK|N7L1`hGDC@hPm;HOP%NhjOHbziT%XYPi|#y1Em
+z_L^;jO^$2*@sS$?^6$*TglmZ$*@=lkXZRN#DD0*9<YU^d98<U3+QTrbv}FO$DjV%m
+zU7db|CV3n8aF=meb|8nZDMAQ2A|9-&?r2s-_ut2q#9@{M>i{zgg$<v)uLnVd6lej7
+z5mr--Np_(?F5Jubq~}Xfu>W%Zfe^azDzbj~95k&N7@6J9WwujJE4L+vcOS#hbWu>=
+z*}estm^9qZ^Wi*T_XyFKx)Tz*SDIqE%tr;H?lb4nGleC#>exP@&4jETs*OrAO{H^T
+zua`cNB7KrHqc11UPg=P}ml0HurTl`S&>7`_sD<jd+*JJ{*`hW!WvpuTeCw0mfcx~a
+znNnP)(UmK{79og?rwu&E7m6_`s^-fvsG&Qxp78?gsm*xo+jd1b`t-Nty+Yp>8!Qoo
+zgAv19!SfEQb@{1QL6^&0tvzcEaXNLEO9j@S8lg#BZ|QlnoHkfwsei_=fn6-Cd~cYU
+z@9p${P(KX+Ms{G@M~pqJsZ$>yWi#pQAw-mgv68vLi7Z__gjPw{=MX5)CCFP@E#wG5
+zt!ds0je#H0?bO6`id-u}l$78Ezf!+s$5U+xeIoe?zrP37F@R+R6^Am<+xD6sBxh%=
+z%Wkqa@841DxwRQwAJuTJY0Ti-GVN$B3A+lK*}mGt3Vnt<s=>dta`&``YKESdEy|>k
+zjQt_K6CfIysJ!`2JR0LA?GlKo1uH)a>^J{xkjXU%`O)eCc=!9Czv$}d;ZSamkNXeI
+C!I?S$
+

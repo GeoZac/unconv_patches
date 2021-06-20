@@ -1,0 +1,44 @@
+From 68617f165f2ccb42cfddccde6db56fd8de090c58 Mon Sep 17 00:00:00 2001
+From: George Zacharia <george.zcharia@gmail.com>
+Date: Sat, 31 Oct 2020 18:23:57 +0530
+Subject: [PATCH] use vector for shortcuts
+
+---
+ .../java/com/moez/QKSMS/common/util/QkChooserTargetService.kt | 4 ++--
+ .../java/com/moez/QKSMS/common/util/ShortcutManagerImpl.kt    | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/presentation/src/main/java/com/moez/QKSMS/common/util/QkChooserTargetService.kt b/presentation/src/main/java/com/moez/QKSMS/common/util/QkChooserTargetService.kt
+index 13cd86b0..f6c75113 100644
+--- a/presentation/src/main/java/com/moez/QKSMS/common/util/QkChooserTargetService.kt
++++ b/presentation/src/main/java/com/moez/QKSMS/common/util/QkChooserTargetService.kt
+@@ -63,10 +63,10 @@ class QkChooserTargetService : ChooserTargetService() {
+                 val bitmap = tryOrNull(false) { request.get() }
+ 
+                 if (bitmap != null) Icon.createWithBitmap(bitmap)
+-                else Icon.createWithResource(this, R.mipmap.ic_shortcut_person)
++                else Icon.createWithResource(this, R.drawable.ic_shortcut_person)
+             }
+ 
+-            else -> Icon.createWithResource(this, R.mipmap.ic_shortcut_people)
++            else -> Icon.createWithResource(this, R.drawable.ic_shortcut_people)
+         }
+ 
+         val componentName = ComponentName(this, ComposeActivity::class.java)
+diff --git a/presentation/src/main/java/com/moez/QKSMS/common/util/ShortcutManagerImpl.kt b/presentation/src/main/java/com/moez/QKSMS/common/util/ShortcutManagerImpl.kt
+index 7493b02f..88e87014 100644
+--- a/presentation/src/main/java/com/moez/QKSMS/common/util/ShortcutManagerImpl.kt
++++ b/presentation/src/main/java/com/moez/QKSMS/common/util/ShortcutManagerImpl.kt
+@@ -70,10 +70,10 @@ class ShortcutManagerImpl @Inject constructor(
+                 val bitmap = tryOrNull(false) { request.get() }
+ 
+                 if (bitmap != null) Icon.createWithBitmap(bitmap)
+-                else Icon.createWithResource(context, R.mipmap.ic_shortcut_person)
++                else Icon.createWithResource(context, R.drawable.ic_shortcut_person)
+             }
+ 
+-            else -> Icon.createWithResource(context, R.mipmap.ic_shortcut_people)
++            else -> Icon.createWithResource(context, R.drawable.ic_shortcut_people)
+         }
+ 
+         val intent = Intent(context, ComposeActivity::class.java)

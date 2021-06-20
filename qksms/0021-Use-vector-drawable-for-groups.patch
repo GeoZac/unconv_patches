@@ -1,0 +1,70 @@
+From 9a19b905a5e90add85447a3d3388ce435950e76e Mon Sep 17 00:00:00 2001
+From: George Zacharia <george.zcharia@gmail.com>
+Date: Wed, 28 Oct 2020 18:00:34 +0530
+Subject: [PATCH] Use vector drawable for groups
+
+---
+ .../main/res/drawable/ic_shortcut_people.xml    |  16 ++++++++++++++++
+ .../res/mipmap-xxxhdpi/ic_shortcut_people.png   | Bin 1375 -> 0 bytes
+ 2 files changed, 16 insertions(+)
+ create mode 100644 presentation/src/main/res/drawable/ic_shortcut_people.xml
+ delete mode 100755 presentation/src/main/res/mipmap-xxxhdpi/ic_shortcut_people.png
+
+diff --git a/presentation/src/main/res/drawable/ic_shortcut_people.xml b/presentation/src/main/res/drawable/ic_shortcut_people.xml
+new file mode 100644
+index 00000000..e210af9c
+--- /dev/null
++++ b/presentation/src/main/res/drawable/ic_shortcut_people.xml
+@@ -0,0 +1,16 @@
++<?xml version="1.0" encoding="utf-8"?>
++<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
++    <item>
++        <shape
++            android:shape="oval">
++            <solid android:color="#0097A7"/>
++            <padding android:bottom="6dp" android:top="6dp"
++                android:left="6dp" android:right="6dp"/>
++            <size
++                android:width="24dp"
++                android:height="24dp"
++                />
++        </shape>
++    </item>
++    <item android:drawable="@drawable/ic_people_black_24dp" />
++</layer-list>
+\ No newline at end of file
+diff --git a/presentation/src/main/res/mipmap-xxxhdpi/ic_shortcut_people.png b/presentation/src/main/res/mipmap-xxxhdpi/ic_shortcut_people.png
+deleted file mode 100755
+index 1f783dff1f005bc9b90138954584a27fb0cbac09..0000000000000000000000000000000000000000
+GIT binary patch
+literal 0
+HcmV?d00001
+
+literal 1375
+zcmc(f|2q>10LC|K)hbD4W!$pLnrm8w*ws+--JYGKmC3hKw}qPZ9G7pKVWCLZtaw5-
+zdrIUI)%i9dv#~aWSyOW+6q(^RZSC||-1EHe`}z5O-sgF*5%4~y>tO2u0D!5VuUGI2
+zGk$n2XeAdu-qfvNh7cHXY=r<`!~Y_q(YS0d0BV{Rzv-2lMV{iHl-@zD-XNRP+>?Fe
+zPfX|a%V)K^Ce>7u=v|_4z@oM_P9Oz8ZC=vr8Is|!_TB?8I;@}ZH`TU;w~J5kdu*S#
+zy_uY;Q%<NBmilMag#&Wo^h{KT*tc0Anx4V^{pL`g19hb@iWZDN4p_VEQ;tt}kml?A
+zzWPv4(2XIOU0!c%?V|#V_QGY|VtE<m%)y_`2mJ$INdN$l&d<v;Bxyt;|1E69W7C?s
+zZqJP-Oy*G!Ir*(@)z(6CXT#uwf7J$ed>Hq7(UUrepUceG8Ke3#LiQz|Ll3;?o_gPG
+z`9^FQi(Tzzpno5qN<?LSu#Ts2eC2SLR8&zg<*M)8h%<Pda&YP5*66SANP?2b6b_@Z
+zs*o27I!<|RgQ=w7*^V5qh>eW(j?+*+@UJ_$G;Z5!K*Ud0)Of^JV<*Z-h0AI==T?J>
+zCC$3$dOv;OE_6abK7x(kmN<Cjc=&hw9tGRvwfAZ$e>>gA2!@VjnH?FxLLb&JGR|K?
+z2O2C3y)m^O@Z=q+)leaUrEARs%c)9S9GYY`EA80qM6Zg8g1|4IM0U0XyXKZ!**G%2
+z?9oAc)g}XfIb8vd(a<+HI!uGm(oF5M0e-M^WRPh<XlCOE^c~>u93pm0{O5{{xp&I(
+z#U!fs=ZA@>F*64y6>0oXhGB~%uf8vco|mE6Od=#dzE-|-Dx=!XCb8)57(&bLY~oVY
+zT@_UbWr{HR4eu;oLQ>{P*03YXgjwgu;BG+T{Y1w-U)r2Iy<c0gCpkTkhMh^^(K;`m
+zv-n4l*$yOHnlA*un1lycqNM?jyrj9jf`>z;=^hii-Ld(9rb6x?6>bzZLN4za$rW(2
+zS#m%mVk*}bi%2Z8sAh6;xw{?@$9`ef4HMjYnOy=;`>x`%`^Fq-H#1+FnF&a~+g76{
+zJ}c~pZ13b*dhGC%9ppa8x%vuQ?0IhG6(O);)NNC!|2d#PG9A!|p)ZsWmYryX9+_G{
+z*)RHBJ<5BaQ(GcmvQ)c$#(zzz*M4`1q%aC1peJ8WP+=lSD%An|?NAJ<?k%NkVP#&;
+zhS`W4?VU_>WZs;3tqEQ%ZB95!#g;h&`*n8SY%jRHkRvb`gODgrj&>-DDvqKa<cb^u
+zqMAC~#h^4eZ@xj*mCygc=zW!3+W8B|dOtgPRg?{m5hs>j>~<uM3C%GDaz9*Yb_~1C
+zHNORihxZ5K?qP_?^-b!`k}hpG1{I6GWjX4)XP(uSd~8c?pa}^v?^~iN%01_0IQ+@>
+zcC-kVQO&OpKLr}jvZ{On<VZziJCKA#l&Us(<hX~pfe6Z{+4(>xo4z844Cwp5z3G5v
+zvf&csF#6O}viq3;qYjQ$LHE;k7hj@P5j%D^=dX!m*~%V~?TQzoU399H`SmbWG0h)C
+z25(O$+9ZS+UdQUV3P4Lv)|@__+Z2(OnW=}G>4NrIT+jds*_>My^9c=qoG6zCr8P!?
+zVes?=S2=!f^$~Z^?3FBiE1}GepgKmK!-=}G)2&q!Jv_mf&eUG0TQZh`@t<P2EZgWG
+OPw96I?^SaolJOr-f~`yd
+

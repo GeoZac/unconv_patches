@@ -1,4 +1,4 @@
-From 68365d7c353d0c2d61263ec53ef3e4cc41f09570 Mon Sep 17 00:00:00 2001
+From f2a947f56bc5728751c865603c3e5c42ce86996d Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Tue, 24 Mar 2020 14:12:00 +0530
 Subject: [PATCH] Minor theme improvements
@@ -14,7 +14,7 @@ Tweak some colors
  4 files changed, 24 insertions(+), 9 deletions(-)
 
 diff --git a/app/src/main/res/values-night/themes.xml b/app/src/main/res/values-night/themes.xml
-index fbd6b7a04a..62417160e9 100644
+index fbd6b7a04..62417160e 100644
 --- a/app/src/main/res/values-night/themes.xml
 +++ b/app/src/main/res/values-night/themes.xml
 @@ -1,7 +1,13 @@
@@ -35,7 +35,7 @@ index fbd6b7a04a..62417160e9 100644
  </resources>
 \ No newline at end of file
 diff --git a/app/src/main/res/values/colors.xml b/app/src/main/res/values/colors.xml
-index 4ffd6cc917..43f81f6830 100644
+index 4ffd6cc91..43f81f683 100644
 --- a/app/src/main/res/values/colors.xml
 +++ b/app/src/main/res/values/colors.xml
 @@ -33,7 +33,7 @@
@@ -59,7 +59,7 @@ index 4ffd6cc917..43f81f6830 100644
      <color name="background_black">#ff000000</color>
      <color name="background_snackbar">#ff323232</color>
 diff --git a/app/src/main/res/values/styles.xml b/app/src/main/res/values/styles.xml
-index 15c1065e59..c34f97af93 100644
+index 15c1065e5..c34f97af9 100644
 --- a/app/src/main/res/values/styles.xml
 +++ b/app/src/main/res/values/styles.xml
 @@ -97,7 +97,7 @@
@@ -72,7 +72,7 @@ index 15c1065e59..c34f97af93 100644
          <item name="android:ellipsize">end</item>
          <item name="android:maxLines">1</item>
 diff --git a/app/src/main/res/values/themes.xml b/app/src/main/res/values/themes.xml
-index 02670a582d..da04d2998a 100644
+index 02670a582..da04d2998 100644
 --- a/app/src/main/res/values/themes.xml
 +++ b/app/src/main/res/values/themes.xml
 @@ -10,6 +10,8 @@

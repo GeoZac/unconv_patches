@@ -1,4 +1,4 @@
-From 4f77b54a0e520230b75a87a1838a5a7ffd24560f Mon Sep 17 00:00:00 2001
+From 2dece8055bde88bc1800c0021a381f6d878658ca Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Tue, 24 Mar 2020 07:52:14 +0530
 Subject: [PATCH] Have some fun with an ExtendedFloatingActionButton
@@ -12,7 +12,7 @@ Subject: [PATCH] Have some fun with an ExtendedFloatingActionButton
  5 files changed, 16 insertions(+), 12 deletions(-)
 
 diff --git a/app/src/main/java/com/battlelancer/seriesguide/ui/ShowsActivity.kt b/app/src/main/java/com/battlelancer/seriesguide/ui/ShowsActivity.kt
-index be2a56df52..afe99de6ba 100644
+index be2a56df5..afe99de6b 100644
 --- a/app/src/main/java/com/battlelancer/seriesguide/ui/ShowsActivity.kt
 +++ b/app/src/main/java/com/battlelancer/seriesguide/ui/ShowsActivity.kt
 @@ -35,7 +35,7 @@ import com.battlelancer.seriesguide.ui.shows.ShowsNowFragment
@@ -43,7 +43,7 @@ index be2a56df52..afe99de6ba 100644
  
          init {
 diff --git a/app/src/main/java/com/battlelancer/seriesguide/ui/shows/FabRecyclerViewScrollDetector.kt b/app/src/main/java/com/battlelancer/seriesguide/ui/shows/FabRecyclerViewScrollDetector.kt
-index 3d3120cae9..0fc0ca98ad 100644
+index 3d3120cae..0fc0ca98a 100644
 --- a/app/src/main/java/com/battlelancer/seriesguide/ui/shows/FabRecyclerViewScrollDetector.kt
 +++ b/app/src/main/java/com/battlelancer/seriesguide/ui/shows/FabRecyclerViewScrollDetector.kt
 @@ -2,7 +2,7 @@ package com.battlelancer.seriesguide.ui.shows
@@ -79,7 +79,7 @@ index 3d3120cae9..0fc0ca98ad 100644
  
  }
 diff --git a/app/src/main/java/com/battlelancer/seriesguide/ui/shows/ShowsFragment.java b/app/src/main/java/com/battlelancer/seriesguide/ui/shows/ShowsFragment.java
-index 74531bdeda..e9ec68c71b 100644
+index 74531bded..e9ec68c71 100644
 --- a/app/src/main/java/com/battlelancer/seriesguide/ui/shows/ShowsFragment.java
 +++ b/app/src/main/java/com/battlelancer/seriesguide/ui/shows/ShowsFragment.java
 @@ -36,7 +36,7 @@ import com.battlelancer.seriesguide.ui.movies.AutoGridLayoutManager;
@@ -101,7 +101,7 @@ index 74531bdeda..e9ec68c71b 100644
  
          // listen for some settings changes
 diff --git a/app/src/main/res/layout/activity_shows.xml b/app/src/main/res/layout/activity_shows.xml
-index 1256542705..a88f5190d4 100644
+index 125654270..a88f5190d 100644
 --- a/app/src/main/res/layout/activity_shows.xml
 +++ b/app/src/main/res/layout/activity_shows.xml
 @@ -30,8 +30,9 @@
@@ -127,7 +127,7 @@ index 1256542705..a88f5190d4 100644
      </androidx.coordinatorlayout.widget.CoordinatorLayout>
  
 diff --git a/app/src/main/res/values/strings.xml b/app/src/main/res/values/strings.xml
-index 8c6d7d43e3..44bfb14cba 100644
+index 96b868b0d..9d2ab996d 100644
 --- a/app/src/main/res/values/strings.xml
 +++ b/app/src/main/res/values/strings.xml
 @@ -1,4 +1,4 @@
@@ -136,7 +136,7 @@ index 8c6d7d43e3..44bfb14cba 100644
  <resources>
  
      <!-- Main Menu -->
-@@ -588,6 +588,7 @@
+@@ -587,6 +587,7 @@
      <string name="feedback_question_feedback">Tell me how to improve it?</string>
      <string name="feedback_action_ok">OK, sure</string>
      <string name="feedback_action_nothanks">No, thanks</string>

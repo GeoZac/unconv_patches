@@ -1,4 +1,4 @@
-From 7dac3772dcc5b4e7f86157ecb0595b77704e71a5 Mon Sep 17 00:00:00 2001
+From e90b348a60603b7ce716ac3a614bae3c4227c9bc Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Sun, 20 Jun 2021 10:20:51 +0530
 Subject: [PATCH] APK optimisations
@@ -11,10 +11,10 @@ Lint shouldn't abort
  1 file changed, 6 insertions(+)
 
 diff --git a/app/build.gradle.kts b/app/build.gradle.kts
-index 1448840b8e..a1783fc4d5 100644
+index 49cb0f6e9..ed1a699a9 100644
 --- a/app/build.gradle.kts
 +++ b/app/build.gradle.kts
-@@ -44,6 +44,8 @@ android {
+@@ -47,6 +47,8 @@ android {
      }
  
      defaultConfig {
@@ -23,7 +23,7 @@ index 1448840b8e..a1783fc4d5 100644
          minSdk = sgMinSdk
          targetSdk = sgTargetSdk
  
-@@ -84,6 +86,9 @@ android {
+@@ -77,6 +79,9 @@ android {
      }
  
      lintOptions {
@@ -33,7 +33,7 @@ index 1448840b8e..a1783fc4d5 100644
          // for CI server: only check this module with dependencies instead of each module separately
          isCheckDependencies = true
          // for CI server: log reports (report files are not public)
-@@ -135,6 +140,7 @@ android {
+@@ -128,6 +133,7 @@ android {
          getByName("release") {
              multiDexEnabled = false
              isMinifyEnabled = true

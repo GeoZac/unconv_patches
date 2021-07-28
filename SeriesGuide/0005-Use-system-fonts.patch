@@ -1,4 +1,4 @@
-From 75d9b8bf7522ffdb74a84aa0377312eaf40bc8f3 Mon Sep 17 00:00:00 2001
+From 4af2a14025c2ec8658ee33ad911c00092c8aa785 Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Sun, 22 Nov 2020 20:27:45 +0530
 Subject: [PATCH] Use system fonts
@@ -16,7 +16,7 @@ messes with Android 10's fonts selection
  8 files changed, 2 insertions(+), 17 deletions(-)
 
 diff --git a/app/src/main/java/com/battlelancer/seriesguide/service/NotificationService.java b/app/src/main/java/com/battlelancer/seriesguide/service/NotificationService.java
-index d6ddb0a7ba..40871772f2 100644
+index d6ddb0a7b..40871772f 100644
 --- a/app/src/main/java/com/battlelancer/seriesguide/service/NotificationService.java
 +++ b/app/src/main/java/com/battlelancer/seriesguide/service/NotificationService.java
 @@ -415,7 +415,7 @@ public class NotificationService {
@@ -38,7 +38,7 @@ index d6ddb0a7ba..40871772f2 100644
                  lineText.append(" ");
  
 diff --git a/app/src/main/res/layout/appwidget_row_light.xml b/app/src/main/res/layout/appwidget_row_light.xml
-index 64c6814124..7234d04c32 100644
+index 64c681412..7234d04c3 100644
 --- a/app/src/main/res/layout/appwidget_row_light.xml
 +++ b/app/src/main/res/layout/appwidget_row_light.xml
 @@ -73,7 +73,6 @@
@@ -58,7 +58,7 @@ index 64c6814124..7234d04c32 100644
              android:textColor="@color/sg_black_54"
              android:textSize="@dimen/widget_text_size"
 diff --git a/app/src/main/res/layout/appwidget_row_light_large.xml b/app/src/main/res/layout/appwidget_row_light_large.xml
-index 11b3d1cde8..92e88555ee 100644
+index 11b3d1cde..92e88555e 100644
 --- a/app/src/main/res/layout/appwidget_row_light_large.xml
 +++ b/app/src/main/res/layout/appwidget_row_light_large.xml
 @@ -73,7 +73,6 @@
@@ -78,7 +78,7 @@ index 11b3d1cde8..92e88555ee 100644
              android:textColor="@color/sg_black_54"
              android:textSize="@dimen/widget_text_size_large"
 diff --git a/app/src/main/res/layout/appwidget_v11.xml b/app/src/main/res/layout/appwidget_v11.xml
-index d6a20ded30..62861ba9fa 100644
+index d6a20ded3..62861ba9f 100644
 --- a/app/src/main/res/layout/appwidget_v11.xml
 +++ b/app/src/main/res/layout/appwidget_v11.xml
 @@ -80,7 +80,6 @@
@@ -90,7 +90,7 @@ index d6a20ded30..62861ba9fa 100644
              android:text="@string/no_nextepisode"
              android:textColor="@color/sg_white"
 diff --git a/app/src/main/res/layout/appwidget_v11_compact.xml b/app/src/main/res/layout/appwidget_v11_compact.xml
-index ab6e2ad70b..09aee990db 100644
+index ab6e2ad70..09aee990d 100644
 --- a/app/src/main/res/layout/appwidget_v11_compact.xml
 +++ b/app/src/main/res/layout/appwidget_v11_compact.xml
 @@ -30,7 +30,6 @@
@@ -102,7 +102,7 @@ index ab6e2ad70b..09aee990db 100644
              android:text="@string/no_nextepisode"
              tools:ignore="UnusedAttribute" />
 diff --git a/app/src/main/res/layout/appwidget_v11_light.xml b/app/src/main/res/layout/appwidget_v11_light.xml
-index 693365239d..f914c39164 100644
+index 693365239..f914c3916 100644
 --- a/app/src/main/res/layout/appwidget_v11_light.xml
 +++ b/app/src/main/res/layout/appwidget_v11_light.xml
 @@ -79,7 +79,6 @@
@@ -114,7 +114,7 @@ index 693365239d..f914c39164 100644
              android:text="@string/no_nextepisode"
              android:textColor="@color/sg_black_87"
 diff --git a/app/src/main/res/layout/appwidget_v11_light_compact.xml b/app/src/main/res/layout/appwidget_v11_light_compact.xml
-index b38ae0fd02..32d8322a89 100644
+index b38ae0fd0..32d8322a8 100644
 --- a/app/src/main/res/layout/appwidget_v11_light_compact.xml
 +++ b/app/src/main/res/layout/appwidget_v11_light_compact.xml
 @@ -31,7 +31,6 @@
@@ -126,7 +126,7 @@ index b38ae0fd02..32d8322a89 100644
              android:text="@string/no_nextepisode"
              android:textColor="@color/sg_black_87"
 diff --git a/app/src/main/res/values/styles.xml b/app/src/main/res/values/styles.xml
-index c34f97af93..68aab2063f 100644
+index c34f97af9..68aab2063 100644
 --- a/app/src/main/res/values/styles.xml
 +++ b/app/src/main/res/values/styles.xml
 @@ -22,8 +22,6 @@

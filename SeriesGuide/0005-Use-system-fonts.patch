@@ -1,4 +1,4 @@
-From 4af2a14025c2ec8658ee33ad911c00092c8aa785 Mon Sep 17 00:00:00 2001
+From c202f8ba565b6b2b77e31b9dfcc1e2e8df715d4d Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Sun, 22 Nov 2020 20:27:45 +0530
 Subject: [PATCH] Use system fonts

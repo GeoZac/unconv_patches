@@ -1,0 +1,19 @@
+From 3f2950fe0a3bb92649e6514be767e2888133e6d7 Mon Sep 17 00:00:00 2001
+From: George Zacharia <george.zcharia@gmail.com>
+Date: Thu, 12 Aug 2021 09:04:57 +0530
+Subject: [PATCH] No Gradle daemon please
+
+---
+ gradle.properties | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/gradle.properties b/gradle.properties
+index 4a153db41..0dc030335 100644
+--- a/gradle.properties
++++ b/gradle.properties
+@@ -21,3 +21,5 @@ android.useAndroidX=true
+ # https://github.com/robolectric/robolectric/issues/6521
+ # https://issuetracker.google.com/issues/159151549
+ android.jetifier.ignorelist=bcprov-jdk15on
++
++org.gradle.daemon=false

@@ -1,0 +1,21 @@
+From 0bd231b0470f89b8512013f2074b7244225dc0ea Mon Sep 17 00:00:00 2001
+From: George Zacharia <george.zcharia@gmail.com>
+Date: Thu, 12 Aug 2021 09:06:31 +0530
+Subject: [PATCH] Fix compilation
+
+Compilation fails without these
+---
+ gradle.properties | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/gradle.properties b/gradle.properties
+index 0dc030335..568a64d18 100644
+--- a/gradle.properties
++++ b/gradle.properties
+@@ -23,3 +23,6 @@ android.useAndroidX=true
+ android.jetifier.ignorelist=bcprov-jdk15on
+ 
+ org.gradle.daemon=false
++kapt.use.worker.api=false
++kapt.incremental.apt=false
++

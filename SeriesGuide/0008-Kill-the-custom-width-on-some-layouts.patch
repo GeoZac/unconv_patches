@@ -1,0 +1,36 @@
+From b972fa035749c0344b83be4252b348f4e9e40a67 Mon Sep 17 00:00:00 2001
+From: George Zacharia <george.zcharia@gmail.com>
+Date: Thu, 12 Aug 2021 10:06:28 +0530
+Subject: [PATCH] Kill the custom width on some layouts
+
+---
+ app/src/main/res/values-w400dp/styles.xml | 2 +-
+ app/src/main/res/values-w590dp/styles.xml | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/app/src/main/res/values-w400dp/styles.xml b/app/src/main/res/values-w400dp/styles.xml
+index dfcf53f40..14296d430 100644
+--- a/app/src/main/res/values-w400dp/styles.xml
++++ b/app/src/main/res/values-w400dp/styles.xml
+@@ -2,7 +2,7 @@
+ <resources>
+ 
+     <style name="Page.Centered">
+-        <item name="android:layout_width">400dp</item>
++        <item name="android:layout_width">match_parent</item>
+         <item name="android:layout_height">match_parent</item>
+         <item name="android:layout_gravity">center_horizontal</item>
+     </style>
+diff --git a/app/src/main/res/values-w590dp/styles.xml b/app/src/main/res/values-w590dp/styles.xml
+index f22de85f8..baa2e1383 100644
+--- a/app/src/main/res/values-w590dp/styles.xml
++++ b/app/src/main/res/values-w590dp/styles.xml
+@@ -2,7 +2,7 @@
+ <resources>
+ 
+     <style name="Page.Centered">
+-        <item name="android:layout_width">500dp</item>
++        <item name="android:layout_width">match_parent</item>
+         <item name="android:layout_height">match_parent</item>
+         <item name="android:layout_gravity">center_horizontal</item>
+     </style>

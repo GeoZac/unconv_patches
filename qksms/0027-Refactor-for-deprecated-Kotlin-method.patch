@@ -1,0 +1,36 @@
+From c4d7a252553efd63648092e2ac044232a4cbb145 Mon Sep 17 00:00:00 2001
+From: George Zacharia <george.zcharia@gmail.com>
+Date: Sat, 23 Oct 2021 06:17:56 +0530
+Subject: [PATCH] Refactor for deprecated Kotlin method
+
+---
+ .../src/main/java/com/moez/QKSMS/common/widget/TightTextView.kt | 2 +-
+ .../main/java/com/moez/QKSMS/feature/backup/BackupPresenter.kt  | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/presentation/src/main/java/com/moez/QKSMS/common/widget/TightTextView.kt b/presentation/src/main/java/com/moez/QKSMS/common/widget/TightTextView.kt
+index 0c104b81..ce86aef7 100644
+--- a/presentation/src/main/java/com/moez/QKSMS/common/widget/TightTextView.kt
++++ b/presentation/src/main/java/com/moez/QKSMS/common/widget/TightTextView.kt
+@@ -37,7 +37,7 @@ class TightTextView @JvmOverloads constructor(
+ 
+         val maxLineWidth = (0 until layout.lineCount)
+                 .map(layout::getLineWidth)
+-                .max() ?: 0f
++                .maxOrNull() ?: 0f
+ 
+         val width = Math.ceil(maxLineWidth.toDouble()).toInt() + compoundPaddingLeft + compoundPaddingRight
+         if (width < measuredWidth) {
+diff --git a/presentation/src/main/java/com/moez/QKSMS/feature/backup/BackupPresenter.kt b/presentation/src/main/java/com/moez/QKSMS/feature/backup/BackupPresenter.kt
+index b547ec30..ebb41acf 100644
+--- a/presentation/src/main/java/com/moez/QKSMS/feature/backup/BackupPresenter.kt
++++ b/presentation/src/main/java/com/moez/QKSMS/feature/backup/BackupPresenter.kt
+@@ -64,7 +64,7 @@ class BackupPresenter @Inject constructor(
+                 .distinctUntilChanged()
+                 .switchMap { backupRepo.getBackups() }
+                 .doOnNext { backups -> newState { copy(backups = backups) } }
+-                .map { backups -> backups.map { it.date }.max() ?: 0L }
++                .map { backups -> backups.map { it.date }.maxOrNull() ?: 0L }
+                 .map { lastBackup ->
+                     when (lastBackup) {
+                         0L -> context.getString(R.string.backup_never)

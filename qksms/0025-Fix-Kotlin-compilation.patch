@@ -1,0 +1,24 @@
+From 179fac8c292d87798e6a218e87c014f61cfe50d2 Mon Sep 17 00:00:00 2001
+From: George Zacharia <george.zcharia@gmail.com>
+Date: Sat, 23 Oct 2021 06:15:42 +0530
+Subject: [PATCH] Fix Kotlin compilation
+
+---
+ gradle.properties | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/gradle.properties b/gradle.properties
+index 2bdae07d..e9a5f15f 100644
+--- a/gradle.properties
++++ b/gradle.properties
+@@ -22,4 +22,7 @@ android.enableJetifier=true
+ # org.gradle.parallel=true
+ 
+ org.gradle.parallel=true
+-org.gradle.daemon=false
+\ No newline at end of file
++org.gradle.daemon=false
++
++kapt.use.worker.api=false
++kapt.incremental.apt=false
+\ No newline at end of file

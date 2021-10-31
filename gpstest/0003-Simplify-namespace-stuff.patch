@@ -1,0 +1,73 @@
+From f913bd13c6a30b5fc00080a02eda946edfb45166 Mon Sep 17 00:00:00 2001
+From: George Zacharia <george.zcharia@gmail.com>
+Date: Fri, 3 Sep 2021 18:52:59 +0530
+Subject: [PATCH] Simplify namespace stuff
+
+card_view -> auto
+remove redundant declaration
+---
+ GPSTest/src/main/res/layout/gps_status.xml | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
+
+diff --git a/GPSTest/src/main/res/layout/gps_status.xml b/GPSTest/src/main/res/layout/gps_status.xml
+index fab41b9..ec54e87 100644
+--- a/GPSTest/src/main/res/layout/gps_status.xml
++++ b/GPSTest/src/main/res/layout/gps_status.xml
+@@ -16,7 +16,7 @@
+ */
+ -->
+ <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
++    xmlns:app="http://schemas.android.com/apk/res-auto"
+     xmlns:tools="http://schemas.android.com/tools"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent">
+@@ -37,14 +37,14 @@
+             android:layout_height="wrap_content"
+             android:orientation="horizontal">
+ 
+-            <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
++            <androidx.cardview.widget.CardView
+                 android:id="@+id/status_location_card"
+                 android:layout_width="fill_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_gravity="center"
+                 android:foreground="?attr/selectableItemBackground"
+-                card_view:cardCornerRadius="4dp"
+-                card_view:cardUseCompatPadding="true">
++                app:cardCornerRadius="4dp"
++                app:cardUseCompatPadding="true">
+ 
+                 <ImageView
+                     android:id="@+id/status_lock"
+@@ -56,7 +56,7 @@
+                     android:layout_marginTop="6dp"
+                     android:contentDescription="@string/lock"
+                     android:visibility="gone"
+-                    card_view:srcCompat="@drawable/ic_baseline_lock_24"
++                    app:srcCompat="@drawable/ic_baseline_lock_24"
+                     tools:visibility="visible" />
+ 
+                 <HorizontalScrollView
+@@ -304,8 +304,8 @@
+             android:layout_height="wrap_content"
+             android:layout_gravity="center"
+             android:foreground="?attr/selectableItemBackground"
+-            card_view:cardCornerRadius="4dp"
+-            card_view:cardUseCompatPadding="true">
++            app:cardCornerRadius="4dp"
++            app:cardUseCompatPadding="true">
+ 
+             <HorizontalScrollView
+                 android:id="@+id/gnss_status_scrollview"
+@@ -334,8 +334,8 @@
+             android:layout_height="wrap_content"
+             android:layout_gravity="center"
+             android:foreground="?attr/selectableItemBackground"
+-            card_view:cardCornerRadius="4dp"
+-            card_view:cardUseCompatPadding="true">
++            app:cardCornerRadius="4dp"
++            app:cardUseCompatPadding="true">
+ 
+             <HorizontalScrollView
+                 android:id="@+id/sbas_status_scrollview"

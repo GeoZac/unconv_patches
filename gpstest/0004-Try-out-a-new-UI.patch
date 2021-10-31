@@ -1,0 +1,565 @@
+From 9484da917806c1573d9b0019a7e024d24d57ccf2 Mon Sep 17 00:00:00 2001
+From: George Zacharia <george.zcharia@gmail.com>
+Date: Sat, 15 Aug 2020 14:21:22 +0530
+Subject: [PATCH] Try out a new UI
+
+Too much info cluttered in the current UI.
+Move the values to make reading the values easier.
+Cleanup some strings
+Fix the styles to match new UI
+add some new dimensions
+---
+ .../android/gpstest/GpsStatusFragment.java    |   4 +-
+ GPSTest/src/main/res/layout/gps_status.xml    | 330 +++++++++++-------
+ GPSTest/src/main/res/values/dimens.xml        |   1 +
+ GPSTest/src/main/res/values/strings.xml       |  30 +-
+ GPSTest/src/main/res/values/styles.xml        |   5 +-
+ 5 files changed, 221 insertions(+), 149 deletions(-)
+
+diff --git a/GPSTest/src/main/java/com/android/gpstest/GpsStatusFragment.java b/GPSTest/src/main/java/com/android/gpstest/GpsStatusFragment.java
+index de4a077..114ccff 100644
+--- a/GPSTest/src/main/java/com/android/gpstest/GpsStatusFragment.java
++++ b/GPSTest/src/main/java/com/android/gpstest/GpsStatusFragment.java
+@@ -238,11 +238,11 @@ public class GpsStatusFragment extends Fragment implements GpsTestListener {
+                 return false;
+             }
+         });
+-        locationScrollView = v.findViewById(R.id.status_location_scrollview);
++        /* locationScrollView = v.findViewById(R.id.status_location_scrollview);
+         locationScrollView.setOnTouchListener((view, motionEvent) -> {
+             detector.onTouchEvent(motionEvent);
+             return false;
+-        });
++        });*/
+ 
+         // GNSS filter
+         filterGroup = v.findViewById(R.id.status_filter_group);
+diff --git a/GPSTest/src/main/res/layout/gps_status.xml b/GPSTest/src/main/res/layout/gps_status.xml
+index ec54e87..6ebf0fc 100644
+--- a/GPSTest/src/main/res/layout/gps_status.xml
++++ b/GPSTest/src/main/res/layout/gps_status.xml
+@@ -22,20 +22,20 @@
+     android:layout_height="match_parent">
+ 
+     <LinearLayout
+-        android:layout_width="fill_parent"
+-        android:layout_height="fill_parent"
+-        android:layout_marginStart="@dimen/status_margin"
+-        android:layout_marginLeft="@dimen/status_margin"
+-        android:layout_marginTop="@dimen/status_margin"
+-        android:layout_marginEnd="@dimen/status_margin"
+-        android:layout_marginRight="@dimen/status_margin"
+-        android:layout_marginBottom="@dimen/status_margin"
++        android:layout_width="match_parent"
++        android:layout_height="match_parent"
+         android:orientation="vertical">
+ 
+         <LinearLayout
+             android:layout_width="fill_parent"
+-            android:layout_height="wrap_content"
+-            android:orientation="horizontal">
++            android:layout_height="fill_parent"
++            android:layout_marginStart="@dimen/status_margin"
++            android:layout_marginLeft="@dimen/status_margin"
++            android:layout_marginTop="@dimen/status_margin"
++            android:layout_marginEnd="@dimen/status_margin"
++            android:layout_marginRight="@dimen/status_margin"
++            android:layout_marginBottom="@dimen/status_margin"
++            android:orientation="vertical">
+ 
+             <androidx.cardview.widget.CardView
+                 android:id="@+id/status_location_card"
+@@ -46,198 +46,258 @@
+                 app:cardCornerRadius="4dp"
+                 app:cardUseCompatPadding="true">
+ 
+-                <ImageView
+-                    android:id="@+id/status_lock"
+-                    android:layout_width="wrap_content"
++                <TableLayout
++                    android:id="@+id/lat_long_table"
++                    android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+-                    android:layout_alignParentStart="true"
+-                    android:layout_alignParentTop="true"
+-                    android:layout_marginStart="6dp"
+-                    android:layout_marginTop="6dp"
+-                    android:contentDescription="@string/lock"
+-                    android:visibility="gone"
+-                    app:srcCompat="@drawable/ic_baseline_lock_24"
+-                    tools:visibility="visible" />
+-
+-                <HorizontalScrollView
+-                    android:id="@+id/status_location_scrollview"
++                    android:layout_margin="@dimen/status_margin"
++                    android:weightSum="3"
++                    android:gravity="center_horizontal">
++
++                <TableLayout
++                    android:id="@+id/lat_long_table"
+                     android:layout_width="match_parent"
+-                    android:layout_height="match_parent"
+-                    android:foreground="?attr/selectableItemBackground">
++                    android:layout_height="wrap_content"
++                    android:layout_margin="@dimen/status_margin"
++                    android:gravity="center_horizontal"
++                    android:weightSum="3">
+ 
+-                    <TableLayout
+-                        android:id="@+id/lat_long_table"
+-                        android:layout_width="wrap_content"
+-                        android:layout_height="wrap_content"
+-                        android:layout_margin="@dimen/status_margin"
+-                        android:gravity="center_horizontal">
++                    <TableRow
++                        android:id="@+id/location_row"
++                        android:layout_width="match_parent"
++                        android:layout_gravity="center">
+ 
+-                        <TableRow>
+-
+-                            <TextView
+-                                android:id="@+id/latitude_label"
+-                                style="@style/info_label"
+-                                android:layout_gravity="end"
+-                                android:layout_marginEnd="@dimen/status_label_right_margin"
+-                                android:text="@string/gps_latitude_label" />
++                        <LinearLayout
++                            android:layout_weight="1"
++                            android:orientation="vertical">
+ 
+                             <TextView
+                                 android:id="@+id/latitude"
+                                 style="@style/info_value" />
+ 
+                             <TextView
+-                                android:id="@+id/fix_time_label"
++                                android:id="@+id/latitude_label"
+                                 style="@style/info_label"
+-                                android:layout_gravity="end"
+-                                android:layout_marginEnd="@dimen/status_label_right_margin"
+-                                android:text="@string/gps_fix_time_label" />
++                                android:text="@string/gps_latitude_label" />
++                        </LinearLayout>
+ 
+-                            <TextView
+-                                android:id="@+id/fix_time"
+-                                style="@style/info_value" />
++                        <LinearLayout
++                            android:layout_weight="1"
++                            android:orientation="vertical">
+ 
+                             <TextView
+-                                android:id="@+id/fix_time_error"
+-                                style="@style/info_value_error"
+-                                android:visibility="gone" />
+-                        </TableRow>
+-
+-                        <TableRow>
++                                android:id="@+id/longitude"
++                                style="@style/info_value"/>
+ 
+                             <TextView
+                                 android:id="@+id/longitude_label"
+                                 style="@style/info_label"
+-                                android:layout_gravity="end"
+-                                android:layout_marginEnd="@dimen/status_label_right_margin"
+                                 android:text="@string/gps_longitude_label" />
++                        </LinearLayout>
++                    </TableRow>
++
++                    <TableRow
++                        android:id="@+id/status_row"
++                        android:layout_width="match_parent"
++                        android:layout_gravity="center"
++                        android:paddingTop="4dp">
++
++                        <LinearLayout
++                            android:layout_width="0dp"
++                            android:layout_weight="1"
++                            android:orientation="vertical">
+ 
+                             <TextView
+-                                android:id="@+id/longitude"
++                                android:id="@+id/speed"
+                                 style="@style/info_value" />
+ 
+                             <TextView
+-                                android:id="@+id/gps_ttff_label"
++                                android:id="@+id/speed_label"
+                                 style="@style/info_label"
+-                                android:layout_gravity="end"
+-                                android:layout_marginEnd="@dimen/status_label_right_margin"
+-                                android:text="@string/gps_ttff_label" />
++                                android:text="@string/gps_speed_label" />
++                        </LinearLayout>
++
++                        <LinearLayout
++                            android:layout_width="0dp"
++                            android:layout_weight="1"
++                            android:orientation="vertical">
+ 
+                             <TextView
+-                                android:id="@+id/ttff"
+-                                style="@style/info_value" />
+-                        </TableRow>
++                                android:id="@+id/fix_time"
++                                style="@style/info_value"/>
+ 
+-                        <TableRow>
++                            <TextView
++                                android:id="@+id/fix_time_error"
++                                style="@style/info_label"
++                                android:visibility="gone"
++                                tools:text="@tools:sample/date/day_of_week"
++                                tools:visibility="visible"/>
+ 
+                             <TextView
+-                                android:id="@+id/altitude_label"
++                                android:id="@+id/fix_time_label"
+                                 style="@style/info_label"
+-                                android:layout_gravity="end"
+-                                android:layout_marginEnd="@dimen/status_label_right_margin"
+-                                android:text="@string/gps_altitude_label" />
++                                android:text="@string/gps_fix_time_label" />
++
++                        </LinearLayout>
++
++                        <LinearLayout
++                            android:layout_width="0dp"
++                            android:layout_weight="1"
++                            android:orientation="vertical">
+ 
+                             <TextView
+-                                android:id="@+id/altitude"
++                                android:id="@+id/speed_acc"
+                                 style="@style/info_value" />
+ 
+                             <TextView
+-                                android:id="@+id/hor_vert_accuracy_label"
++                                android:id="@+id/speed_acc_label"
+                                 style="@style/info_label"
+-                                android:layout_gravity="end"
+-                                android:layout_marginEnd="@dimen/status_label_right_margin"
+-                                android:text="@string/gps_accuracy_label" />
++                                android:text="@string/gps_speed_acc_label" />
++                        </LinearLayout>
++                    </TableRow>
++
++                    <TableRow
++                        android:layout_width="match_parent"
++                        android:layout_gravity="center"
++                        android:paddingTop="4dp">
++
++                        <LinearLayout
++                            android:layout_width="0dp"
++                            android:layout_weight="1"
++                            android:orientation="vertical">
+ 
+                             <TextView
+                                 android:id="@+id/hor_vert_accuracy"
+-                                style="@style/info_value" />
+-                        </TableRow>
+-
+-                        <TableRow>
++                                style="@style/info_value"
++                                app:autoSizeTextType="uniform" />
+ 
+                             <TextView
+-                                android:id="@+id/altitude_msl_label"
++                                android:id="@+id/hor_vert_accuracy_label"
+                                 style="@style/info_label"
+-                                android:layout_gravity="end"
+-                                android:layout_marginEnd="@dimen/status_label_right_margin"
+-                                android:text="@string/gps_altitude_msl_label" />
++                                android:text="@string/gps_accuracy_label" />
++                        </LinearLayout>
++
++                        <LinearLayout
++                            android:layout_width="0dp"
++                            android:layout_weight="1"
++                            android:orientation="vertical">
+ 
+                             <TextView
+-                                android:id="@+id/altitude_msl"
+-                                style="@style/info_value" />
++                                android:id="@+id/num_sats"
++                                style="@style/info_value"
++                                app:autoSizeTextType="uniform" />
+ 
+                             <TextView
+                                 android:id="@+id/num_sats_label"
+                                 style="@style/info_label"
+-                                android:layout_gravity="end"
+-                                android:layout_marginEnd="@dimen/status_label_right_margin"
+                                 android:text="@string/gps_num_sats_label" />
++                        </LinearLayout>
+ 
+-                            <TextView
+-                                android:id="@+id/num_sats"
+-                                style="@style/info_value" />
+-                        </TableRow>
++                        <LinearLayout
++                            android:layout_width="0dp"
++                            android:layout_weight="1"
++                            android:orientation="vertical">
+ 
+-                        <TableRow>
++                            <TextView
++                                android:id="@+id/ttff"
++                                style="@style/info_value"
++                                app:autoSizeTextType="uniform" />
+ 
+                             <TextView
+-                                android:id="@+id/speed_label"
++                                android:id="@+id/gps_ttff_label"
+                                 style="@style/info_label"
+-                                android:layout_gravity="end"
+-                                android:layout_marginEnd="@dimen/status_label_right_margin"
+-                                android:text="@string/gps_speed_label" />
++                                android:text="@string/gps_ttff_label" />
++                        </LinearLayout>
++                    </TableRow>
++
++                    <TableRow
++                        android:layout_width="match_parent"
++                        android:layout_gravity="center"
++                        android:orientation="vertical"
++                        android:paddingTop="4dp">
++
++                        <LinearLayout
++                            android:layout_width="0dp"
++                            android:layout_weight="1"
++                            android:orientation="vertical">
+ 
+                             <TextView
+-                                android:id="@+id/speed"
++                                android:id="@+id/altitude"
+                                 style="@style/info_value" />
+ 
+                             <TextView
+-                                android:id="@+id/bearing_label"
++                                android:id="@+id/altitude_label"
+                                 style="@style/info_label"
+-                                android:layout_gravity="end"
+-                                android:layout_marginEnd="@dimen/status_label_right_margin"
+-                                android:text="@string/gps_bearing_label" />
++                                android:text="@string/gps_altitude_label" />
++                        </LinearLayout>
++
++                        <LinearLayout
++                            android:layout_width="0dp"
++                            android:layout_weight="1"
++                            android:orientation="vertical">
+ 
+                             <TextView
+-                                android:id="@+id/bearing"
++                                android:id="@+id/altitude_msl"
+                                 style="@style/info_value" />
+-                        </TableRow>
+-
+-                        <TableRow
+-                            android:id="@+id/speed_bearing_acc_row"
+-                            android:visibility="gone">
+ 
+                             <TextView
+-                                android:id="@+id/speed_acc_label"
++                                android:id="@+id/altitude_msl_label"
+                                 style="@style/info_label"
+-                                android:layout_gravity="end"
+-                                android:layout_marginEnd="@dimen/status_label_right_margin"
+-                                android:text="@string/gps_speed_acc_label" />
++                                android:text="@string/gps_altitude_msl_label" />
++                        </LinearLayout>
++
++
++                    </TableRow>
++
++                    <TableRow
++                        android:id="@+id/speed_bearing_acc_row"
++                        android:layout_width="match_parent"
++                        android:layout_gravity="center"
++                        android:paddingTop="4dp"
++                        android:visibility="gone">
++
++                        <LinearLayout
++                            android:layout_width="0dp"
++                            android:layout_weight="1"
++                            android:orientation="vertical">
+ 
+                             <TextView
+-                                android:id="@+id/speed_acc"
+-                                style="@style/info_value" />
++                                android:id="@+id/bearing"
++                                style="@style/info_value"
++                                app:autoSizeTextType="uniform"
++                                tools:text="12:45:56 PM" />
+ 
+                             <TextView
+-                                android:id="@+id/bearing_acc_label"
++                                android:id="@+id/bearing_label"
+                                 style="@style/info_label"
+-                                android:layout_gravity="end"
+-                                android:layout_marginEnd="@dimen/status_label_right_margin"
+-                                android:text="@string/gps_bearing_acc_label" />
++                                android:text="@string/gps_bearing_label" />
++                        </LinearLayout>
++
++                        <LinearLayout
++                            android:layout_width="0dp"
++                            android:layout_weight="1"
++                            android:orientation="vertical">
+ 
+                             <TextView
+                                 android:id="@+id/bearing_acc"
+                                 style="@style/info_value" />
+-                        </TableRow>
+-
+-                        <TableRow>
+ 
+                             <TextView
+-                                android:id="@+id/pdop_label"
++                                android:id="@+id/bearing_acc_label"
+                                 style="@style/info_label"
+-                                android:layout_gravity="end"
+-                                android:layout_marginEnd="@dimen/status_label_right_margin"
+-                                android:text="@string/pdop_label"
+-                                android:visibility="gone" />
++                                android:text="@string/gps_bearing_acc_label" />
++                        </LinearLayout>
++                    </TableRow>
++
++                    <TableRow
++                        android:layout_width="match_parent"
++                        android:layout_gravity="center"
++                        android:paddingTop="4dp">
++
++                        <LinearLayout
++                            android:layout_width="0dp"
++                            android:layout_weight="1"
++                            android:orientation="vertical">
+ 
+                             <TextView
+                                 android:id="@+id/pdop"
+@@ -245,21 +305,30 @@
+                                 android:visibility="gone" />
+ 
+                             <TextView
+-                                android:id="@+id/hvdop_label"
++                                android:id="@+id/pdop_label"
+                                 style="@style/info_label"
+-                                android:layout_gravity="end"
+-                                android:layout_marginEnd="@dimen/status_label_right_margin"
+-                                android:text="@string/hvdop_label"
++                                android:text="@string/pdop_label"
+                                 android:visibility="gone" />
++                        </LinearLayout>
++
++                        <LinearLayout
++                            android:layout_width="0dp"
++                            android:layout_weight="1"
++                            android:orientation="vertical">
+ 
+                             <TextView
+                                 android:id="@+id/hvdop"
+                                 style="@style/info_value"
+                                 android:visibility="gone" />
+-                        </TableRow>
+ 
+-                    </TableLayout>
+-                </HorizontalScrollView>
++                            <TextView
++                                android:id="@+id/hvdop_label"
++                                style="@style/info_label"
++                                android:text="@string/hvdop_label"
++                                android:visibility="gone" />
++                        </LinearLayout>
++                    </TableRow>
++                </TableLayout>
+             </androidx.cardview.widget.CardView>
+         </LinearLayout>
+ 
+@@ -357,5 +426,6 @@
+                 android:text="@string/sbas_not_available"
+                 android:visibility="gone" />
+         </androidx.cardview.widget.CardView>
++
+     </LinearLayout>
+ </androidx.core.widget.NestedScrollView>
+\ No newline at end of file
+diff --git a/GPSTest/src/main/res/values/dimens.xml b/GPSTest/src/main/res/values/dimens.xml
+index c2295dd..284e8d7 100644
+--- a/GPSTest/src/main/res/values/dimens.xml
++++ b/GPSTest/src/main/res/values/dimens.xml
+@@ -61,6 +61,7 @@
+     of devices, see the other values-* folders. -->
+     <dimen name="min_column_width">42dp</dimen>
+     <dimen name="status_text_size">13sp</dimen>
++    <dimen name="status_value_size">26sp</dimen>
+ 
+     <!-- Share layout dimensions -->
+     <dimen name="button_margin">16dp</dimen>
+diff --git a/GPSTest/src/main/res/values/strings.xml b/GPSTest/src/main/res/values/strings.xml
+index 12b22cc..634db43 100644
+--- a/GPSTest/src/main/res/values/strings.xml
++++ b/GPSTest/src/main/res/values/strings.xml
+@@ -78,21 +78,21 @@
+     <string name="mode_map">Map</string>
+     <string name="mode_satellite">Satellite</string>
+ 
+-    <string name="gps_latitude_label">Lat:</string>
+-    <string name="gps_longitude_label">Long:</string>
+-    <string name="gps_fix_time_label">Time:</string>
+-    <string name="gps_ttff_label">TTFF:</string>
+-    <string name="gps_altitude_label">Alt:</string>
+-    <string name="gps_altitude_msl_label">Alt (MSL):</string>
+-    <string name="gps_accuracy_label">E H Acc:</string>
+-    <string name="gps_hor_and_vert_accuracy_label">E H/V Acc:</string>
+-    <string name="gps_speed_label">Speed:</string>
+-    <string name="gps_speed_acc_label">S. Acc:</string>
+-    <string name="gps_bearing_label">Bearing:</string>
+-    <string name="gps_bearing_acc_label">B. Acc:</string>
+-    <string name="gps_num_sats_label"># Sats:</string>
+-    <string name="pdop_label">PDOP:</string>
+-    <string name="hvdop_label">H/V DOP:</string>
++    <string name="gps_latitude_label">Latitude</string>
++    <string name="gps_longitude_label">Longitude</string>
++    <string name="gps_fix_time_label">Time</string>
++    <string name="gps_ttff_label">TTFF</string>
++    <string name="gps_altitude_label">Alt</string>
++    <string name="gps_altitude_msl_label">Alt (MSL)</string>
++    <string name="gps_accuracy_label">E H Acc</string>
++    <string name="gps_hor_and_vert_accuracy_label">E H/V Acc</string>
++    <string name="gps_speed_label">Speed</string>
++    <string name="gps_speed_acc_label">Speed Acc</string>
++    <string name="gps_bearing_label">Bearing</string>
++    <string name="gps_bearing_acc_label">B. Acc</string>
++    <string name="gps_num_sats_label"># Sat:</string>
++    <string name="pdop_label">PDOP</string>
++    <string name="hvdop_label">H/V DOP</string>
+ 
+     <string name="gps_prn_column_label">ID</string>
+     <string name="gnss_flag_image_label">GNSS</string>
+diff --git a/GPSTest/src/main/res/values/styles.xml b/GPSTest/src/main/res/values/styles.xml
+index df74e75..11ba909 100644
+--- a/GPSTest/src/main/res/values/styles.xml
++++ b/GPSTest/src/main/res/values/styles.xml
+@@ -59,15 +59,16 @@
+     <style name="info_label">
+         <item name="android:layout_height">wrap_content</item>
+         <item name="android:layout_width">wrap_content</item>
++        <item name="android:layout_gravity">center</item>
+         <item name="android:textSize">@dimen/status_text_size</item>
+         <item name="android:textStyle">bold</item>
+-        <item name="android:paddingRight">4dip</item>
+     </style>
+ 
+     <style name="info_value">
+         <item name="android:layout_height">wrap_content</item>
+         <item name="android:layout_width">wrap_content</item>
+-        <item name="android:textSize">@dimen/status_text_size</item>
++        <item name="android:textSize">@dimen/status_value_size</item>
++        <item name="android:layout_gravity">center</item>
+         <item name="android:textStyle">normal</item>
+     </style>
+ 

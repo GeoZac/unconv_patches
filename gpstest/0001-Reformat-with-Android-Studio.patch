@@ -1,0 +1,387 @@
+From 5cb0b6184cbcfc21ea9037acc3d52b3225aba235 Mon Sep 17 00:00:00 2001
+From: George Zacharia <george.zcharia@gmail.com>
+Date: Fri, 3 Sep 2021 18:49:59 +0530
+Subject: [PATCH] Reformat with Android Studio
+
+---
+ GPSTest/src/main/res/layout/gps_status.xml | 121 +++++++++++++--------
+ 1 file changed, 76 insertions(+), 45 deletions(-)
+
+diff --git a/GPSTest/src/main/res/layout/gps_status.xml b/GPSTest/src/main/res/layout/gps_status.xml
+index a66cb83..6ef3bf2 100644
+--- a/GPSTest/src/main/res/layout/gps_status.xml
++++ b/GPSTest/src/main/res/layout/gps_status.xml
+@@ -16,55 +16,55 @@
+ */
+ -->
+ <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+-    android:layout_width="match_parent"
+-    android:layout_height="match_parent"
+     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+-    xmlns:tools="http://schemas.android.com/tools">
++    xmlns:tools="http://schemas.android.com/tools"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent">
+ 
+     <LinearLayout
+-        android:orientation="vertical"
+         android:layout_width="fill_parent"
+         android:layout_height="fill_parent"
+-        android:layout_marginLeft="@dimen/status_margin"
+         android:layout_marginStart="@dimen/status_margin"
+-        android:layout_marginRight="@dimen/status_margin"
+-        android:layout_marginEnd="@dimen/status_margin"
++        android:layout_marginLeft="@dimen/status_margin"
+         android:layout_marginTop="@dimen/status_margin"
+-        android:layout_marginBottom="@dimen/status_margin">
++        android:layout_marginEnd="@dimen/status_margin"
++        android:layout_marginRight="@dimen/status_margin"
++        android:layout_marginBottom="@dimen/status_margin"
++        android:orientation="vertical">
+ 
+         <LinearLayout
+-            android:orientation="horizontal"
+             android:layout_width="fill_parent"
+-            android:layout_height="wrap_content">
++            android:layout_height="wrap_content"
++            android:orientation="horizontal">
+ 
+-            <androidx.cardview.widget.CardView
+-                xmlns:card_view="http://schemas.android.com/apk/res-auto"
++            <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                 android:id="@+id/status_location_card"
+-                android:layout_gravity="center"
+                 android:layout_width="fill_parent"
+                 android:layout_height="wrap_content"
+-                card_view:cardUseCompatPadding="true"
++                android:layout_gravity="center"
++                android:foreground="?attr/selectableItemBackground"
+                 card_view:cardCornerRadius="4dp"
+-                android:foreground="?attr/selectableItemBackground">
++                card_view:cardUseCompatPadding="true">
+ 
+                 <ImageView
+                     android:id="@+id/status_lock"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+-                    android:layout_alignParentTop="true"
+                     android:layout_alignParentStart="true"
++                    android:layout_alignParentTop="true"
+                     android:layout_marginStart="6dp"
+                     android:layout_marginTop="6dp"
+-                    card_view:srcCompat="@drawable/ic_baseline_lock_24"
++                    android:contentDescription="@string/lock"
+                     android:visibility="gone"
+-                    tools:visibility="visible"
+-                    android:contentDescription="@string/lock"/>
++                    card_view:srcCompat="@drawable/ic_baseline_lock_24"
++                    tools:visibility="visible" />
+ 
+                 <HorizontalScrollView
+                     android:id="@+id/status_location_scrollview"
+                     android:layout_width="match_parent"
+                     android:layout_height="match_parent"
+                     android:foreground="?attr/selectableItemBackground">
++
+                     <TableLayout
+                         android:id="@+id/lat_long_table"
+                         android:layout_width="wrap_content"
+@@ -73,21 +73,25 @@
+                         android:gravity="center_horizontal">
+ 
+                         <TableRow>
++
+                             <TextView
+                                 android:id="@+id/latitude_label"
+                                 style="@style/info_label"
+                                 android:layout_gravity="right"
+                                 android:layout_marginRight="@dimen/status_label_right_margin"
+                                 android:text="@string/gps_latitude_label" />
++
+                             <TextView
+                                 android:id="@+id/latitude"
+                                 style="@style/info_value" />
++
+                             <TextView
+                                 android:id="@+id/fix_time_label"
+                                 style="@style/info_label"
+                                 android:layout_gravity="right"
+                                 android:layout_marginRight="@dimen/status_label_right_margin"
+                                 android:text="@string/gps_fix_time_label" />
++
+                             <TextView
+                                 android:id="@+id/fix_time"
+                                 style="@style/info_value" />
+@@ -99,84 +103,100 @@
+                         </TableRow>
+ 
+                         <TableRow>
++
+                             <TextView
+                                 android:id="@+id/longitude_label"
+                                 style="@style/info_label"
+                                 android:layout_gravity="right"
+                                 android:layout_marginRight="@dimen/status_label_right_margin"
+                                 android:text="@string/gps_longitude_label" />
++
+                             <TextView
+                                 android:id="@+id/longitude"
+                                 style="@style/info_value" />
++
+                             <TextView
+                                 android:id="@+id/gps_ttff_label"
+                                 style="@style/info_label"
+                                 android:layout_gravity="right"
+                                 android:layout_marginRight="@dimen/status_label_right_margin"
+                                 android:text="@string/gps_ttff_label" />
++
+                             <TextView
+                                 android:id="@+id/ttff"
+                                 style="@style/info_value" />
+                         </TableRow>
+ 
+                         <TableRow>
++
+                             <TextView
+                                 android:id="@+id/altitude_label"
+                                 style="@style/info_label"
+                                 android:layout_gravity="right"
+                                 android:layout_marginRight="@dimen/status_label_right_margin"
+                                 android:text="@string/gps_altitude_label" />
++
+                             <TextView
+                                 android:id="@+id/altitude"
+                                 style="@style/info_value" />
++
+                             <TextView
+                                 android:id="@+id/hor_vert_accuracy_label"
+                                 style="@style/info_label"
+                                 android:layout_gravity="right"
+                                 android:layout_marginRight="@dimen/status_label_right_margin"
+                                 android:text="@string/gps_accuracy_label" />
++
+                             <TextView
+                                 android:id="@+id/hor_vert_accuracy"
+                                 style="@style/info_value" />
+                         </TableRow>
+ 
+                         <TableRow>
++
+                             <TextView
+                                 android:id="@+id/altitude_msl_label"
+                                 style="@style/info_label"
+                                 android:layout_gravity="right"
+                                 android:layout_marginRight="@dimen/status_label_right_margin"
+                                 android:text="@string/gps_altitude_msl_label" />
++
+                             <TextView
+                                 android:id="@+id/altitude_msl"
+                                 style="@style/info_value" />
++
+                             <TextView
+                                 android:id="@+id/num_sats_label"
+                                 style="@style/info_label"
+                                 android:layout_gravity="right"
+                                 android:layout_marginRight="@dimen/status_label_right_margin"
+                                 android:text="@string/gps_num_sats_label" />
++
+                             <TextView
+                                 android:id="@+id/num_sats"
+                                 style="@style/info_value" />
+                         </TableRow>
+ 
+                         <TableRow>
++
+                             <TextView
+                                 android:id="@+id/speed_label"
+                                 style="@style/info_label"
+                                 android:layout_gravity="right"
+                                 android:layout_marginRight="@dimen/status_label_right_margin"
+                                 android:text="@string/gps_speed_label" />
++
+                             <TextView
+                                 android:id="@+id/speed"
+                                 style="@style/info_value" />
++
+                             <TextView
+                                 android:id="@+id/bearing_label"
+                                 style="@style/info_label"
+                                 android:layout_gravity="right"
+                                 android:layout_marginRight="@dimen/status_label_right_margin"
+                                 android:text="@string/gps_bearing_label" />
++
+                             <TextView
+                                 android:id="@+id/bearing"
+                                 style="@style/info_value" />
+@@ -185,27 +205,32 @@
+                         <TableRow
+                             android:id="@+id/speed_bearing_acc_row"
+                             android:visibility="gone">
++
+                             <TextView
+                                 android:id="@+id/speed_acc_label"
+                                 style="@style/info_label"
+                                 android:layout_gravity="right"
+                                 android:layout_marginRight="@dimen/status_label_right_margin"
+                                 android:text="@string/gps_speed_acc_label" />
++
+                             <TextView
+                                 android:id="@+id/speed_acc"
+                                 style="@style/info_value" />
++
+                             <TextView
+                                 android:id="@+id/bearing_acc_label"
+                                 style="@style/info_label"
+                                 android:layout_gravity="right"
+                                 android:layout_marginRight="@dimen/status_label_right_margin"
+                                 android:text="@string/gps_bearing_acc_label" />
++
+                             <TextView
+                                 android:id="@+id/bearing_acc"
+                                 style="@style/info_value" />
+                         </TableRow>
+ 
+                         <TableRow>
++
+                             <TextView
+                                 android:id="@+id/pdop_label"
+                                 style="@style/info_label"
+@@ -213,10 +238,12 @@
+                                 android:layout_marginRight="@dimen/status_label_right_margin"
+                                 android:text="@string/pdop_label"
+                                 android:visibility="gone" />
++
+                             <TextView
+                                 android:id="@+id/pdop"
+                                 style="@style/info_value"
+                                 android:visibility="gone" />
++
+                             <TextView
+                                 android:id="@+id/hvdop_label"
+                                 style="@style/info_label"
+@@ -224,6 +251,7 @@
+                                 android:layout_marginRight="@dimen/status_label_right_margin"
+                                 android:text="@string/hvdop_label"
+                                 android:visibility="gone" />
++
+                             <TextView
+                                 android:id="@+id/hvdop"
+                                 style="@style/info_value"
+@@ -235,53 +263,55 @@
+             </androidx.cardview.widget.CardView>
+         </LinearLayout>
+ 
+-         <LinearLayout
+-             android:id="@+id/status_filter_group"
+-             android:layout_width="match_parent"
+-             android:layout_height="wrap_content"
+-             android:layout_alignParentBottom="true"
+-             android:gravity="center_vertical"
+-             android:orientation="horizontal"
+-             android:visibility="gone"
+-             tools:visibility="visible">
++        <LinearLayout
++            android:id="@+id/status_filter_group"
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:layout_alignParentBottom="true"
++            android:gravity="center_vertical"
++            android:orientation="horizontal"
++            android:visibility="gone"
++            tools:visibility="visible">
+ 
+             <TextView
+                 android:id="@+id/filter_text"
+-                tools:text="Showing 5 of 10 satellites"
+-                android:textStyle="italic"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+-                android:layout_weight="1"
+                 android:layout_marginTop="5dp"
+                 android:layout_marginBottom="5dp"
+-                android:gravity="center_vertical|right"/>
++                android:layout_weight="1"
++                android:gravity="center_vertical|right"
++                android:textStyle="italic"
++                tools:text="Showing 5 of 10 satellites" />
+ 
+             <TextView
+                 android:id="@+id/filter_show_all"
+-                android:textStyle="italic"
+-                android:text="@string/filter_showall"
+                 android:layout_width="wrap_content"
+                 android:layout_height="match_parent"
+-                android:layout_weight="1"
+                 android:layout_marginLeft="2dp"
+-                android:gravity="center_vertical"
++                android:layout_weight="1"
+                 android:bufferType="spannable"
++                android:gravity="center_vertical"
+                 android:linksClickable="true"
+-                android:textColorLink="@color/colorAccent"/>
++                android:text="@string/filter_showall"
++                android:textColorLink="@color/colorAccent"
++                android:textStyle="italic" />
+         </LinearLayout>
+ 
+         <androidx.cardview.widget.CardView
+             android:id="@+id/gnss_status_card"
+-            android:layout_gravity="center"
+             android:layout_width="fill_parent"
+             android:layout_height="wrap_content"
+-            card_view:cardUseCompatPadding="true"
++            android:layout_gravity="center"
++            android:foreground="?attr/selectableItemBackground"
+             card_view:cardCornerRadius="4dp"
+-            android:foreground="?attr/selectableItemBackground">
++            card_view:cardUseCompatPadding="true">
++
+             <HorizontalScrollView
+                 android:id="@+id/gnss_status_scrollview"
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent">
++
+                 <androidx.recyclerview.widget.RecyclerView
+                     android:id="@+id/gnss_status_list"
+                     android:layout_width="match_parent"
+@@ -292,25 +322,26 @@
+             <TextView
+                 android:id="@+id/gnss_not_available"
+                 style="@style/info_value"
++                android:layout_margin="10dp"
+                 android:gravity="center"
+                 android:text="@string/gnss_not_available"
+-                android:layout_margin="10dp"
+                 android:visibility="gone" />
+         </androidx.cardview.widget.CardView>
+ 
+         <androidx.cardview.widget.CardView
+             android:id="@+id/sbas_status_card"
+-            android:layout_gravity="center"
+             android:layout_width="fill_parent"
+             android:layout_height="wrap_content"
+-            card_view:cardUseCompatPadding="true"
++            android:layout_gravity="center"
++            android:foreground="?attr/selectableItemBackground"
+             card_view:cardCornerRadius="4dp"
+-            android:foreground="?attr/selectableItemBackground">
++            card_view:cardUseCompatPadding="true">
+ 
+             <HorizontalScrollView
+                 android:id="@+id/sbas_status_scrollview"
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent">
++
+                 <androidx.recyclerview.widget.RecyclerView
+                     android:id="@+id/sbas_status_list"
+                     android:layout_width="match_parent"
+@@ -321,8 +352,8 @@
+             <TextView
+                 android:id="@+id/sbas_not_available"
+                 style="@style/info_value"
+-                android:gravity="center"
+                 android:layout_margin="10dp"
++                android:gravity="center"
+                 android:text="@string/sbas_not_available"
+                 android:visibility="gone" />
+         </androidx.cardview.widget.CardView>

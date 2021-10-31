@@ -1,0 +1,185 @@
+From bd445cd2bfec182bbd094cfb8c23652919e1c2c9 Mon Sep 17 00:00:00 2001
+From: George Zacharia <george.zcharia@gmail.com>
+Date: Fri, 3 Sep 2021 18:55:44 +0530
+Subject: [PATCH] Make layout RTL compliant
+
+---
+ GPSTest/src/main/res/layout/gps_status.xml | 60 +++++++++++-----------
+ 1 file changed, 30 insertions(+), 30 deletions(-)
+
+diff --git a/GPSTest/src/main/res/layout/gps_status.xml b/GPSTest/src/main/res/layout/gps_status.xml
+index 6ef3bf2..fab41b9 100644
+--- a/GPSTest/src/main/res/layout/gps_status.xml
++++ b/GPSTest/src/main/res/layout/gps_status.xml
+@@ -77,8 +77,8 @@
+                             <TextView
+                                 android:id="@+id/latitude_label"
+                                 style="@style/info_label"
+-                                android:layout_gravity="right"
+-                                android:layout_marginRight="@dimen/status_label_right_margin"
++                                android:layout_gravity="end"
++                                android:layout_marginEnd="@dimen/status_label_right_margin"
+                                 android:text="@string/gps_latitude_label" />
+ 
+                             <TextView
+@@ -88,8 +88,8 @@
+                             <TextView
+                                 android:id="@+id/fix_time_label"
+                                 style="@style/info_label"
+-                                android:layout_gravity="right"
+-                                android:layout_marginRight="@dimen/status_label_right_margin"
++                                android:layout_gravity="end"
++                                android:layout_marginEnd="@dimen/status_label_right_margin"
+                                 android:text="@string/gps_fix_time_label" />
+ 
+                             <TextView
+@@ -107,8 +107,8 @@
+                             <TextView
+                                 android:id="@+id/longitude_label"
+                                 style="@style/info_label"
+-                                android:layout_gravity="right"
+-                                android:layout_marginRight="@dimen/status_label_right_margin"
++                                android:layout_gravity="end"
++                                android:layout_marginEnd="@dimen/status_label_right_margin"
+                                 android:text="@string/gps_longitude_label" />
+ 
+                             <TextView
+@@ -118,8 +118,8 @@
+                             <TextView
+                                 android:id="@+id/gps_ttff_label"
+                                 style="@style/info_label"
+-                                android:layout_gravity="right"
+-                                android:layout_marginRight="@dimen/status_label_right_margin"
++                                android:layout_gravity="end"
++                                android:layout_marginEnd="@dimen/status_label_right_margin"
+                                 android:text="@string/gps_ttff_label" />
+ 
+                             <TextView
+@@ -132,8 +132,8 @@
+                             <TextView
+                                 android:id="@+id/altitude_label"
+                                 style="@style/info_label"
+-                                android:layout_gravity="right"
+-                                android:layout_marginRight="@dimen/status_label_right_margin"
++                                android:layout_gravity="end"
++                                android:layout_marginEnd="@dimen/status_label_right_margin"
+                                 android:text="@string/gps_altitude_label" />
+ 
+                             <TextView
+@@ -143,8 +143,8 @@
+                             <TextView
+                                 android:id="@+id/hor_vert_accuracy_label"
+                                 style="@style/info_label"
+-                                android:layout_gravity="right"
+-                                android:layout_marginRight="@dimen/status_label_right_margin"
++                                android:layout_gravity="end"
++                                android:layout_marginEnd="@dimen/status_label_right_margin"
+                                 android:text="@string/gps_accuracy_label" />
+ 
+                             <TextView
+@@ -157,8 +157,8 @@
+                             <TextView
+                                 android:id="@+id/altitude_msl_label"
+                                 style="@style/info_label"
+-                                android:layout_gravity="right"
+-                                android:layout_marginRight="@dimen/status_label_right_margin"
++                                android:layout_gravity="end"
++                                android:layout_marginEnd="@dimen/status_label_right_margin"
+                                 android:text="@string/gps_altitude_msl_label" />
+ 
+                             <TextView
+@@ -168,8 +168,8 @@
+                             <TextView
+                                 android:id="@+id/num_sats_label"
+                                 style="@style/info_label"
+-                                android:layout_gravity="right"
+-                                android:layout_marginRight="@dimen/status_label_right_margin"
++                                android:layout_gravity="end"
++                                android:layout_marginEnd="@dimen/status_label_right_margin"
+                                 android:text="@string/gps_num_sats_label" />
+ 
+                             <TextView
+@@ -182,8 +182,8 @@
+                             <TextView
+                                 android:id="@+id/speed_label"
+                                 style="@style/info_label"
+-                                android:layout_gravity="right"
+-                                android:layout_marginRight="@dimen/status_label_right_margin"
++                                android:layout_gravity="end"
++                                android:layout_marginEnd="@dimen/status_label_right_margin"
+                                 android:text="@string/gps_speed_label" />
+ 
+                             <TextView
+@@ -193,8 +193,8 @@
+                             <TextView
+                                 android:id="@+id/bearing_label"
+                                 style="@style/info_label"
+-                                android:layout_gravity="right"
+-                                android:layout_marginRight="@dimen/status_label_right_margin"
++                                android:layout_gravity="end"
++                                android:layout_marginEnd="@dimen/status_label_right_margin"
+                                 android:text="@string/gps_bearing_label" />
+ 
+                             <TextView
+@@ -209,8 +209,8 @@
+                             <TextView
+                                 android:id="@+id/speed_acc_label"
+                                 style="@style/info_label"
+-                                android:layout_gravity="right"
+-                                android:layout_marginRight="@dimen/status_label_right_margin"
++                                android:layout_gravity="end"
++                                android:layout_marginEnd="@dimen/status_label_right_margin"
+                                 android:text="@string/gps_speed_acc_label" />
+ 
+                             <TextView
+@@ -220,8 +220,8 @@
+                             <TextView
+                                 android:id="@+id/bearing_acc_label"
+                                 style="@style/info_label"
+-                                android:layout_gravity="right"
+-                                android:layout_marginRight="@dimen/status_label_right_margin"
++                                android:layout_gravity="end"
++                                android:layout_marginEnd="@dimen/status_label_right_margin"
+                                 android:text="@string/gps_bearing_acc_label" />
+ 
+                             <TextView
+@@ -234,8 +234,8 @@
+                             <TextView
+                                 android:id="@+id/pdop_label"
+                                 style="@style/info_label"
+-                                android:layout_gravity="right"
+-                                android:layout_marginRight="@dimen/status_label_right_margin"
++                                android:layout_gravity="end"
++                                android:layout_marginEnd="@dimen/status_label_right_margin"
+                                 android:text="@string/pdop_label"
+                                 android:visibility="gone" />
+ 
+@@ -247,8 +247,8 @@
+                             <TextView
+                                 android:id="@+id/hvdop_label"
+                                 style="@style/info_label"
+-                                android:layout_gravity="right"
+-                                android:layout_marginRight="@dimen/status_label_right_margin"
++                                android:layout_gravity="end"
++                                android:layout_marginEnd="@dimen/status_label_right_margin"
+                                 android:text="@string/hvdop_label"
+                                 android:visibility="gone" />
+ 
+@@ -280,7 +280,7 @@
+                 android:layout_marginTop="5dp"
+                 android:layout_marginBottom="5dp"
+                 android:layout_weight="1"
+-                android:gravity="center_vertical|right"
++                android:gravity="center_vertical|end"
+                 android:textStyle="italic"
+                 tools:text="Showing 5 of 10 satellites" />
+ 
+@@ -288,7 +288,7 @@
+                 android:id="@+id/filter_show_all"
+                 android:layout_width="wrap_content"
+                 android:layout_height="match_parent"
+-                android:layout_marginLeft="2dp"
++                android:layout_marginStart="2dp"
+                 android:layout_weight="1"
+                 android:bufferType="spannable"
+                 android:gravity="center_vertical"

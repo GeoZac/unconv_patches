@@ -1,4 +1,4 @@
-From 72c49b4138b842b1626163235c4c3a32e4819664 Mon Sep 17 00:00:00 2001
+From 5bf091caa12679384e58e2a5b8226e8c64bd3593 Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Sat, 15 Aug 2020 14:24:25 +0530
 Subject: [PATCH] Add some vector drawables
@@ -37,7 +37,7 @@ Taken from https://material.io/resources/icons/
 
 diff --git a/GPSTest/src/main/res/drawable/av_pause.xml b/GPSTest/src/main/res/drawable/av_pause.xml
 new file mode 100644
-index 00000000..08b34c2d
+index 0000000..08b34c2
 --- /dev/null
 +++ b/GPSTest/src/main/res/drawable/av_pause.xml
 @@ -0,0 +1,5 @@
@@ -48,7 +48,7 @@ index 00000000..08b34c2d
 +</vector>
 diff --git a/GPSTest/src/main/res/drawable/av_play.xml b/GPSTest/src/main/res/drawable/av_play.xml
 new file mode 100644
-index 00000000..e135a55b
+index 0000000..e135a55
 --- /dev/null
 +++ b/GPSTest/src/main/res/drawable/av_play.xml
 @@ -0,0 +1,5 @@
@@ -59,7 +59,7 @@ index 00000000..e135a55b
 +</vector>
 diff --git a/GPSTest/src/main/res/drawable/ic_accuracy.xml b/GPSTest/src/main/res/drawable/ic_accuracy.xml
 new file mode 100644
-index 00000000..29ea1c52
+index 0000000..29ea1c5
 --- /dev/null
 +++ b/GPSTest/src/main/res/drawable/ic_accuracy.xml
 @@ -0,0 +1,9 @@
@@ -74,7 +74,7 @@ index 00000000..29ea1c52
 +</vector>
 diff --git a/GPSTest/src/main/res/drawable/ic_action_sort.xml b/GPSTest/src/main/res/drawable/ic_action_sort.xml
 new file mode 100644
-index 00000000..b3e29abc
+index 0000000..b3e29ab
 --- /dev/null
 +++ b/GPSTest/src/main/res/drawable/ic_action_sort.xml
 @@ -0,0 +1,5 @@
@@ -85,7 +85,7 @@ index 00000000..b3e29abc
 +</vector>
 diff --git a/GPSTest/src/main/res/drawable/ic_delete.xml b/GPSTest/src/main/res/drawable/ic_delete.xml
 new file mode 100644
-index 00000000..39e64d69
+index 0000000..39e64d6
 --- /dev/null
 +++ b/GPSTest/src/main/res/drawable/ic_delete.xml
 @@ -0,0 +1,9 @@
@@ -100,7 +100,7 @@ index 00000000..39e64d69
 +</vector>
 diff --git a/GPSTest/src/main/res/drawable/ic_drawer_link.xml b/GPSTest/src/main/res/drawable/ic_drawer_link.xml
 new file mode 100644
-index 00000000..6f40d772
+index 0000000..6f40d77
 --- /dev/null
 +++ b/GPSTest/src/main/res/drawable/ic_drawer_link.xml
 @@ -0,0 +1,9 @@
@@ -115,7 +115,7 @@ index 00000000..6f40d772
 +</vector>
 diff --git a/GPSTest/src/main/res/drawable/ic_ground_truth.xml b/GPSTest/src/main/res/drawable/ic_ground_truth.xml
 new file mode 100644
-index 00000000..aea56cb5
+index 0000000..aea56cb
 --- /dev/null
 +++ b/GPSTest/src/main/res/drawable/ic_ground_truth.xml
 @@ -0,0 +1,5 @@
@@ -126,7 +126,7 @@ index 00000000..aea56cb5
 +</vector>
 diff --git a/GPSTest/src/main/res/drawable/ic_inject_psds.xml b/GPSTest/src/main/res/drawable/ic_inject_psds.xml
 new file mode 100644
-index 00000000..208476cb
+index 0000000..208476c
 --- /dev/null
 +++ b/GPSTest/src/main/res/drawable/ic_inject_psds.xml
 @@ -0,0 +1,19 @@
@@ -151,7 +151,7 @@ index 00000000..208476cb
 +</vector>
 diff --git a/GPSTest/src/main/res/drawable/ic_inject_time.xml b/GPSTest/src/main/res/drawable/ic_inject_time.xml
 new file mode 100644
-index 00000000..cf7460a1
+index 0000000..cf7460a
 --- /dev/null
 +++ b/GPSTest/src/main/res/drawable/ic_inject_time.xml
 @@ -0,0 +1,19 @@
@@ -176,7 +176,7 @@ index 00000000..cf7460a1
 +</vector>
 diff --git a/GPSTest/src/main/res/drawable/ic_map.xml b/GPSTest/src/main/res/drawable/ic_map.xml
 new file mode 100644
-index 00000000..b9bacc8a
+index 0000000..b9bacc8
 --- /dev/null
 +++ b/GPSTest/src/main/res/drawable/ic_map.xml
 @@ -0,0 +1,9 @@
@@ -191,7 +191,7 @@ index 00000000..b9bacc8a
 +</vector>
 diff --git a/GPSTest/src/main/res/drawable/ic_navigation_expand_more.xml b/GPSTest/src/main/res/drawable/ic_navigation_expand_more.xml
 new file mode 100644
-index 00000000..b6a47004
+index 0000000..b6a4700
 --- /dev/null
 +++ b/GPSTest/src/main/res/drawable/ic_navigation_expand_more.xml
 @@ -0,0 +1,10 @@
@@ -207,7 +207,7 @@ index 00000000..b6a47004
 +</vector>
 diff --git a/GPSTest/src/main/res/drawable/ic_sky.xml b/GPSTest/src/main/res/drawable/ic_sky.xml
 new file mode 100644
-index 00000000..34490ed4
+index 0000000..34490ed
 --- /dev/null
 +++ b/GPSTest/src/main/res/drawable/ic_sky.xml
 @@ -0,0 +1,9 @@
@@ -222,7 +222,7 @@ index 00000000..34490ed4
 +</vector>
 diff --git a/GPSTest/src/main/res/drawable/ic_wireless.xml b/GPSTest/src/main/res/drawable/ic_wireless.xml
 new file mode 100644
-index 00000000..69c81f1d
+index 0000000..69c81f1
 --- /dev/null
 +++ b/GPSTest/src/main/res/drawable/ic_wireless.xml
 @@ -0,0 +1,9 @@
@@ -237,7 +237,7 @@ index 00000000..69c81f1d
 +</vector>
 diff --git a/GPSTest/src/main/res/drawable/social_share.xml b/GPSTest/src/main/res/drawable/social_share.xml
 new file mode 100644
-index 00000000..045bbc0c
+index 0000000..045bbc0
 --- /dev/null
 +++ b/GPSTest/src/main/res/drawable/social_share.xml
 @@ -0,0 +1,5 @@

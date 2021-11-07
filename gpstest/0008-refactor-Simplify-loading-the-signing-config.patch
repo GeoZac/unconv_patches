@@ -1,0 +1,56 @@
+From 837f946380a938e486c7562e1d2ea3e64dfc92b5 Mon Sep 17 00:00:00 2001
+From: George Zacharia <george.zcharia@gmail.com>
+Date: Tue, 5 Oct 2021 10:42:32 +0530
+Subject: [PATCH] refactor: Simplify loading the signing config
+
+Load the secure.properties file directly rather than reading the property
+Mitigated the case where the path has to be exposed in gradle.properties
+---
+ GPSTest/build.gradle | 27 +++++++++------------------
+ 1 file changed, 9 insertions(+), 18 deletions(-)
+
+diff --git a/GPSTest/build.gradle b/GPSTest/build.gradle
+index f687754..94411d1 100644
+--- a/GPSTest/build.gradle
++++ b/GPSTest/build.gradle
+@@ -43,31 +43,22 @@ android {
+         disable 'MissingTranslation', 'ExtraTranslation'
+     }
+ 
+-    if (project.hasProperty("secure.properties")
+-            && new File(project.property("secure.properties")).exists()) {
+ 
+-        Properties props = new Properties()
+-        props.load(new FileInputStream(file(project.property("secure.properties"))))
+-
+-        signingConfigs {
+-            debug {
+-                storeFile file("gpstest.debug.keystore")
++    signingConfigs {
++        debug {
++             storeFile file("gpstest.debug.keystore")
+             }
+ 
+-            release {
++        release {
++            if (rootProject.file("secure.properties").exists()) {
++                Properties props = new Properties()
++                props.load(new FileInputStream(rootProject.file("secure.properties")))
++
+                 storeFile file(props['key.store'])
+                 keyAlias props['key.alias']
+                 storePassword props['key.storepassword']
+                 keyPassword props['key.keypassword']
+-            }
+-        }
+-    } else {
+-        signingConfigs {
+-            debug {
+-                storeFile file("gpstest.debug.keystore")
+-            }
+-
+-            release {
++            } else {
+                 // Nothing here
+             }
+         }

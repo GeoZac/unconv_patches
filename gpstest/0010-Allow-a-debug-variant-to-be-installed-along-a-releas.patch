@@ -1,0 +1,24 @@
+From 7b361065a20d76d1976a87d3aab8f32a17082d62 Mon Sep 17 00:00:00 2001
+From: George Zacharia <george.zcharia@gmail.com>
+Date: Fri, 3 Sep 2021 18:45:51 +0530
+Subject: [PATCH] Allow a debug variant to be installed along a release version
+
+---
+ GPSTest/build.gradle | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/GPSTest/build.gradle b/GPSTest/build.gradle
+index 94411d1..5288321 100644
+--- a/GPSTest/build.gradle
++++ b/GPSTest/build.gradle
+@@ -79,6 +79,10 @@ android {
+                 }
+             }
+         }
++
++        debug {
++            applicationIdSuffix '.debug'
++        }
+     }
+ 
+     compileOptions {

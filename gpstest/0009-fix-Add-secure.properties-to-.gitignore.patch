@@ -1,0 +1,23 @@
+From 9aec035e202b7ccffea0c3b0ef16496a2d78fa5b Mon Sep 17 00:00:00 2001
+From: George Zacharia <george.zcharia@gmail.com>
+Date: Tue, 5 Oct 2021 10:50:37 +0530
+Subject: [PATCH] fix: Add secure.properties to .gitignore
+
+Also add build directory
+---
+ .gitignore | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/.gitignore b/.gitignore
+index bfc1dbd..5e1f62b 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -2,4 +2,6 @@
+ /local.properties
+ /.idea/
+ *.iml
+-.DS_Store
+\ No newline at end of file
++.DS_Store
++secure.properties
++build/

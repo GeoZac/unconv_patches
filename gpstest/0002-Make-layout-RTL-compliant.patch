@@ -1,4 +1,4 @@
-From bd445cd2bfec182bbd094cfb8c23652919e1c2c9 Mon Sep 17 00:00:00 2001
+From a24d43c250c51abb22823a3d80aeabd7f118825a Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Fri, 3 Sep 2021 18:55:44 +0530
 Subject: [PATCH] Make layout RTL compliant

@@ -1,0 +1,39 @@
+From 713a05c920c43361740340d2d17e7cbdea2c7204 Mon Sep 17 00:00:00 2001
+From: George Zacharia <george.zcharia@gmail.com>
+Date: Fri, 3 Sep 2021 18:56:15 +0530
+Subject: [PATCH] Fix some warnings
+
+---
+ GPSTest/src/main/res/layout/gps_status.xml | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/GPSTest/src/main/res/layout/gps_status.xml b/GPSTest/src/main/res/layout/gps_status.xml
+index ec54e87..43367af 100644
+--- a/GPSTest/src/main/res/layout/gps_status.xml
++++ b/GPSTest/src/main/res/layout/gps_status.xml
+@@ -267,7 +267,6 @@
+             android:id="@+id/status_filter_group"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+-            android:layout_alignParentBottom="true"
+             android:gravity="center_vertical"
+             android:orientation="horizontal"
+             android:visibility="gone"
+@@ -314,7 +313,7 @@
+ 
+                 <androidx.recyclerview.widget.RecyclerView
+                     android:id="@+id/gnss_status_list"
+-                    android:layout_width="match_parent"
++                    android:layout_width="wrap_content"
+                     android:layout_height="match_parent"
+                     android:layout_margin="5dp" />
+             </HorizontalScrollView>
+@@ -344,7 +343,7 @@
+ 
+                 <androidx.recyclerview.widget.RecyclerView
+                     android:id="@+id/sbas_status_list"
+-                    android:layout_width="match_parent"
++                    android:layout_width="wrap_content"
+                     android:layout_height="match_parent"
+                     android:layout_margin="5dp" />
+             </HorizontalScrollView>

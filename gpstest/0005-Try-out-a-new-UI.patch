@@ -1,4 +1,4 @@
-From 9484da917806c1573d9b0019a7e024d24d57ccf2 Mon Sep 17 00:00:00 2001
+From 52b99130f11a45d5716a6f032bbfb2c9e6ae00f5 Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Sat, 15 Aug 2020 14:21:22 +0530
 Subject: [PATCH] Try out a new UI
@@ -10,11 +10,11 @@ Fix the styles to match new UI
 add some new dimensions
 ---
  .../android/gpstest/GpsStatusFragment.java    |   4 +-
- GPSTest/src/main/res/layout/gps_status.xml    | 330 +++++++++++-------
+ GPSTest/src/main/res/layout/gps_status.xml    | 304 +++++++++++-------
  GPSTest/src/main/res/values/dimens.xml        |   1 +
  GPSTest/src/main/res/values/strings.xml       |  30 +-
  GPSTest/src/main/res/values/styles.xml        |   5 +-
- 5 files changed, 221 insertions(+), 149 deletions(-)
+ 5 files changed, 208 insertions(+), 136 deletions(-)
 
 diff --git a/GPSTest/src/main/java/com/android/gpstest/GpsStatusFragment.java b/GPSTest/src/main/java/com/android/gpstest/GpsStatusFragment.java
 index de4a077..114ccff 100644
@@ -35,10 +35,10 @@ index de4a077..114ccff 100644
          // GNSS filter
          filterGroup = v.findViewById(R.id.status_filter_group);
 diff --git a/GPSTest/src/main/res/layout/gps_status.xml b/GPSTest/src/main/res/layout/gps_status.xml
-index ec54e87..6ebf0fc 100644
+index 43367af..960be29 100644
 --- a/GPSTest/src/main/res/layout/gps_status.xml
 +++ b/GPSTest/src/main/res/layout/gps_status.xml
-@@ -22,20 +22,20 @@
+@@ -22,20 +22,15 @@
      android:layout_height="match_parent">
  
      <LinearLayout
@@ -59,65 +59,40 @@ index ec54e87..6ebf0fc 100644
 -            android:layout_height="wrap_content"
 -            android:orientation="horizontal">
 +            android:layout_height="fill_parent"
-+            android:layout_marginStart="@dimen/status_margin"
-+            android:layout_marginLeft="@dimen/status_margin"
-+            android:layout_marginTop="@dimen/status_margin"
-+            android:layout_marginEnd="@dimen/status_margin"
-+            android:layout_marginRight="@dimen/status_margin"
-+            android:layout_marginBottom="@dimen/status_margin"
++            android:layout_margin="@dimen/status_margin"
 +            android:orientation="vertical">
  
              <androidx.cardview.widget.CardView
                  android:id="@+id/status_location_card"
-@@ -46,198 +46,258 @@
-                 app:cardCornerRadius="4dp"
-                 app:cardUseCompatPadding="true">
+@@ -59,185 +54,250 @@
+                     app:srcCompat="@drawable/ic_baseline_lock_24"
+                     tools:visibility="visible" />
  
--                <ImageView
--                    android:id="@+id/status_lock"
--                    android:layout_width="wrap_content"
-+                <TableLayout
-+                    android:id="@+id/lat_long_table"
-+                    android:layout_width="match_parent"
-                     android:layout_height="wrap_content"
--                    android:layout_alignParentStart="true"
--                    android:layout_alignParentTop="true"
--                    android:layout_marginStart="6dp"
--                    android:layout_marginTop="6dp"
--                    android:contentDescription="@string/lock"
--                    android:visibility="gone"
--                    app:srcCompat="@drawable/ic_baseline_lock_24"
--                    tools:visibility="visible" />
--
 -                <HorizontalScrollView
 -                    android:id="@+id/status_location_scrollview"
-+                    android:layout_margin="@dimen/status_margin"
-+                    android:weightSum="3"
-+                    android:gravity="center_horizontal">
-+
 +                <TableLayout
 +                    android:id="@+id/lat_long_table"
                      android:layout_width="match_parent"
 -                    android:layout_height="match_parent"
 -                    android:foreground="?attr/selectableItemBackground">
-+                    android:layout_height="wrap_content"
-+                    android:layout_margin="@dimen/status_margin"
-+                    android:gravity="center_horizontal"
-+                    android:weightSum="3">
- 
+-
 -                    <TableLayout
 -                        android:id="@+id/lat_long_table"
 -                        android:layout_width="wrap_content"
 -                        android:layout_height="wrap_content"
 -                        android:layout_margin="@dimen/status_margin"
 -                        android:gravity="center_horizontal">
++                    android:layout_height="wrap_content"
++                    android:layout_margin="@dimen/status_margin"
++                    android:gravity="center_horizontal"
++                    android:weightSum="3">
+ 
+-                        <TableRow>
 +                    <TableRow
 +                        android:id="@+id/location_row"
 +                        android:layout_width="match_parent"
 +                        android:layout_gravity="center">
  
--                        <TableRow>
--
 -                            <TextView
 -                                android:id="@+id/latitude_label"
 -                                style="@style/info_label"
@@ -157,7 +132,7 @@ index ec54e87..6ebf0fc 100644
 -
 -                        <TableRow>
 +                                android:id="@+id/longitude"
-+                                style="@style/info_value"/>
++                                style="@style/info_value" />
  
                              <TextView
                                  android:id="@+id/longitude_label"
@@ -201,10 +176,9 @@ index ec54e87..6ebf0fc 100644
  
                              <TextView
 -                                android:id="@+id/ttff"
--                                style="@style/info_value" />
--                        </TableRow>
 +                                android:id="@+id/fix_time"
-+                                style="@style/info_value"/>
+                                 style="@style/info_value" />
+-                        </TableRow>
  
 -                        <TableRow>
 +                            <TextView
@@ -212,7 +186,7 @@ index ec54e87..6ebf0fc 100644
 +                                style="@style/info_label"
 +                                android:visibility="gone"
 +                                tools:text="@tools:sample/date/day_of_week"
-+                                tools:visibility="visible"/>
++                                tools:visibility="visible" />
  
                              <TextView
 -                                android:id="@+id/altitude_label"
@@ -479,7 +453,7 @@ index ec54e87..6ebf0fc 100644
              </androidx.cardview.widget.CardView>
          </LinearLayout>
  
-@@ -357,5 +426,6 @@
+@@ -356,5 +425,6 @@
                  android:text="@string/sbas_not_available"
                  android:visibility="gone" />
          </androidx.cardview.widget.CardView>

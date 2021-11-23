@@ -1,4 +1,4 @@
-From 41991511a0d8e544f4f60de53a685f86dfd6b69a Mon Sep 17 00:00:00 2001
+From baf669c9b1a57ded02be5e5d3bb5e0de1aebd652 Mon Sep 17 00:00:00 2001
 From: Michael W <baddaemon87@gmail.com>
 Date: Sat, 20 Jun 2020 16:44:59 +0200
 Subject: [PATCH] SystemUI: QS Details: Fix layout issues
@@ -46,7 +46,7 @@ Change-Id: I5be8bf97582e877bdb1af1f3aedc88c00d134c16
 
 diff --git a/packages/SystemUI/res/color/qs_header_background.xml b/packages/SystemUI/res/color/qs_header_background.xml
 new file mode 100644
-index 00000000000..8019b8dbb5c
+index 000000000000..8019b8dbb5c8
 --- /dev/null
 +++ b/packages/SystemUI/res/color/qs_header_background.xml
 @@ -0,0 +1,20 @@
@@ -72,7 +72,7 @@ index 00000000000..8019b8dbb5c
 +</selector>
 diff --git a/packages/SystemUI/res/color/segmented_button_background.xml b/packages/SystemUI/res/color/segmented_button_background.xml
 new file mode 100644
-index 00000000000..2f7011c5884
+index 000000000000..2f7011c58847
 --- /dev/null
 +++ b/packages/SystemUI/res/color/segmented_button_background.xml
 @@ -0,0 +1,20 @@
@@ -97,7 +97,7 @@ index 00000000000..2f7011c5884
 +          android:color="?android:attr/textColorPrimary"/>
 +</selector>
 diff --git a/packages/SystemUI/res/drawable/qs_detail_background.xml b/packages/SystemUI/res/drawable/qs_detail_background.xml
-index 672abf14774..4ba78504765 100644
+index 672abf14774e..4ba78504765e 100644
 --- a/packages/SystemUI/res/drawable/qs_detail_background.xml
 +++ b/packages/SystemUI/res/drawable/qs_detail_background.xml
 @@ -25,9 +25,9 @@ Copyright (C) 2014 The Android Open Source Project
@@ -114,7 +114,7 @@ index 672abf14774..4ba78504765 100644
 \ No newline at end of file
 +</transition>
 diff --git a/packages/SystemUI/res/drawable/qs_detail_toolbar.xml b/packages/SystemUI/res/drawable/qs_detail_toolbar.xml
-index 557cae15030..df0b4e13c01 100644
+index 557cae150303..df0b4e13c01e 100644
 --- a/packages/SystemUI/res/drawable/qs_detail_toolbar.xml
 +++ b/packages/SystemUI/res/drawable/qs_detail_toolbar.xml
 @@ -15,7 +15,7 @@
@@ -127,7 +127,7 @@ index 557cae15030..df0b4e13c01 100644
              android:topLeftRadius="?android:attr/dialogCornerRadius"
              android:topRightRadius="?android:attr/dialogCornerRadius" />
 diff --git a/packages/SystemUI/res/drawable/segmented_buttons_background.xml b/packages/SystemUI/res/drawable/segmented_buttons_background.xml
-index 755c917cf20..c9cf30af5d6 100644
+index 755c917cf20c..c9cf30af5d66 100644
 --- a/packages/SystemUI/res/drawable/segmented_buttons_background.xml
 +++ b/packages/SystemUI/res/drawable/segmented_buttons_background.xml
 @@ -17,6 +17,6 @@
@@ -139,7 +139,7 @@ index 755c917cf20..c9cf30af5d6 100644
  
  </shape>
 diff --git a/packages/SystemUI/res/layout/qs_detail.xml b/packages/SystemUI/res/layout/qs_detail.xml
-index ab44c9de297..ca24ac28dd1 100644
+index ab44c9de297c..ca24ac28dd19 100644
 --- a/packages/SystemUI/res/layout/qs_detail.xml
 +++ b/packages/SystemUI/res/layout/qs_detail.xml
 @@ -21,7 +21,6 @@
@@ -151,7 +151,7 @@ index ab44c9de297..ca24ac28dd1 100644
      android:elevation="4dp"
      android:importantForAccessibility="no" >
 diff --git a/packages/SystemUI/res/layout/qs_detail_header.xml b/packages/SystemUI/res/layout/qs_detail_header.xml
-index f3feda45547..708f71d022a 100644
+index f3feda455475..708f71d022ac 100644
 --- a/packages/SystemUI/res/layout/qs_detail_header.xml
 +++ b/packages/SystemUI/res/layout/qs_detail_header.xml
 @@ -18,10 +18,8 @@
@@ -174,7 +174,7 @@ index f3feda45547..708f71d022a 100644
  
      </LinearLayout>
 diff --git a/packages/SystemUI/res/layout/zen_mode_panel.xml b/packages/SystemUI/res/layout/zen_mode_panel.xml
-index bc95cd2e4d9..20b4c861592 100644
+index bc95cd2e4d92..20b4c8615923 100644
 --- a/packages/SystemUI/res/layout/zen_mode_panel.xml
 +++ b/packages/SystemUI/res/layout/zen_mode_panel.xml
 @@ -15,17 +15,18 @@

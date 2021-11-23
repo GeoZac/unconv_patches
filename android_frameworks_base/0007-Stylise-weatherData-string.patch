@@ -1,4 +1,4 @@
-From 74e963b1d35237d495fcba98a2e7646929784825 Mon Sep 17 00:00:00 2001
+From a97ffbe1963e01b19eded43ab5109b95127fb705 Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Sat, 4 Apr 2020 20:29:40 +0530
 Subject: [PATCH] Stylise weatherData string
@@ -10,7 +10,7 @@ Change-Id: Ifcb965ddf025a2df979d9873ef2821c973021ccc
  1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/packages/SystemUI/src/com/android/systemui/omni/DetailedWeatherView.java b/packages/SystemUI/src/com/android/systemui/omni/DetailedWeatherView.java
-index 58c1199a171..27654677fca 100644
+index 58c1199a171f..27654677fcaf 100644
 --- a/packages/SystemUI/src/com/android/systemui/omni/DetailedWeatherView.java
 +++ b/packages/SystemUI/src/com/android/systemui/omni/DetailedWeatherView.java
 @@ -191,11 +191,11 @@ public class DetailedWeatherView extends FrameLayout {

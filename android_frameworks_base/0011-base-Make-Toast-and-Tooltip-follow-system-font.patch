@@ -1,4 +1,4 @@
-From 9f56c071061676ce4bc41154474f1006d1095ec8 Mon Sep 17 00:00:00 2001
+From 90dc3174c406a86306be3ddfc503b8e64c9cca33 Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Fri, 8 May 2020 20:34:32 +0530
 Subject: [PATCH] base: Make Toast and Tooltip follow system font
@@ -9,7 +9,7 @@ Change-Id: I5588916de1deffe2ecfe7d1ed927f67e03eec6f8
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/core/res/res/values/styles.xml b/core/res/res/values/styles.xml
-index 224d488777d..2ba97f2ec3c 100644
+index 224d488777d2..2ba97f2ec3c1 100644
 --- a/core/res/res/values/styles.xml
 +++ b/core/res/res/values/styles.xml
 @@ -1036,12 +1036,12 @@ please see styles_device_defaults.xml.

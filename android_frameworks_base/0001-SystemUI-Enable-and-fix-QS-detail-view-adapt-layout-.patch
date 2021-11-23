@@ -1,4 +1,4 @@
-From cf525e931311dac090ddf54388bb70877fe97bee Mon Sep 17 00:00:00 2001
+From 91d66908033587f33ae2b58cc074b4160f5072a0 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?eray=20or=C3=A7unus?= <erayorcunus@gmail.com>
 Date: Tue, 23 Apr 2019 16:46:35 +0300
 Subject: [PATCH] SystemUI: Enable and fix QS detail view, adapt layout to 10
@@ -104,7 +104,7 @@ Change-Id: I9e7b624f910baf49c4693924b3f888aa0ad6e0b7
 
 diff --git a/packages/SystemUI/res/drawable/qs_detail_toolbar.xml b/packages/SystemUI/res/drawable/qs_detail_toolbar.xml
 new file mode 100644
-index 00000000000..557cae15030
+index 000000000000..557cae150303
 --- /dev/null
 +++ b/packages/SystemUI/res/drawable/qs_detail_toolbar.xml
 @@ -0,0 +1,23 @@
@@ -132,7 +132,7 @@ index 00000000000..557cae15030
 +    </shape>
 +</inset>
 diff --git a/packages/SystemUI/res/layout/qs_detail.xml b/packages/SystemUI/res/layout/qs_detail.xml
-index 703e8940107..ab44c9de297 100644
+index 703e8940107c..ab44c9de297c 100644
 --- a/packages/SystemUI/res/layout/qs_detail.xml
 +++ b/packages/SystemUI/res/layout/qs_detail.xml
 @@ -19,7 +19,6 @@
@@ -215,7 +215,7 @@ index 703e8940107..ab44c9de297 100644
  
  </com.android.systemui.qs.QSDetail>
 diff --git a/packages/SystemUI/res/layout/qs_detail_buttons.xml b/packages/SystemUI/res/layout/qs_detail_buttons.xml
-index 75f43f9a580..f5930469c68 100644
+index 75f43f9a5808..f5930469c68b 100644
 --- a/packages/SystemUI/res/layout/qs_detail_buttons.xml
 +++ b/packages/SystemUI/res/layout/qs_detail_buttons.xml
 @@ -17,17 +17,16 @@
@@ -249,7 +249,7 @@ index 75f43f9a580..f5930469c68 100644
          android:focusable="true"/>
  
 diff --git a/packages/SystemUI/res/layout/qs_detail_header.xml b/packages/SystemUI/res/layout/qs_detail_header.xml
-index a1f0ee75c23..f3feda45547 100644
+index a1f0ee75c23a..f3feda455475 100644
 --- a/packages/SystemUI/res/layout/qs_detail_header.xml
 +++ b/packages/SystemUI/res/layout/qs_detail_header.xml
 @@ -19,17 +19,13 @@
@@ -273,7 +273,7 @@ index a1f0ee75c23..f3feda45547 100644
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
 diff --git a/packages/SystemUI/res/layout/qs_detail_item.xml b/packages/SystemUI/res/layout/qs_detail_item.xml
-index 0844bb46d53..ad091c2f310 100644
+index 0844bb46d53f..ad091c2f3107 100644
 --- a/packages/SystemUI/res/layout/qs_detail_item.xml
 +++ b/packages/SystemUI/res/layout/qs_detail_item.xml
 @@ -30,7 +30,7 @@
@@ -294,7 +294,7 @@ index 0844bb46d53..ad091c2f310 100644
  
  </LinearLayout>
 diff --git a/packages/SystemUI/res/layout/qs_detail_items.xml b/packages/SystemUI/res/layout/qs_detail_items.xml
-index 60cba67cf3d..51efe6c89ba 100644
+index 60cba67cf3d7..51efe6c89bad 100644
 --- a/packages/SystemUI/res/layout/qs_detail_items.xml
 +++ b/packages/SystemUI/res/layout/qs_detail_items.xml
 @@ -20,6 +20,7 @@
@@ -306,7 +306,7 @@ index 60cba67cf3d..51efe6c89ba 100644
      android:paddingEnd="16dp">
  
 diff --git a/packages/SystemUI/res/layout/zen_mode_panel.xml b/packages/SystemUI/res/layout/zen_mode_panel.xml
-index 58624135b85..bc95cd2e4d9 100644
+index 58624135b85f..bc95cd2e4d92 100644
 --- a/packages/SystemUI/res/layout/zen_mode_panel.xml
 +++ b/packages/SystemUI/res/layout/zen_mode_panel.xml
 @@ -36,6 +36,7 @@
@@ -318,7 +318,7 @@ index 58624135b85..bc95cd2e4d9 100644
  
          <RelativeLayout
 diff --git a/packages/SystemUI/res/values-sw410dp/dimens.xml b/packages/SystemUI/res/values-sw410dp/dimens.xml
-index 6780dca130b..6036b962bdc 100644
+index 6780dca130b8..6036b962bdce 100644
 --- a/packages/SystemUI/res/values-sw410dp/dimens.xml
 +++ b/packages/SystemUI/res/values-sw410dp/dimens.xml
 @@ -20,8 +20,6 @@
@@ -331,7 +331,7 @@ index 6780dca130b..6036b962bdc 100644
      <dimen name="global_actions_grid_vertical_padding">8dp</dimen>
      <dimen name="global_actions_grid_horizontal_padding">4dp</dimen>
 diff --git a/packages/SystemUI/res/values/dimens.xml b/packages/SystemUI/res/values/dimens.xml
-index 326dc4e81d4..d74032375a2 100644
+index 326dc4e81d43..d74032375a2e 100644
 --- a/packages/SystemUI/res/values/dimens.xml
 +++ b/packages/SystemUI/res/values/dimens.xml
 @@ -496,7 +496,7 @@
@@ -344,7 +344,7 @@ index 326dc4e81d4..d74032375a2 100644
      <dimen name="qs_detail_item_icon_width">32dp</dimen>
      <dimen name="qs_detail_item_icon_marginStart">0dp</dimen>
 diff --git a/packages/SystemUI/res/values/styles.xml b/packages/SystemUI/res/values/styles.xml
-index 9dec47a4353..e012303b238 100644
+index 9dec47a43532..e012303b238a 100644
 --- a/packages/SystemUI/res/values/styles.xml
 +++ b/packages/SystemUI/res/values/styles.xml
 @@ -144,6 +144,7 @@
@@ -381,7 +381,7 @@ index 9dec47a4353..e012303b238 100644
  
      <style name="TextAppearance.QS.DetailButton.White">
 diff --git a/packages/SystemUI/src/com/android/systemui/qs/QSContainerImpl.java b/packages/SystemUI/src/com/android/systemui/qs/QSContainerImpl.java
-index ede45c14598..00b02c79a36 100644
+index ede45c145981..00b02c79a368 100644
 --- a/packages/SystemUI/src/com/android/systemui/qs/QSContainerImpl.java
 +++ b/packages/SystemUI/src/com/android/systemui/qs/QSContainerImpl.java
 @@ -205,6 +205,10 @@ public class QSContainerImpl extends FrameLayout implements
@@ -396,7 +396,7 @@ index ede45c14598..00b02c79a36 100644
          lp.height = topMargin;
          lp.setMargins(statusBarSideMargin, 0, statusBarSideMargin, 0);
 diff --git a/packages/SystemUI/src/com/android/systemui/qs/QSDetail.java b/packages/SystemUI/src/com/android/systemui/qs/QSDetail.java
-index 837f90ec23c..b9084667653 100644
+index 837f90ec23c6..b90846676533 100644
 --- a/packages/SystemUI/src/com/android/systemui/qs/QSDetail.java
 +++ b/packages/SystemUI/src/com/android/systemui/qs/QSDetail.java
 @@ -65,6 +65,7 @@ public class QSDetail extends LinearLayout {
@@ -442,7 +442,7 @@ index 837f90ec23c..b9084667653 100644
              }
              mAnimatingOpen = false;
 diff --git a/packages/SystemUI/src/com/android/systemui/qs/QSPanel.java b/packages/SystemUI/src/com/android/systemui/qs/QSPanel.java
-index 4f48bb97ef5..03b27801355 100644
+index 4f48bb97ef55..03b278013552 100644
 --- a/packages/SystemUI/src/com/android/systemui/qs/QSPanel.java
 +++ b/packages/SystemUI/src/com/android/systemui/qs/QSPanel.java
 @@ -658,7 +658,8 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
@@ -465,7 +465,7 @@ index 4f48bb97ef5..03b27801355 100644
      }
  
 diff --git a/packages/SystemUI/src/com/android/systemui/qs/tiles/CellularTile.java b/packages/SystemUI/src/com/android/systemui/qs/tiles/CellularTile.java
-index feec3b33186..0a8e15c9175 100644
+index feec3b33186e..0a8e15c9175d 100644
 --- a/packages/SystemUI/src/com/android/systemui/qs/tiles/CellularTile.java
 +++ b/packages/SystemUI/src/com/android/systemui/qs/tiles/CellularTile.java
 @@ -51,6 +51,7 @@ import com.android.systemui.qs.QSHost;
@@ -513,7 +513,7 @@ index feec3b33186..0a8e15c9175 100644
                  });
                  return;
 diff --git a/packages/SystemUI/src/com/android/systemui/qs/tiles/DataUsageDetailView.java b/packages/SystemUI/src/com/android/systemui/qs/tiles/DataUsageDetailView.java
-index f73f43a2c49..ccce6f16120 100644
+index f73f43a2c49f..ccce6f161204 100644
 --- a/packages/SystemUI/src/com/android/systemui/qs/tiles/DataUsageDetailView.java
 +++ b/packages/SystemUI/src/com/android/systemui/qs/tiles/DataUsageDetailView.java
 @@ -41,6 +41,10 @@ import java.text.DecimalFormat;
@@ -528,7 +528,7 @@ index f73f43a2c49..ccce6f16120 100644
  
      public DataUsageDetailView(Context context, AttributeSet attrs) {
 diff --git a/packages/SystemUI/src/com/android/systemui/qs/tiles/DndTile.java b/packages/SystemUI/src/com/android/systemui/qs/tiles/DndTile.java
-index bf25180e049..04b82db6b71 100644
+index bf25180e0493..04b82db6b714 100644
 --- a/packages/SystemUI/src/com/android/systemui/qs/tiles/DndTile.java
 +++ b/packages/SystemUI/src/com/android/systemui/qs/tiles/DndTile.java
 @@ -66,6 +66,10 @@ import javax.inject.Inject;
@@ -677,7 +677,7 @@ index bf25180e049..04b82db6b71 100644
          }
  
 diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/policy/ZenModeController.java b/packages/SystemUI/src/com/android/systemui/statusbar/policy/ZenModeController.java
-index ad19729aa10..09bb3af9e62 100644
+index ad19729aa10e..09bb3af9e621 100644
 --- a/packages/SystemUI/src/com/android/systemui/statusbar/policy/ZenModeController.java
 +++ b/packages/SystemUI/src/com/android/systemui/statusbar/policy/ZenModeController.java
 @@ -28,6 +28,7 @@ import com.android.systemui.statusbar.policy.ZenModeController.Callback;
@@ -696,7 +696,7 @@ index ad19729aa10..09bb3af9e62 100644
 \ No newline at end of file
 +}
 diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/policy/ZenModeControllerImpl.java b/packages/SystemUI/src/com/android/systemui/statusbar/policy/ZenModeControllerImpl.java
-index 29c42d24b3b..96c6a2b3717 100644
+index 29c42d24b3b4..96c6a2b37179 100644
 --- a/packages/SystemUI/src/com/android/systemui/statusbar/policy/ZenModeControllerImpl.java
 +++ b/packages/SystemUI/src/com/android/systemui/statusbar/policy/ZenModeControllerImpl.java
 @@ -147,6 +147,12 @@ public class ZenModeControllerImpl extends CurrentUserTracker
@@ -713,7 +713,7 @@ index 29c42d24b3b..96c6a2b3717 100644
      public boolean isZenAvailable() {
          return mSetupObserver.isDeviceProvisioned() && mSetupObserver.isUserSetup();
 diff --git a/packages/SystemUI/src/com/android/systemui/volume/ZenModePanel.java b/packages/SystemUI/src/com/android/systemui/volume/ZenModePanel.java
-index 7bb987ca7cf..d66e0e8624b 100644
+index 7bb987ca7cf0..d66e0e8624b5 100644
 --- a/packages/SystemUI/src/com/android/systemui/volume/ZenModePanel.java
 +++ b/packages/SystemUI/src/com/android/systemui/volume/ZenModePanel.java
 @@ -476,13 +476,16 @@ public class ZenModePanel extends FrameLayout {

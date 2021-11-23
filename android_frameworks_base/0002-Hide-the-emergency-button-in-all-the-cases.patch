@@ -1,4 +1,4 @@
-From a48af19b98345be6c15a3e5483f5fa9efdff1893 Mon Sep 17 00:00:00 2001
+From 5629d208f3b61eea528365a78d79e7eb5ba9cfa0 Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Tue, 17 Mar 2020 09:44:18 +0530
 Subject: [PATCH] Hide the emergency button in all the cases
@@ -12,7 +12,7 @@ Change-Id: I7304280aea5e581dd2357028eb197af3df0ac7aa
  1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/packages/SystemUI/src/com/android/systemui/globalactions/GlobalActionsDialog.java b/packages/SystemUI/src/com/android/systemui/globalactions/GlobalActionsDialog.java
-index e2ba0e322b7..9dd9d4e63f4 100644
+index e2ba0e322b7f..9dd9d4e63f42 100644
 --- a/packages/SystemUI/src/com/android/systemui/globalactions/GlobalActionsDialog.java
 +++ b/packages/SystemUI/src/com/android/systemui/globalactions/GlobalActionsDialog.java
 @@ -537,7 +537,9 @@ public class GlobalActionsDialog implements DialogInterface.OnDismissListener,

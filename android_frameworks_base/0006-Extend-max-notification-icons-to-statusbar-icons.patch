@@ -1,4 +1,4 @@
-From f435224fe27c8ef8d6367be3b4264f7fef431a47 Mon Sep 17 00:00:00 2001
+From 88f97dbf80b1052850033a4c0847dbd41d2d226a Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Sat, 4 Apr 2020 12:48:46 +0530
 Subject: [PATCH] Extend max notification icons to statusbar icons
@@ -10,7 +10,7 @@ Change-Id: If6eea3a9321d3b4598f13310525d8cc741941cb0
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/phone/StatusIconContainer.java b/packages/SystemUI/src/com/android/systemui/statusbar/phone/StatusIconContainer.java
-index 60af06920e2..2b8764553f7 100644
+index 60af06920e24..2b8764553f72 100644
 --- a/packages/SystemUI/src/com/android/systemui/statusbar/phone/StatusIconContainer.java
 +++ b/packages/SystemUI/src/com/android/systemui/statusbar/phone/StatusIconContainer.java
 @@ -51,8 +51,8 @@ public class StatusIconContainer extends AlphaOptimizedLinearLayout {

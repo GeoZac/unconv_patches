@@ -1,4 +1,4 @@
-From 201310a65b14b37dbcf387edbd2bd1212143ef16 Mon Sep 17 00:00:00 2001
+From 313b3c332819822547a383d56703fdc900f3883a Mon Sep 17 00:00:00 2001
 From: Michael W <baddaemon87@gmail.com>
 Date: Tue, 16 Jun 2020 12:13:38 +0200
 Subject: [PATCH] SystemUI: Fix QS Detail Header
@@ -20,7 +20,7 @@ Change-Id: I5ba57deff1784fc4ea16649256965ad42dd78239
  1 file changed, 5 insertions(+), 9 deletions(-)
 
 diff --git a/packages/SystemUI/src/com/android/systemui/qs/QSDetail.java b/packages/SystemUI/src/com/android/systemui/qs/QSDetail.java
-index b9084667653..c1507faa0da 100644
+index b90846676533..c1507faa0da4 100644
 --- a/packages/SystemUI/src/com/android/systemui/qs/QSDetail.java
 +++ b/packages/SystemUI/src/com/android/systemui/qs/QSDetail.java
 @@ -159,16 +159,12 @@ public class QSDetail extends LinearLayout {

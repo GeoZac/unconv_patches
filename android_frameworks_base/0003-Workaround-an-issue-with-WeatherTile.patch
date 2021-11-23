@@ -1,4 +1,4 @@
-From fa9a177fc2364587f495ac267a8626b96d9dbefa Mon Sep 17 00:00:00 2001
+From a7addc62da94c5ffcbaa4ebeacf6e8edc424ca8a Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Sat, 21 Mar 2020 18:58:41 +0530
 Subject: [PATCH] Workaround an issue with WeatherTile
@@ -12,7 +12,7 @@ Change-Id: If97dbb4462b74e0e9e3e57776bc68bd6e68766cb
  2 files changed, 9 insertions(+), 3 deletions(-)
 
 diff --git a/core/java/com/android/internal/util/aicp/OmniJawsClient.java b/core/java/com/android/internal/util/aicp/OmniJawsClient.java
-index fc23bf7d103..3ed0c662d46 100644
+index fc23bf7d103e..3ed0c662d46b 100644
 --- a/core/java/com/android/internal/util/aicp/OmniJawsClient.java
 +++ b/core/java/com/android/internal/util/aicp/OmniJawsClient.java
 @@ -385,12 +385,18 @@ public class OmniJawsClient {
@@ -37,7 +37,7 @@ index fc23bf7d103..3ed0c662d46 100644
          }
          if (mRes == null) {
 diff --git a/packages/SystemUI/src/com/android/systemui/qs/tiles/WeatherTile.java b/packages/SystemUI/src/com/android/systemui/qs/tiles/WeatherTile.java
-index 77871114275..622807db2bb 100644
+index 778711142755..622807db2bb2 100644
 --- a/packages/SystemUI/src/com/android/systemui/qs/tiles/WeatherTile.java
 +++ b/packages/SystemUI/src/com/android/systemui/qs/tiles/WeatherTile.java
 @@ -230,7 +230,7 @@ public class WeatherTile extends QSTileImpl<BooleanState> implements OmniJawsCli

@@ -1,4 +1,4 @@
-From 524898800e4f8c604ce7dae6c428bbd0664fb8f7 Mon Sep 17 00:00:00 2001
+From 25f2e66e1ebd07ef91e084c22f828e39e2d1da84 Mon Sep 17 00:00:00 2001
 From: Nico60 <ndhouailly@gmail.com>
 Date: Sat, 4 Apr 2020 20:47:49 +0530
 Subject: [PATCH] Hide arrows in Network Traffic indicators
@@ -9,7 +9,7 @@ I don't need no switch for this, disable it completely.
  1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/policy/NetworkTraffic.java b/packages/SystemUI/src/com/android/systemui/statusbar/policy/NetworkTraffic.java
-index c5b0f739620..948d9c39179 100644
+index c5b0f739620d..948d9c391792 100644
 --- a/packages/SystemUI/src/com/android/systemui/statusbar/policy/NetworkTraffic.java
 +++ b/packages/SystemUI/src/com/android/systemui/statusbar/policy/NetworkTraffic.java
 @@ -54,6 +54,7 @@ public class NetworkTraffic extends TextView {

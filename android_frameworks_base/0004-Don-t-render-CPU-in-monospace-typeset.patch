@@ -1,4 +1,4 @@
-From 2224f6c5d32e9dcdb6bfb17a24ceee1c50afdea3 Mon Sep 17 00:00:00 2001
+From ce2683485e3de52dac4620825938c3d3e308b802 Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Sat, 21 Mar 2020 19:00:36 +0530
 Subject: [PATCH] Don't render CPU in monospace typeset
@@ -10,7 +10,7 @@ Change-Id: I533573e345706c2634a6c3e0bccd85570753c953
  1 file changed, 1 insertion(+), 6 deletions(-)
 
 diff --git a/packages/SystemUI/src/com/android/systemui/CPUInfoService.java b/packages/SystemUI/src/com/android/systemui/CPUInfoService.java
-index d9a41da36ce..5214fb7a808 100644
+index d9a41da36ceb..5214fb7a8087 100644
 --- a/packages/SystemUI/src/com/android/systemui/CPUInfoService.java
 +++ b/packages/SystemUI/src/com/android/systemui/CPUInfoService.java
 @@ -26,7 +26,6 @@ import android.graphics.Color;

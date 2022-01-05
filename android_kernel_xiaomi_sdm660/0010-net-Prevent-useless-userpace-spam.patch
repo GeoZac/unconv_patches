@@ -1,0 +1,42 @@
+From ab17c371210b9c3b075cd0755e6d05201659a786 Mon Sep 17 00:00:00 2001
+From: DennySPb <dennyspb@gmail.com>
+Date: Fri, 11 Jun 2021 15:51:18 +0300
+Subject: [PATCH 10/15] net: Prevent useless userpace spam
+
+NetlinkEvent::FindParam(): Parameter '...' not found"
+
+Signed-off-by: DennySPb <dennyspb@gmail.com>
+---
+ net/netfilter/xt_HARDIDLETIMER.c | 2 --
+ net/netfilter/xt_IDLETIMER.c     | 2 --
+ 2 files changed, 4 deletions(-)
+
+diff --git a/net/netfilter/xt_HARDIDLETIMER.c b/net/netfilter/xt_HARDIDLETIMER.c
+index ecb4a7fb6bf8..af715026f229 100644
+--- a/net/netfilter/xt_HARDIDLETIMER.c
++++ b/net/netfilter/xt_HARDIDLETIMER.c
+@@ -187,8 +187,6 @@ static int hardidletimer_tg_create(struct hardidletimer_tg_info *info)
+ 		pr_debug("couldn't add file to sysfs");
+ 		goto out_free_attr;
+ 	}
+-	/*  notify userspace  */
+-	kobject_uevent(hardidletimer_tg_kobj, KOBJ_ADD);
+ 
+ 	list_add(&info->timer->entry, &hardidletimer_tg_list);
+ 
+diff --git a/net/netfilter/xt_IDLETIMER.c b/net/netfilter/xt_IDLETIMER.c
+index 18e4fd8aa166..8a139a4da4f2 100644
+--- a/net/netfilter/xt_IDLETIMER.c
++++ b/net/netfilter/xt_IDLETIMER.c
+@@ -327,8 +327,6 @@ static int idletimer_tg_create(struct idletimer_tg_info *info)
+ 		pr_debug("couldn't add file to sysfs");
+ 		goto out_free_attr;
+ 	}
+-	/* notify userspace */
+-	kobject_uevent(idletimer_tg_kobj, KOBJ_ADD);
+ 
+ 	list_add(&info->timer->entry, &idletimer_tg_list);
+ 
+-- 
+2.25.1
+

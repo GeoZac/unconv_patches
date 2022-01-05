@@ -1,0 +1,24 @@
+From b9911c12836ce4457772a219c039c93c3fa2ec58 Mon Sep 17 00:00:00 2001
+From: George Zacharia <george.zcharia@gmail.com>
+Date: Sun, 7 Nov 2021 11:09:49 +0530
+Subject: [PATCH 02/15] defconfig: whyred: Enable USB force fast charge
+
+---
+ arch/arm64/configs/whyred_defconfig | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/arch/arm64/configs/whyred_defconfig b/arch/arm64/configs/whyred_defconfig
+index d86c1b1c2728..7d886c36a24e 100644
+--- a/arch/arm64/configs/whyred_defconfig
++++ b/arch/arm64/configs/whyred_defconfig
+@@ -259,6 +259,7 @@ CONFIG_UID_SYS_STATS=y
+ CONFIG_QPNP_MISC=y
+ CONFIG_MEMORY_STATE_TIME=y
+ CONFIG_ANT_CHECK=y
++CONFIG_FORCE_FAST_CHARGE=y
+ CONFIG_SCSI=y
+ CONFIG_BLK_DEV_SD=y
+ CONFIG_CHR_DEV_SG=y
+-- 
+2.25.1
+

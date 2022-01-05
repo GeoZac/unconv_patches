@@ -1,7 +1,7 @@
-From ba5380a17b61e02a7a293ec9948dc9e825e2ce3e Mon Sep 17 00:00:00 2001
+From 0d9d7bc7ff1ca83c4167d9d2448526177050b133 Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Sat, 13 Nov 2021 08:17:36 +0530
-Subject: [PATCH 12/15] defconfig: whyred: Label to Identify in the wild
+Subject: [PATCH] defconfig: whyred: Label to Identify in the wild
 
 ---
  arch/arm64/configs/whyred_defconfig | 2 +-
@@ -17,6 +17,3 @@ index f9c858f47cd7..1aff2eea213b 100644
  # CONFIG_USELIB is not set
  CONFIG_AUDIT=y
  # CONFIG_AUDITSYSCALL is not set
--- 
-2.25.1
-

@@ -1,7 +1,7 @@
-From d8964c9d90235929c9a4b209a27c82f64ab35855 Mon Sep 17 00:00:00 2001
+From 9482c2e1e92cc285e0d15bbfbbd81d4454dddaff Mon Sep 17 00:00:00 2001
 From: flar2 <asegaert@gmail.com>
 Date: Tue, 13 Sep 2016 00:44:20 -0400
-Subject: [PATCH 04/15] msm: mdss: KCAL: disable igc update
+Subject: [PATCH] msm: mdss: KCAL: disable igc update
 
 Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
 Signed-off-by: Akhil Narang <akhilnarang.1999@gmail.com>
@@ -37,6 +37,3 @@ index c54ae15afee9..bed3b743758f 100644
  
  	return count;
  }
--- 
-2.25.1
-

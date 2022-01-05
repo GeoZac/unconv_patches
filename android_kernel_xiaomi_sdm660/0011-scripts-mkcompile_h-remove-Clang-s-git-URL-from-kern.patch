@@ -1,7 +1,7 @@
-From 62fca66c937cfe5175e5257d4265a8db0e1270af Mon Sep 17 00:00:00 2001
+From 3ccc96541aa3e267b065e9f03b72f52623e86f38 Mon Sep 17 00:00:00 2001
 From: tbalden <illespal@gmail.com>
 Date: Thu, 27 Aug 2020 15:12:30 -0700
-Subject: [PATCH 11/15] scripts/mkcompile_h: remove Clang's git URL from kernel
+Subject: [PATCH] scripts/mkcompile_h: remove Clang's git URL from kernel
  version
 
 ---
@@ -22,6 +22,3 @@ index 62d1597df27b..76c694b39529 100755
  ) > .tmpcompile
  
  # Only replace the real compile.h if the new one is different,
--- 
-2.25.1
-

@@ -1,7 +1,7 @@
-From 53d0883d6a25e20bd36bb08016dd946938bb90ee Mon Sep 17 00:00:00 2001
+From c9beabbe4c56705eb7e8d506c9c73dc144c31fc2 Mon Sep 17 00:00:00 2001
 From: engstk <eng.stk@sapo.pt>
 Date: Thu, 7 Feb 2019 20:31:25 +0000
-Subject: [PATCH 01/15]  drivers: misc: implement usb fast charge mode
+Subject: [PATCH] drivers: misc: implement usb fast charge mode
 
 echo 0 /sys/kernel/fast_charge/force_fast_charge (disable)
 echo 1 /sys/kernel/fast_charge/force_fast_charge (enable)
@@ -214,6 +214,3 @@ index 000000000000..b1e4a5d09102
 +extern int force_fast_charge;
 +
 +#endif
--- 
-2.25.1
-

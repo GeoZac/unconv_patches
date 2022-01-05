@@ -1,7 +1,7 @@
-From 517b0236bb7c0c173d14fbc209c0ad55ab2c1f7c Mon Sep 17 00:00:00 2001
+From d80cea4d3294b143bc55de21ebfbf7ef90948f6f Mon Sep 17 00:00:00 2001
 From: Steve Kondik <steve@cyngn.com>
 Date: Wed, 20 Jul 2016 12:48:01 -0700
-Subject: [PATCH 07/15] qpnp-haptic: Dejank the haptics
+Subject: [PATCH] qpnp-haptic: Dejank the haptics
 
  * Add mutexes and call hap_set without the workqueue for direct mode
 
@@ -127,6 +127,3 @@ index 8946012a71ca..d954f0850adc 100644
  	spin_lock_init(&hap->td_lock);
  	INIT_WORK(&hap->work, qpnp_hap_worker);
  	INIT_DELAYED_WORK(&hap->sc_work, qpnp_handle_sc_irq);
--- 
-2.25.1
-

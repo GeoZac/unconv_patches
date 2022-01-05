@@ -1,7 +1,7 @@
-From e65a083b775b864055641f8b979a3ebb4d4106e9 Mon Sep 17 00:00:00 2001
+From 67a1350173c21ff912597ec069cb634c360ec037 Mon Sep 17 00:00:00 2001
 From: Max Weffers <rcstar6696@gmail.com>
 Date: Mon, 20 Apr 2020 16:12:51 +0200
-Subject: [PATCH 06/15] qpnp-haptic: Add config for Xiaomi haptic changes
+Subject: [PATCH] qpnp-haptic: Add config for Xiaomi haptic changes
 
 * generates problems on wayne and jasmine
 * required on whyred to adjust vibration intensity
@@ -298,6 +298,3 @@ index 8d0d03cc5cdf..8946012a71ca 100644
  		/*
  		 * brake_pat_index = -1 to make sure brake_pat will be changed in the first time.
  		 * brake_pat_max = 0 to make sure disable changing brake_pattern.
--- 
-2.25.1
-

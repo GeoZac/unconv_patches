@@ -1,8 +1,7 @@
-From 2edbefd783838bd5182d9fc4378723727e69df0b Mon Sep 17 00:00:00 2001
+From 74b4b84e00c735ea6f580bd389e7f3e49326afeb Mon Sep 17 00:00:00 2001
 From: Nathan Chancellor <natechancellor@gmail.com>
 Date: Wed, 25 Apr 2018 20:10:29 -0700
-Subject: [PATCH 08/15] soc: qcom: qpnp-haptic: Fix misleading indentation
- warning
+Subject: [PATCH] soc: qcom: qpnp-haptic: Fix misleading indentation warning
 
 Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
 Change-Id: I6bec0d424050dd0dd5101c8d75efb99b458b930f
@@ -32,6 +31,3 @@ index d954f0850adc..cd068c025261 100644
  
  	hap->pdev = pdev;
  
--- 
-2.25.1
-

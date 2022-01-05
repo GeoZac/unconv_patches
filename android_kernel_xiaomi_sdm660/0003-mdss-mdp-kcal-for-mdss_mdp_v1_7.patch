@@ -1,7 +1,7 @@
-From e691a69b0f192bf110eed7794234b097090e2b6b Mon Sep 17 00:00:00 2001
+From 8683c178c870e24b2903bb10a4f9f5c060100692 Mon Sep 17 00:00:00 2001
 From: tbalden <illespal@gmail.com>
 Date: Sat, 16 Jul 2016 14:17:25 -0700
-Subject: [PATCH 03/15] mdss mdp: kcal for mdss_mdp_v1_7
+Subject: [PATCH] mdss mdp: kcal for mdss_mdp_v1_7
 
 Adding the kcal interface by @savoca and
 faux123
@@ -835,6 +835,3 @@ index a5ec7097e0f6..e8f0a0740a3f 100644
  	}
  
  	if ((config->flags & MDP_PP_OPS_DISABLE)) {
--- 
-2.25.1
-

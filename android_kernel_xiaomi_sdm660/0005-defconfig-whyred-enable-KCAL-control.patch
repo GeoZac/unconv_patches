@@ -1,7 +1,7 @@
-From ba6758bbbb468f680a67ea5484866e1128c0fe05 Mon Sep 17 00:00:00 2001
+From e3530620f8979fa73bbc26bbfc71946435fa214f Mon Sep 17 00:00:00 2001
 From: Akhil Narang <akhilnarang.1999@gmail.com>
 Date: Sun, 15 Jul 2018 21:53:00 +0530
-Subject: [PATCH 05/15] defconfig: whyred: enable KCAL control
+Subject: [PATCH] defconfig: whyred: enable KCAL control
 
 Signed-off-by: Akhil Narang <akhilnarang.1999@gmail.com>
 ---
@@ -20,6 +20,3 @@ index 7d886c36a24e..f9c858f47cd7 100644
  CONFIG_SOUND=y
  CONFIG_SND=y
  # CONFIG_SND_PCI is not set
--- 
-2.25.1
-

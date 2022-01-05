@@ -1,7 +1,7 @@
-From 4ae4bd975b315db819dfefaf757d2b0a589f1340 Mon Sep 17 00:00:00 2001
+From 84b248f9427c322766a579f7c233bc2e11c53bd2 Mon Sep 17 00:00:00 2001
 From: Davide Garberi <dade.garberi@gmail.com>
 Date: Sun, 17 Mar 2019 19:32:17 +0100
-Subject: [PATCH 13/15] q6asm: Remove payload size check
+Subject: [PATCH] q6asm: Remove payload size check
 
 * Spams the log as following:
 	q6asm_callback: payload size of 8 is less than expected.
@@ -422,6 +422,3 @@ index eb3b42f47974..c793fb2a38b5 100644
  			atomic_set(&ac->cmd_state, 0);
  			/* ignore msw, as a delay that large shouldn't happen */
  			ac->path_delay = payload[1];
--- 
-2.25.1
-

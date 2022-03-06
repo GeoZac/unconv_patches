@@ -1,98 +1,54 @@
-From c202f8ba565b6b2b77e31b9dfcc1e2e8df715d4d Mon Sep 17 00:00:00 2001
+From 4eba201658662c9f5b3d49c1fc9b715983489644 Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Sun, 22 Nov 2020 20:27:45 +0530
 Subject: [PATCH] Use system fonts
 
 messes with Android 10's fonts selection
 ---
- .../seriesguide/service/NotificationService.java           | 4 ++--
- app/src/main/res/layout/appwidget_row_light.xml            | 2 --
- app/src/main/res/layout/appwidget_row_light_large.xml      | 2 --
- app/src/main/res/layout/appwidget_v11.xml                  | 1 -
- app/src/main/res/layout/appwidget_v11_compact.xml          | 1 -
- app/src/main/res/layout/appwidget_v11_light.xml            | 1 -
- app/src/main/res/layout/appwidget_v11_light_compact.xml    | 1 -
- app/src/main/res/values/styles.xml                         | 7 -------
- 8 files changed, 2 insertions(+), 17 deletions(-)
+ .../battlelancer/seriesguide/service/NotificationService.kt | 4 ++--
+ app/src/main/res/layout/appwidget.xml                       | 1 -
+ app/src/main/res/layout/appwidget_compact.xml               | 1 -
+ app/src/main/res/values/styles.xml                          | 6 ------
+ 4 files changed, 2 insertions(+), 10 deletions(-)
 
-diff --git a/app/src/main/java/com/battlelancer/seriesguide/service/NotificationService.java b/app/src/main/java/com/battlelancer/seriesguide/service/NotificationService.java
-index d6ddb0a7b..40871772f 100644
---- a/app/src/main/java/com/battlelancer/seriesguide/service/NotificationService.java
-+++ b/app/src/main/java/com/battlelancer/seriesguide/service/NotificationService.java
-@@ -415,7 +415,7 @@ public class NotificationService {
+diff --git a/app/src/main/java/com/battlelancer/seriesguide/service/NotificationService.kt b/app/src/main/java/com/battlelancer/seriesguide/service/NotificationService.kt
+index f43b05720..472bb333a 100644
+--- a/app/src/main/java/com/battlelancer/seriesguide/service/NotificationService.kt
++++ b/app/src/main/java/com/battlelancer/seriesguide/service/NotificationService.kt
+@@ -359,7 +359,7 @@ class NotificationService(context: Context) {
  
-                 final SpannableStringBuilder bigText = new SpannableStringBuilder();
-                 bigText.append(episodeTitle);
--                bigText.setSpan(new StyleSpan(Typeface.BOLD), 0, bigText.length(), 0);
-+                bigText.setSpan(new StyleSpan(Typeface.NORMAL), 0, bigText.length(), 0);
+                 val bigText = SpannableStringBuilder()
+                 bigText.append(episodeTitle)
+-                bigText.setSpan(StyleSpan(Typeface.BOLD), 0, bigText.length, 0)
++                bigText.setSpan(StyleSpan(Typeface.NORMAL), 0, bigText.length, 0)
                  if (!TextUtils.isEmpty(episodeSummary)) {
-                     bigText.append("\n").append(episodeSummary);
+                     bigText.append("\n").append(episodeSummary)
                  }
-@@ -467,7 +467,7 @@ public class NotificationService {
-                         episode.getEpisodenumber()
-                 );
-                 lineText.append(title);
--                lineText.setSpan(new StyleSpan(Typeface.BOLD), 0, lineText.length(), 0);
-+                lineText.setSpan(new StyleSpan(Typeface.NORMAL), 0, lineText.length(), 0);
+@@ -421,7 +421,7 @@ class NotificationService(context: Context) {
+                     episodenumber
+                 )
+                 lineText.append(title)
+-                lineText.setSpan(StyleSpan(Typeface.BOLD), 0, lineText.length, 0)
++                lineText.setSpan(StyleSpan(Typeface.NORMAL), 0, lineText.length, 0)
  
-                 lineText.append(" ");
+                 lineText.append(" ")
  
-diff --git a/app/src/main/res/layout/appwidget_row_light.xml b/app/src/main/res/layout/appwidget_row_light.xml
-index 64c681412..7234d04c3 100644
---- a/app/src/main/res/layout/appwidget_row_light.xml
-+++ b/app/src/main/res/layout/appwidget_row_light.xml
-@@ -73,7 +73,6 @@
-             android:layout_alignParentRight="true"
-             android:layout_marginLeft="1sp"
-             android:ellipsize="start"
--            android:fontFamily="sans-serif-condensed"
-             android:maxWidth="180dp"
-             android:textColor="@color/sg_black_54"
-             android:textSize="@dimen/widget_text_size"
-@@ -85,7 +84,6 @@
-             android:layout_height="wrap_content"
-             android:layout_alignParentRight="true"
-             android:layout_below="@+id/widgetNetwork"
--            android:fontFamily="sans-serif-condensed"
-             android:maxLines="1"
-             android:textColor="@color/sg_black_54"
-             android:textSize="@dimen/widget_text_size"
-diff --git a/app/src/main/res/layout/appwidget_row_light_large.xml b/app/src/main/res/layout/appwidget_row_light_large.xml
-index 11b3d1cde..92e88555e 100644
---- a/app/src/main/res/layout/appwidget_row_light_large.xml
-+++ b/app/src/main/res/layout/appwidget_row_light_large.xml
-@@ -73,7 +73,6 @@
-             android:layout_alignParentRight="true"
-             android:layout_marginLeft="1sp"
-             android:ellipsize="start"
--            android:fontFamily="sans-serif-condensed"
-             android:maxWidth="180dp"
-             android:textColor="@color/sg_black_54"
-             android:textSize="@dimen/widget_text_size_large"
-@@ -85,7 +84,6 @@
-             android:layout_height="wrap_content"
-             android:layout_alignParentRight="true"
-             android:layout_below="@+id/widgetNetwork"
--            android:fontFamily="sans-serif-condensed"
-             android:maxLines="1"
-             android:textColor="@color/sg_black_54"
-             android:textSize="@dimen/widget_text_size_large"
-diff --git a/app/src/main/res/layout/appwidget_v11.xml b/app/src/main/res/layout/appwidget_v11.xml
-index d6a20ded3..62861ba9f 100644
---- a/app/src/main/res/layout/appwidget_v11.xml
-+++ b/app/src/main/res/layout/appwidget_v11.xml
-@@ -80,7 +80,6 @@
+diff --git a/app/src/main/res/layout/appwidget.xml b/app/src/main/res/layout/appwidget.xml
+index 5c3dd95a6..581bb7986 100644
+--- a/app/src/main/res/layout/appwidget.xml
++++ b/app/src/main/res/layout/appwidget.xml
+@@ -86,7 +86,6 @@
              android:id="@+id/empty_view"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
 -            android:fontFamily="sans-serif-light"
              android:gravity="center"
              android:text="@string/no_nextepisode"
-             android:textColor="@color/sg_white"
-diff --git a/app/src/main/res/layout/appwidget_v11_compact.xml b/app/src/main/res/layout/appwidget_v11_compact.xml
-index ab6e2ad70..09aee990d 100644
---- a/app/src/main/res/layout/appwidget_v11_compact.xml
-+++ b/app/src/main/res/layout/appwidget_v11_compact.xml
+             android:textColor="?android:attr/textColorPrimary"
+diff --git a/app/src/main/res/layout/appwidget_compact.xml b/app/src/main/res/layout/appwidget_compact.xml
+index 7b386561a..4e7d02646 100644
+--- a/app/src/main/res/layout/appwidget_compact.xml
++++ b/app/src/main/res/layout/appwidget_compact.xml
 @@ -30,7 +30,6 @@
              android:layout_width="0dp"
              android:layout_height="match_parent"
@@ -100,33 +56,9 @@ index ab6e2ad70..09aee990d 100644
 -            android:fontFamily="sans-serif-light"
              android:gravity="center"
              android:text="@string/no_nextepisode"
-             tools:ignore="UnusedAttribute" />
-diff --git a/app/src/main/res/layout/appwidget_v11_light.xml b/app/src/main/res/layout/appwidget_v11_light.xml
-index 693365239..f914c3916 100644
---- a/app/src/main/res/layout/appwidget_v11_light.xml
-+++ b/app/src/main/res/layout/appwidget_v11_light.xml
-@@ -79,7 +79,6 @@
-             android:id="@+id/empty_view"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
--            android:fontFamily="sans-serif-light"
-             android:gravity="center"
-             android:text="@string/no_nextepisode"
-             android:textColor="@color/sg_black_87"
-diff --git a/app/src/main/res/layout/appwidget_v11_light_compact.xml b/app/src/main/res/layout/appwidget_v11_light_compact.xml
-index b38ae0fd0..32d8322a8 100644
---- a/app/src/main/res/layout/appwidget_v11_light_compact.xml
-+++ b/app/src/main/res/layout/appwidget_v11_light_compact.xml
-@@ -31,7 +31,6 @@
-             android:layout_width="0dp"
-             android:layout_height="match_parent"
-             android:layout_weight="1"
--            android:fontFamily="sans-serif-light"
-             android:gravity="center"
-             android:text="@string/no_nextepisode"
-             android:textColor="@color/sg_black_87"
+             android:textColor="?android:attr/textColorPrimary"
 diff --git a/app/src/main/res/values/styles.xml b/app/src/main/res/values/styles.xml
-index c34f97af9..68aab2063 100644
+index 75b2af673..b85fd6245 100644
 --- a/app/src/main/res/values/styles.xml
 +++ b/app/src/main/res/values/styles.xml
 @@ -22,8 +22,6 @@
@@ -138,24 +70,16 @@ index c34f97af9..68aab2063 100644
      </style>
      <style name="TextAppearance.SeriesGuide.Body2.Bold.Accent">
          <item name="android:textColor">@color/sg_text_color_accent</item>
-@@ -71,8 +69,6 @@
- 
-     <style name="TextAppearance.SeriesGuide.Subtitle1" parent="TextAppearance.MaterialComponents.Subtitle1" />
+@@ -67,8 +65,6 @@
+         <item name="android:fontFamily">sans-serif</item>
+     </style>
      <style name="TextAppearance.SeriesGuide.Subtitle1.Bold">
 -        <item name="fontFamily">sans-serif-medium</item>
 -        <item name="android:fontFamily">sans-serif-medium</item>
      </style>
-     <style name="TextAppearance.SeriesGuide.Subtitle1.Dim">
+     <style name="TextAppearance.SeriesGuide.Subtitle1.Bold.Dim">
          <item name="android:textColor">?attr/sgTextColorSecondaryDim</item>
-@@ -96,7 +92,6 @@
- 
-     <!-- Widgets are not part of the app, so app theme attributes can not be used. -->
-     <style name="TextAppearance.SeriesGuide.Widget.Title" parent="">
--        <item name="android:fontFamily">sans-serif-medium</item>
-         <item name="android:textAllCaps">false</item>
-         <item name="android:textSize">18sp</item>
-         <item name="android:ellipsize">end</item>
-@@ -125,14 +120,12 @@
+@@ -102,14 +98,12 @@
      <style name="Widget.SeriesGuide.Button.Borderless.Default">
          <item name="android:textAllCaps">false</item>
          <item name="android:gravity">center_vertical|start</item>

@@ -1,4 +1,4 @@
-From 8ccddfd91dfc90fb945033d59fe7b747731058c2 Mon Sep 17 00:00:00 2001
+From ed6bc77e73ba858dd2ae17aa9dfc4eaee76caf83 Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Tue, 24 Mar 2020 14:12:00 +0530
 Subject: [PATCH] Minor theme improvements
@@ -9,9 +9,8 @@ Tweak some colors
 ---
  app/src/main/res/values-night/themes.xml | 10 ++++++++--
  app/src/main/res/values/colors.xml       |  6 +++---
- app/src/main/res/values/styles.xml       |  2 +-
  app/src/main/res/values/themes.xml       | 15 ++++++++++++---
- 4 files changed, 24 insertions(+), 9 deletions(-)
+ 3 files changed, 23 insertions(+), 8 deletions(-)
 
 diff --git a/app/src/main/res/values-night/themes.xml b/app/src/main/res/values-night/themes.xml
 index fbd6b7a04..62417160e 100644
@@ -58,25 +57,12 @@ index 4ffd6cc91..43f81f683 100644
  
      <color name="background_black">#ff000000</color>
      <color name="background_snackbar">#ff323232</color>
-diff --git a/app/src/main/res/values/styles.xml b/app/src/main/res/values/styles.xml
-index 15c1065e5..c34f97af9 100644
---- a/app/src/main/res/values/styles.xml
-+++ b/app/src/main/res/values/styles.xml
-@@ -97,7 +97,7 @@
-     <!-- Widgets are not part of the app, so app theme attributes can not be used. -->
-     <style name="TextAppearance.SeriesGuide.Widget.Title" parent="">
-         <item name="android:fontFamily">sans-serif-medium</item>
--        <item name="android:textAllCaps">true</item>
-+        <item name="android:textAllCaps">false</item>
-         <item name="android:textSize">18sp</item>
-         <item name="android:ellipsize">end</item>
-         <item name="android:maxLines">1</item>
 diff --git a/app/src/main/res/values/themes.xml b/app/src/main/res/values/themes.xml
-index 02670a582..da04d2998 100644
+index 025e85115..91fb67ba9 100644
 --- a/app/src/main/res/values/themes.xml
 +++ b/app/src/main/res/values/themes.xml
 @@ -10,6 +10,8 @@
-     <style name="Theme.BaseSeriesGuide.Dark" parent="Theme.MaterialComponents.NoActionBar">
+     <style name="Theme.BaseSeriesGuide.Dark" parent="Theme.Material3.Dark.NoActionBar">
  
          <!-- All customizations that are SPECIFIC to API-level 21 go here. -->
 +        <item name="android:navigationBarColor">@color/sg_color_primary_dark</item>
@@ -84,7 +70,7 @@ index 02670a582..da04d2998 100644
  
      </style>
  
-@@ -40,6 +42,9 @@
+@@ -52,6 +54,9 @@
          <item name="android:windowContentTransitions">true</item>
          <item name="windowActionModeOverlay">true</item>
  
@@ -94,16 +80,16 @@ index 02670a582..da04d2998 100644
          <!-- Remove default window shadow -->
          <item name="android:windowContentOverlay">@null</item>
  
-@@ -52,7 +57,7 @@
+@@ -62,7 +67,7 @@
          <item name="sgColorIconInactive">@color/sg_white_50</item>
          <item name="sgColorDivider">@color/sg_white_15</item>
          <item name="sgColorShadow">@color/sg_black_40</item>
 -        <item name="sgColorStatusBarOverlay">@color/sg_black_87</item>
 +        <item name="sgColorStatusBarOverlay">@color/sg_color_primary_900</item>
+         <item name="sgColorTopAppBar">@color/sg_background_app_bar_dark</item>
  
          <!-- dialogTheme is used by AppCompatDialogFragment. -->
-         <item name="dialogTheme">@style/ThemeOverlay.MaterialComponents.Dialog</item>
-@@ -68,7 +73,8 @@
+@@ -80,7 +85,8 @@
          <!-- All customizations that are SPECIFIC to API-level 21 go here. -->
  
          <!-- Note: nav bar color needs to be opaque! -->
@@ -113,9 +99,9 @@ index 02670a582..da04d2998 100644
  
      </style>
  
-@@ -94,6 +100,9 @@
-         <item name="colorOnSurface">@color/sg_black</item>
-         <item name="colorOnBackground">@color/sg_black</item>
+@@ -119,6 +125,9 @@
+         <item name="colorSurfaceInverse">@color/md_theme_light_inverseSurface</item>
+         <item name="colorPrimaryInverse">@color/md_theme_light_primaryInverse</item>
  
 +        <item name="android:navigationBarColor">@color/sg_white</item>
 +        <item name="android:statusBarColor">@color/sg_color_primary_900</item>
@@ -123,12 +109,12 @@ index 02670a582..da04d2998 100644
          <!-- Windows -->
          <item name="android:windowBackground">@color/sg_color_background</item>
          <item name="android:windowContentTransitions">true</item>
-@@ -111,7 +120,7 @@
+@@ -134,7 +143,7 @@
          <item name="sgColorIconInactive">@color/sg_black_38</item>
          <item name="sgColorDivider">@color/sg_black_10</item>
          <item name="sgColorShadow">@color/sg_black_7</item>
 -        <item name="sgColorStatusBarOverlay">@color/sg_white_87</item>
 +        <item name="sgColorStatusBarOverlay">@color/sg_color_primary_900</item>
+         <!-- This must not match colorSurface or AppBarLayout uses color to elevate itself. -->
+         <item name="sgColorTopAppBar">@color/sg_color_background</item>
  
-         <!-- dialogTheme is used by AppCompatDialogFragment. -->
-         <item name="dialogTheme">@style/ThemeOverlay.MaterialComponents.Dialog</item>

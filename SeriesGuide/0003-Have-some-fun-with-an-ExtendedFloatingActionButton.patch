@@ -1,4 +1,4 @@
-From 89967994cdb4d8c091bd08233c53eac40541be48 Mon Sep 17 00:00:00 2001
+From b460462cfa9c5aafe6a2f3c3121870fe9495c6b7 Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Tue, 24 Mar 2020 07:52:14 +0530
 Subject: [PATCH] Have some fun with an ExtendedFloatingActionButton
@@ -6,16 +6,16 @@ Subject: [PATCH] Have some fun with an ExtendedFloatingActionButton
 ---
  .../java/com/battlelancer/seriesguide/ui/ShowsActivity.kt | 6 +++---
  .../seriesguide/ui/shows/FabRecyclerViewScrollDetector.kt | 8 ++++----
- .../battlelancer/seriesguide/ui/shows/ShowsFragment.java  | 4 ++--
+ .../battlelancer/seriesguide/ui/shows/ShowsFragment.kt    | 4 ++--
  app/src/main/res/layout/activity_shows.xml                | 7 +++++--
  app/src/main/res/values/strings.xml                       | 3 ++-
  5 files changed, 16 insertions(+), 12 deletions(-)
 
 diff --git a/app/src/main/java/com/battlelancer/seriesguide/ui/ShowsActivity.kt b/app/src/main/java/com/battlelancer/seriesguide/ui/ShowsActivity.kt
-index be2a56df5..afe99de6b 100644
+index 6da318757..c40423a4f 100644
 --- a/app/src/main/java/com/battlelancer/seriesguide/ui/ShowsActivity.kt
 +++ b/app/src/main/java/com/battlelancer/seriesguide/ui/ShowsActivity.kt
-@@ -35,7 +35,7 @@ import com.battlelancer.seriesguide.ui.shows.ShowsNowFragment
+@@ -31,7 +31,7 @@ import com.battlelancer.seriesguide.ui.shows.ShowsNowFragment
  import com.battlelancer.seriesguide.util.AppUpgrade
  import com.battlelancer.seriesguide.util.TaskManager
  import com.battlelancer.seriesguide.util.Utils
@@ -24,7 +24,7 @@ index be2a56df5..afe99de6b 100644
  import com.google.android.material.snackbar.Snackbar
  import com.uwetrottmann.seriesguide.billing.BillingViewModel
  import com.uwetrottmann.seriesguide.billing.BillingViewModelFactory
-@@ -182,7 +182,7 @@ class ShowsActivity : BaseTopActivity(), OnAddShowListener {
+@@ -179,7 +179,7 @@ class ShowsActivity : BaseTopActivity(), OnAddShowListener {
  
      private fun setupViews() {
          // setup floating action button for adding shows
@@ -33,15 +33,15 @@ index be2a56df5..afe99de6b 100644
          buttonAddShow.setOnClickListener {
              startActivity(
                  Intent(this@ShowsActivity, SearchActivity::class.java)
-@@ -370,7 +370,7 @@ class ShowsActivity : BaseTopActivity(), OnAddShowListener {
-         context: Context,
-         pager: ViewPager,
-         tabs: SlidingTabLayout,
+@@ -357,7 +357,7 @@ class ShowsActivity : BaseTopActivity(), OnAddShowListener {
+      * Page change listener which hides the floating action button for all but the shows tab.
+      */
+     class ShowsPageChangeListener(
 -        private val floatingActionButton: FloatingActionButton
 +        private val floatingActionButton: ExtendedFloatingActionButton
-     ) : TabStripAdapter(fm, context, pager, tabs), OnPageChangeListener {
- 
-         init {
+     ) : ViewPager2.OnPageChangeCallback() {
+         override fun onPageScrollStateChanged(arg0: Int) {}
+         override fun onPageScrolled(arg0: Int, arg1: Float, arg2: Int) {}
 diff --git a/app/src/main/java/com/battlelancer/seriesguide/ui/shows/FabRecyclerViewScrollDetector.kt b/app/src/main/java/com/battlelancer/seriesguide/ui/shows/FabRecyclerViewScrollDetector.kt
 index 3d3120cae..0fc0ca98a 100644
 --- a/app/src/main/java/com/battlelancer/seriesguide/ui/shows/FabRecyclerViewScrollDetector.kt
@@ -78,30 +78,30 @@ index 3d3120cae..0fc0ca98a 100644
      }
  
  }
-diff --git a/app/src/main/java/com/battlelancer/seriesguide/ui/shows/ShowsFragment.java b/app/src/main/java/com/battlelancer/seriesguide/ui/shows/ShowsFragment.java
-index 74531bded..e9ec68c71 100644
---- a/app/src/main/java/com/battlelancer/seriesguide/ui/shows/ShowsFragment.java
-+++ b/app/src/main/java/com/battlelancer/seriesguide/ui/shows/ShowsFragment.java
-@@ -36,7 +36,7 @@ import com.battlelancer.seriesguide.ui.movies.AutoGridLayoutManager;
- import com.battlelancer.seriesguide.ui.preferences.MoreOptionsActivity;
- import com.battlelancer.seriesguide.util.ViewTools;
- import com.battlelancer.seriesguide.widgets.SgFastScroller;
--import com.google.android.material.floatingactionbutton.FloatingActionButton;
-+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
- import org.greenrobot.eventbus.EventBus;
- import org.greenrobot.eventbus.Subscribe;
- import org.greenrobot.eventbus.ThreadMode;
-@@ -160,7 +160,7 @@ public class ShowsFragment extends Fragment {
-         });
+diff --git a/app/src/main/java/com/battlelancer/seriesguide/ui/shows/ShowsFragment.kt b/app/src/main/java/com/battlelancer/seriesguide/ui/shows/ShowsFragment.kt
+index a52885570..67a6c5d33 100644
+--- a/app/src/main/java/com/battlelancer/seriesguide/ui/shows/ShowsFragment.kt
++++ b/app/src/main/java/com/battlelancer/seriesguide/ui/shows/ShowsFragment.kt
+@@ -43,7 +43,7 @@ import com.battlelancer.seriesguide.ui.shows.ShowsDistillationSettings.saveFilte
+ import com.battlelancer.seriesguide.ui.shows.SortShowsView.ShowSortOrder
+ import com.battlelancer.seriesguide.util.ViewTools
+ import com.battlelancer.seriesguide.widgets.SgFastScroller
+-import com.google.android.material.floatingactionbutton.FloatingActionButton
++import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+ import org.greenrobot.eventbus.EventBus
+ import org.greenrobot.eventbus.Subscribe
+ import org.greenrobot.eventbus.ThreadMode
+@@ -159,7 +159,7 @@ class ShowsFragment : Fragment() {
+             }
  
          // hide floating action button when scrolling shows
--        FloatingActionButton buttonAddShow = requireActivity().findViewById(R.id.buttonShowsAdd);
-+        ExtendedFloatingActionButton buttonAddShow = getActivity().findViewById(R.id.buttonShowsAdd);
-         recyclerView.addOnScrollListener(new FabRecyclerViewScrollDetector(buttonAddShow));
+-        val buttonAddShow: FloatingActionButton =
++        val buttonAddShow: ExtendedFloatingActionButton =
+             requireActivity().findViewById(R.id.buttonShowsAdd)
+         recyclerView.addOnScrollListener(FabRecyclerViewScrollDetector(buttonAddShow))
  
-         // listen for some settings changes
 diff --git a/app/src/main/res/layout/activity_shows.xml b/app/src/main/res/layout/activity_shows.xml
-index 125654270..a88f5190d 100644
+index 36eefd2c7..7d86ae405 100644
 --- a/app/src/main/res/layout/activity_shows.xml
 +++ b/app/src/main/res/layout/activity_shows.xml
 @@ -30,8 +30,9 @@
@@ -127,7 +127,7 @@ index 125654270..a88f5190d 100644
      </androidx.coordinatorlayout.widget.CoordinatorLayout>
  
 diff --git a/app/src/main/res/values/strings.xml b/app/src/main/res/values/strings.xml
-index 96b868b0d..9d2ab996d 100644
+index 00e92652c..cd34c7e27 100644
 --- a/app/src/main/res/values/strings.xml
 +++ b/app/src/main/res/values/strings.xml
 @@ -1,4 +1,4 @@
@@ -136,7 +136,7 @@ index 96b868b0d..9d2ab996d 100644
  <resources>
  
      <!-- Main Menu -->
-@@ -587,6 +587,7 @@
+@@ -591,6 +591,7 @@
      <string name="feedback_question_feedback">Tell me how to improve it?</string>
      <string name="feedback_action_ok">OK, sure</string>
      <string name="feedback_action_nothanks">No, thanks</string>

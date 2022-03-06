@@ -1,43 +1,34 @@
-From 878ef29b3b242284749390d4d457f7fe0116dcb9 Mon Sep 17 00:00:00 2001
+From 69f21af663f869adcec65a77b05930d50489e797 Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Sun, 20 Jun 2021 10:20:51 +0530
 Subject: [PATCH] APK optimisations
 
 Drop all translations
-zipAlign output
 Lint shouldn't abort
 ---
- app/build.gradle.kts | 6 ++++++
- 1 file changed, 6 insertions(+)
+ app/build.gradle.kts | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/app/build.gradle.kts b/app/build.gradle.kts
-index 52facc913..fc45fc854 100644
+index 75db37cb1..d9c8cc6b5 100644
 --- a/app/build.gradle.kts
 +++ b/app/build.gradle.kts
-@@ -47,6 +47,8 @@ android {
+@@ -44,6 +44,8 @@ android {
      }
  
      defaultConfig {
-+		resConfigs("en")
++        resourceConfigurations += "en"
 +	
          minSdk = sgMinSdk
          targetSdk = sgTargetSdk
  
-@@ -77,6 +79,9 @@ android {
+@@ -76,6 +78,9 @@ android {
      }
  
      lint {
-+		isAbortOnError = false
-+		disable("MissingTranslation")
++        abortOnError = false
++        disable += "MissingTranslation"
 +
          // for CI server: only check this module with dependencies instead of each module separately
-         isCheckDependencies = true
+         checkDependencies = true
          // for CI server: log reports (report files are not public)
-@@ -128,6 +133,7 @@ android {
-         getByName("release") {
-             multiDexEnabled = false
-             isMinifyEnabled = true
-+			zipAlignEnabled(true)
-             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
- 
-             if (rootProject.file("keystore.properties").exists()) {

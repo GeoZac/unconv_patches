@@ -1,4 +1,4 @@
-From 829e74c4d8fb0de388e5906540bacdb36707dd9c Mon Sep 17 00:00:00 2001
+From cf755f5403c0269c4cb21b3c5f5acf82d8414994 Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Thu, 6 Feb 2020 14:25:59 +0530
 Subject: [PATCH] Slim the fastscroller
@@ -10,10 +10,10 @@ The fastscroller was too thick for me, reduce thickness to a "saner" value
  2 files changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/app/src/main/java/com/battlelancer/seriesguide/widgets/FastScrollerDecoration.java b/app/src/main/java/com/battlelancer/seriesguide/widgets/FastScrollerDecoration.java
-index 1fb60d1d1..f55d371be 100644
+index 1dc7d2ed5..0db44a046 100644
 --- a/app/src/main/java/com/battlelancer/seriesguide/widgets/FastScrollerDecoration.java
 +++ b/app/src/main/java/com/battlelancer/seriesguide/widgets/FastScrollerDecoration.java
-@@ -147,8 +147,8 @@ public class FastScrollerDecoration extends RecyclerView.ItemDecoration implemen
+@@ -143,8 +143,8 @@ public class FastScrollerDecoration extends RecyclerView.ItemDecoration implemen
          mVerticalTrackDrawable = verticalTrackDrawable;
          mHorizontalThumbDrawable = horizontalThumbDrawable;
          mHorizontalTrackDrawable = horizontalTrackDrawable;
@@ -25,10 +25,10 @@ index 1fb60d1d1..f55d371be 100644
              .max(defaultWidth, horizontalThumbDrawable.getIntrinsicWidth());
          mHorizontalTrackHeight = Math
 diff --git a/app/src/main/res/values/dimens.xml b/app/src/main/res/values/dimens.xml
-index e62be4186..fbb3c24fb 100644
+index 75c7ebef4..2de47ec96 100644
 --- a/app/src/main/res/values/dimens.xml
 +++ b/app/src/main/res/values/dimens.xml
-@@ -33,7 +33,7 @@
+@@ -31,7 +31,7 @@
      <dimen name="grid_item_margin_horizontal">4dp</dimen>
  
      <!-- RecyclerView Fast Scroller decoration -->

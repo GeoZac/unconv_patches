@@ -1,18 +1,18 @@
-From cf755f5403c0269c4cb21b3c5f5acf82d8414994 Mon Sep 17 00:00:00 2001
+From e911a0eb4cd84d5b84b0e1173164aa01012ae454 Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Thu, 6 Feb 2020 14:25:59 +0530
 Subject: [PATCH] Slim the fastscroller
 
 The fastscroller was too thick for me, reduce thickness to a "saner" value
 ---
- .../seriesguide/widgets/FastScrollerDecoration.java           | 4 ++--
+ .../seriesguide/ui/widgets/FastScrollerDecoration.java        | 4 ++--
  app/src/main/res/values/dimens.xml                            | 2 +-
  2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/app/src/main/java/com/battlelancer/seriesguide/widgets/FastScrollerDecoration.java b/app/src/main/java/com/battlelancer/seriesguide/widgets/FastScrollerDecoration.java
-index 1dc7d2ed5..0db44a046 100644
---- a/app/src/main/java/com/battlelancer/seriesguide/widgets/FastScrollerDecoration.java
-+++ b/app/src/main/java/com/battlelancer/seriesguide/widgets/FastScrollerDecoration.java
+diff --git a/app/src/main/java/com/battlelancer/seriesguide/ui/widgets/FastScrollerDecoration.java b/app/src/main/java/com/battlelancer/seriesguide/ui/widgets/FastScrollerDecoration.java
+index 9b174076e..edb8ec67b 100644
+--- a/app/src/main/java/com/battlelancer/seriesguide/ui/widgets/FastScrollerDecoration.java
++++ b/app/src/main/java/com/battlelancer/seriesguide/ui/widgets/FastScrollerDecoration.java
 @@ -143,8 +143,8 @@ public class FastScrollerDecoration extends RecyclerView.ItemDecoration implemen
          mVerticalTrackDrawable = verticalTrackDrawable;
          mHorizontalThumbDrawable = horizontalThumbDrawable;

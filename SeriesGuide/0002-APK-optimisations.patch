@@ -1,4 +1,4 @@
-From 69f21af663f869adcec65a77b05930d50489e797 Mon Sep 17 00:00:00 2001
+From c8689640677e4db9f83b4c33c0b745bd64b74583 Mon Sep 17 00:00:00 2001
 From: George Zacharia <george.zcharia@gmail.com>
 Date: Sun, 20 Jun 2021 10:20:51 +0530
 Subject: [PATCH] APK optimisations
@@ -10,7 +10,7 @@ Lint shouldn't abort
  1 file changed, 5 insertions(+)
 
 diff --git a/app/build.gradle.kts b/app/build.gradle.kts
-index 75db37cb1..d9c8cc6b5 100644
+index bf1b2f1c0..4a7a330a9 100644
 --- a/app/build.gradle.kts
 +++ b/app/build.gradle.kts
 @@ -44,6 +44,8 @@ android {

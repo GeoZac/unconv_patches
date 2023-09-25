@@ -1,0 +1,27 @@
+From dc4480ebb43503b06c079ddb171971e11eddbe5b Mon Sep 17 00:00:00 2001
+From: George Zacharia <george.zcharia@gmail.com>
+Date: Thu, 20 Apr 2023 09:00:38 +0530
+Subject: [PATCH] Adapt Service
+
+---
+ .../templates/app/src/main/java/services/Service.java      | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
+
+diff --git a/generators/controller/templates/app/src/main/java/services/Service.java b/generators/controller/templates/app/src/main/java/services/Service.java
+index b7a6a70..a65d97f 100644
+--- a/generators/controller/templates/app/src/main/java/services/Service.java
++++ b/generators/controller/templates/app/src/main/java/services/Service.java
+@@ -17,12 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
+ @Transactional
+ public class <%= entityName %>Service {
+ 
+-    private final <%= entityName %>Repository <%= entityVarName %>Repository;
+-
+-    @Autowired
+-    public <%= entityName %>Service(<%= entityName %>Repository <%= entityVarName %>Repository) {
+-        this.<%= entityVarName %>Repository = <%= entityVarName %>Repository;
+-    }
++    @Autowired private <%= entityName %>Repository <%= entityVarName %>Repository;
+ 
+     public PagedResult<<%= entityName %>> findAll<%= entityName %>s(
+         int pageNo, int pageSize, String sortBy, String sortDir) {

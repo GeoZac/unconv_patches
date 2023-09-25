@@ -1,0 +1,160 @@
+From cc49ef545c7b3b03243b2aec24929795b5891455 Mon Sep 17 00:00:00 2001
+From: George Zacharia <george.zcharia@gmail.com>
+Date: Thu, 20 Apr 2023 09:43:09 +0530
+Subject: [PATCH] Adapt ControllerITTest
+
+---
+ .../java/web/controllers/ControllerIT.java    | 80 +++++++++++++++++--
+ 1 file changed, 74 insertions(+), 6 deletions(-)
+
+diff --git a/generators/controller/templates/app/src/test/java/web/controllers/ControllerIT.java b/generators/controller/templates/app/src/test/java/web/controllers/ControllerIT.java
+index cb5c730..f1a4652 100644
+--- a/generators/controller/templates/app/src/test/java/web/controllers/ControllerIT.java
++++ b/generators/controller/templates/app/src/test/java/web/controllers/ControllerIT.java
+@@ -3,6 +3,9 @@ package <%= packageName %>.web.controllers;
+ import static org.hamcrest.CoreMatchers.is;
+ import static org.hamcrest.CoreMatchers.notNullValue;
+ import static org.hamcrest.Matchers.hasSize;
++import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
++import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
++import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+@@ -20,8 +23,16 @@ import org.junit.jupiter.api.BeforeEach;
+ import org.junit.jupiter.api.Test;
+ import org.springframework.beans.factory.annotation.Autowired;
+ import org.springframework.http.MediaType;
++import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
++import org.springframework.test.web.servlet.setup.MockMvcBuilders;
++import org.springframework.web.context.WebApplicationContext;
++
++import java.util.ArrayList;
++import java.util.List;
++import java.util.UUID;
+ 
+ class <%= entityName %>ControllerIT extends AbstractIntegrationTest {
++    @Autowired private WebApplicationContext webApplicationContext;
+ 
+     @Autowired private <%= entityName %>Repository <%= entityVarName %>Repository;
+ 
+@@ -29,6 +40,14 @@ class <%= entityName %>ControllerIT extends AbstractIntegrationTest {
+ 
+     @BeforeEach
+     void setUp() {
++        this.mockMvc =
++                MockMvcBuilders.webAppContextSetup(webApplicationContext)
++                        .defaultRequest(
++                                MockMvcRequestBuilders.get("/<%= entityName %>")
++                                        .with(user("username").roles("USER")))
++                        .apply(springSecurity())
++                        .build();
++
+         <%= entityVarName %>Repository.deleteAllInBatch();
+ 
+         <%= entityVarName %>List = new ArrayList<>();
+@@ -39,9 +58,24 @@ class <%= entityName %>ControllerIT extends AbstractIntegrationTest {
+     }
+ 
+     @Test
+-    void shouldFetchAll<%= entityName %>s() throws Exception {
++    void shouldFetchAll<%= entityName %>sInAscendingOrder() throws Exception {
++        this.mockMvc
++                .perform(get("<%= basePath %>").param("sortDir", "asc"))
++                .andExpect(status().isOk())
++                .andExpect(jsonPath("$.data.size()", is(<%= entityVarName %>List.size())))
++                .andExpect(jsonPath("$.totalElements", is(3)))
++                .andExpect(jsonPath("$.pageNumber", is(1)))
++                .andExpect(jsonPath("$.totalPages", is(1)))
++                .andExpect(jsonPath("$.isFirst", is(true)))
++                .andExpect(jsonPath("$.isLast", is(true)))
++                .andExpect(jsonPath("$.hasNext", is(false)))
++                .andExpect(jsonPath("$.hasPrevious", is(false)));
++    }
++
++    @Test
++    void shouldFetchAll<%= entityName %>sInDescendingOrder() throws Exception {
+         this.mockMvc
+-                .perform(get("<%= basePath %>"))
++                .perform(get("<%= basePath %>").param("sortDir", "desc"))
+                 .andExpect(status().isOk())
+                 .andExpect(jsonPath("$.data.size()", is(<%= entityVarName %>List.size())))
+                 .andExpect(jsonPath("$.totalElements", is(3)))
+@@ -71,6 +105,7 @@ class <%= entityName %>ControllerIT extends AbstractIntegrationTest {
+         this.mockMvc
+                 .perform(
+                         post("<%= basePath %>")
++                                .with(csrf())
+                                 .contentType(MediaType.APPLICATION_JSON)
+                                 .content(objectMapper.writeValueAsString(<%= entityVarName %>)))
+                 .andExpect(status().isCreated())
+@@ -85,15 +120,17 @@ class <%= entityName %>ControllerIT extends AbstractIntegrationTest {
+         this.mockMvc
+                 .perform(
+                         post("<%= basePath %>")
++                                .with(csrf())
+                                 .contentType(MediaType.APPLICATION_JSON)
+                                 .content(objectMapper.writeValueAsString(<%= entityVarName %>)))
+                 .andExpect(status().isBadRequest())
+                 .andExpect(header().string("Content-Type", is("application/problem+json")))
+-                .andExpect(jsonPath("$.type", is("about:blank")))
++                .andExpect(
++                        jsonPath(
++                                "$.type",
++                                is("https://zalando.github.io/problem/constraint-violation")))
+                 .andExpect(jsonPath("$.title", is("Constraint Violation")))
+                 .andExpect(jsonPath("$.status", is(400)))
+-                .andExpect(jsonPath("$.detail", is("Invalid request content.")))
+-                .andExpect(jsonPath("$.instance", is("<%= basePath %>")))
+                 .andExpect(jsonPath("$.violations", hasSize(1)))
+                 .andExpect(jsonPath("$.violations[0].field", is("text")))
+                 .andExpect(jsonPath("$.violations[0].message", is("Text cannot be empty")))
+@@ -108,6 +145,7 @@ class <%= entityName %>ControllerIT extends AbstractIntegrationTest {
+         this.mockMvc
+                 .perform(
+                         put("<%= basePath %>/{id}", <%= entityVarName %>.getId())
++                                .with(csrf())
+                                 .contentType(MediaType.APPLICATION_JSON)
+                                 .content(objectMapper.writeValueAsString(<%= entityVarName %>)))
+                 .andExpect(status().isOk())
+@@ -120,9 +158,39 @@ class <%= entityName %>ControllerIT extends AbstractIntegrationTest {
+         <%= entityName %> <%= entityVarName %> = <%= entityVarName %>List.get(0);
+ 
+         this.mockMvc
+-                .perform(delete("<%= basePath %>/{id}", <%= entityVarName %>.getId()))
++                .perform(delete("<%= basePath %>/{id}", <%= entityVarName %>.getId()).with(csrf()))
+                 .andExpect(status().isOk())
+                 .andExpect(jsonPath("$.id", is(<%= entityVarName %>.getId()), Long.class))
+                 .andExpect(jsonPath("$.text", is(<%= entityVarName %>.getText())));
+     }
++
++    @Test
++    void shouldReturn404WhenFetchingNonExisting<%= entityName %>() throws Exception {
++        UUID <%= entityVarName %>Id = UUID.randomUUID();
++        this.mockMvc
++                .perform(get("<%= basePath %>/{id}", <%= entityVarName %>Id))
++                .andExpect(status().isNotFound());
++    }
++
++    @Test
++    void shouldReturn404WhenUpdatingNonExisting<%= entityName %>() throws Exception {
++        UUID <%= entityVarName %>Id = UUID.randomUUID();
++        <%= entityName %> <%= entityVarName %> = <%= entityVarName %>List.get(1);
++
++        this.mockMvc
++                .perform(
++                        put("<%= basePath %>/{id}", <%= entityVarName %>Id)
++                                .with(csrf())
++                                .contentType(MediaType.APPLICATION_JSON)
++                                .content(objectMapper.writeValueAsString(<%= entityVarName %>)))
++                .andExpect(status().isNotFound());
++    }
++
++    @Test
++    void shouldReturn404WhenDeletingNonExisting<%= entityName %>() throws Exception {
++        UUID <%= entityVarName %>Id = UUID.randomUUID();
++        this.mockMvc
++                .perform(delete("<%= basePath %>/{id}", <%= entityVarName %>Id).with(csrf()))
++                .andExpect(status().isNotFound());
++    }
+ }
